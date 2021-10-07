@@ -17,7 +17,7 @@ public class Club implements Comparable<Club>{
 
 	private Integer idClub;
 	private String nombre;
-	private String dirección;
+	private String direccion;
 	private List<Responsable> responsables;
 	private List<Jugador> jugadores;
 	private List<Partido> partidosLocal;
@@ -26,9 +26,9 @@ public class Club implements Comparable<Club>{
 	private List<TablaPosiciones> tablaPosiciones;
 	
 	
-	public Club(String nombre, String dirección) {
+	public Club(String nombre, String direccion) {
 		this.nombre = nombre;
-		this.dirección = dirección;
+		this.direccion = direccion;
 		jugadores = new ArrayList<Jugador>();
 		responsables = new ArrayList<Responsable>();
 		participaciones = new ArrayList<Campeonato>();
@@ -55,14 +55,6 @@ public class Club implements Comparable<Club>{
 
 	public void setPartidosVisitante(List<Partido> partidosVisitante) {
 		this.partidosVisitante = partidosVisitante;
-	}
-
-	public String getDirección() {
-		return dirección;
-	}
-
-	public void setDirección(String dirección) {
-		this.dirección = dirección;
 	}
 
 	public List<Campeonato> getParticipaciones() {
@@ -94,8 +86,8 @@ public class Club implements Comparable<Club>{
 	}
 	
 	
-	public void setDireccion(String dirección) {
-		this.dirección = dirección;
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public void setNombre(String nombre) {
@@ -118,7 +110,7 @@ public class Club implements Comparable<Club>{
 	}
 
 	public String getDireccion() {
-		return dirección;
+		return direccion;
 	}
 
 	public List<Responsable> getResponsables() {
@@ -173,7 +165,7 @@ public class Club implements Comparable<Club>{
 	}
 	
 	public ClubVO toVO() {
-		return new ClubVO(this.idClub, this.nombre, this.dirección);
+		return new ClubVO(this.idClub, this.nombre, this.direccion);
 	}
 	
 	public void darBajaJugador(Jugador jugador) {

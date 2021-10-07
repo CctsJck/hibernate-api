@@ -14,15 +14,15 @@ public class ClubVO implements Serializable{
 	private static final long serialVersionUID = 3444595187312481932L;
 	private Integer idClub;
 	private String nombre;
-	private String dirección;
+	private String direccion;
 
 	
 	public ClubVO() {}
 
-	public ClubVO(Integer idClub, String nombre, String dirección) {
+	public ClubVO(Integer idClub, String nombre, String direccion) {
 		this.idClub = idClub;
 		this.nombre = nombre;
-		this.dirección = dirección;
+		this.direccion = direccion;
 		
 	}
 
@@ -42,12 +42,12 @@ public class ClubVO implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public String getDirección() {
-		return dirección;
+	public String getDireccion() {
+		return direccion;
 	}
 
-	public void setDirección(String dirección) {
-		this.dirección = dirección;
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 }

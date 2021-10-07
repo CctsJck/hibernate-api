@@ -30,7 +30,7 @@ public class Test {
 		Controlador.getInstancia().crearRepresentante("DNI", 29483556, "Marcelo Gallardo", 2);
 		
 		
-		Controlador.getInstancia().agregarJugador("DNI", 39968123, "Agust�n", "Rossi", 1, new java.sql.Date(2000,12,5));
+		Controlador.getInstancia().agregarJugador("DNI", 39968123, "Aguston", "Rossi", 1, new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 33968122, "Carlos", "Izquierdos", 1, new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 32968121, "Marcos", "Rojo", 1, new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 33968123, "Frank", "Fabra", 1, new java.sql.Date(2000,12,5));
@@ -106,7 +106,7 @@ public class Test {
 
 		
 		SessionManager.getInstancia().closeSession();
-		System.out.println("Hola");
+		System.out.println("Probando VSCode");
 		
 		
 
