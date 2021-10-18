@@ -19,12 +19,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.JoinColumn;
 
-//hola
+
 
 
 @Entity
 @Table(name="campeonatos")
-
 public class CampeonatoEntity {
 	
 	@Id

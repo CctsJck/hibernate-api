@@ -104,6 +104,7 @@ public class ClubDAO {
 		public void actualizarClub(Club club) {
 			SessionManager.getInstancia().getSession().beginTransaction();
 			SessionManager.getInstancia().getSession().flush();
+			SessionManager.getInstancia().getSession().clear();
 			SessionManager.getInstancia().getSession().update(toEntity(club));
 			SessionManager.getInstancia().getSession().getTransaction().commit();
 		}

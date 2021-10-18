@@ -29,6 +29,8 @@ public class Test {
 		Controlador.getInstancia().crearRepresentante("DNI", 34968472, "Sebastian Bataglia", 1);
 		Controlador.getInstancia().crearRepresentante("DNI", 29483556, "Marcelo Gallardo", 2);
 		
+		Controlador.getInstancia().crearPartido(1, 1, 02, 1, 2, fecha.parse("20-08-2000"), 1);
+		
 		
 		Controlador.getInstancia().agregarJugador("DNI", 39968123, "Aguston", "Rossi", 1, new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 33968122, "Carlos", "Izquierdos", 1, new java.sql.Date(2000,12,5));

@@ -41,6 +41,7 @@ public class CampeonatoDAO {
 			}
 			aux.setInscriptos(aux2);
 		}
+		System.out.println("Llegue");
 		return aux;
 	}
 	
@@ -66,6 +67,7 @@ public class CampeonatoDAO {
 
 
 	public void grabar(Campeonato campeonato) {
+		
 		SessionManager.getInstancia().getSession().beginTransaction();
 		SessionManager.getInstancia().getSession().save(toEntity(campeonato));
 		SessionManager.getInstancia().getSession().getTransaction().commit();
