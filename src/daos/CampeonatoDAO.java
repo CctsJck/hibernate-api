@@ -147,6 +147,15 @@ public class CampeonatoDAO {
 		}
 		
 	}
+
+	public List<Campeonato> getCampeonatos() {
+		List<Campeonato> campeonatos = new ArrayList<Campeonato>();
+        List<CampeonatoEntity> auxCampeonatos = SessionManager.getInstancia().getSession().createQuery("FROM CampeonatoEntity p").list(); 
+        for (CampeonatoEntity camp : auxCampeonatos) {
+            campeonatos.add(CampeonatoDAO.getInstancia().toCampeonatoModelo(camp));
+        }
+        return campeonatos;
+	}
 	
 
 }
