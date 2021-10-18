@@ -23,6 +23,7 @@ public class Test {
 		
 		Controlador.getInstancia().crearCampeonato("Copa Libertadores", fecha.parse("20-08-2000"), fecha.parse("20-08-2001"), "Puntos",2001);
 		
+		
 		Controlador.getInstancia().crearClub("Boca Juniors", "Brandsen");
 		Controlador.getInstancia().crearClub("River Plate", "Av. Pres. Figueroa Alcorta");
 		
