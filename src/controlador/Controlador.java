@@ -316,6 +316,11 @@ public class Controlador {
 		
 	}
 	
+	public List<CampeonatoVO> obtenerCampeonatos(){
+		List<Campeonato> aux = CampeonatoDAO.getInstancia().getCampeonatos();
+		return this.convertirCampeonatosACampeonatosVO(aux);
+	}
+	
 	
 	
 	
