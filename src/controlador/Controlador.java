@@ -327,12 +327,19 @@ public class Controlador {
 		List<Club> clubesInscriptos = campeonato.getInscriptos();
 		List<ClubVO> resultado = new ArrayList<>();
 		List<Club> clubes = ClubDAO.getInstancia().obtenerClubes();
+		List<Integer> auxiliar = new ArrayList<>();
+		for (Club c: clubesInscriptos) {
+			auxiliar.add(c.getIdClub());
+			System.out.println(c.getNombre());
+		}
+		System.out.println(clubesInscriptos.isEmpty());
 		for (Club c: clubes){
-			if (!clubesInscriptos.contains(c)){
+			if (!auxiliar.contains(c.getIdClub())){
 				resultado.add(c.toVO());
 				System.out.println(c.getNombre());
 			}
 		}
+		
 		return resultado;
 
 	}
