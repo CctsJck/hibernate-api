@@ -25,14 +25,17 @@ public class ClubDAO {
 	
 	
 	
-	public void obtenerClubes() {		
+	public List<Club> obtenerClubes() {
+		List<Club> clubes = new ArrayList<>();
 		SessionManager.getInstancia().getSession().beginTransaction();
 		@SuppressWarnings("unchecked")
 		List<ClubEntity> aux = (List<ClubEntity>) SessionManager.getInstancia().getSession().createQuery("from ClubEntity").list();
 		SessionManager.getInstancia().getSession().getTransaction().commit();
-		for(ClubEntity e : aux)
-			System.out.println(e.getNombre());
-	}
+		for(ClubEntity e : aux) {
+			clubes.add(toModeloClub(e));
+		}
+        return clubes;
+    }
 	
 	public Club obtenerClubPorID(Integer id) throws ClubException{
         ClubEntity aux= (ClubEntity) SessionManager.getInstancia().getSession().createQuery("from ClubEntity c where c.idClub = "+ id).uniqueResult();
