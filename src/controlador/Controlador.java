@@ -371,6 +371,16 @@ public class Controlador {
 	}
 	
 	
+	public List<ClubVO> getClubesCampeonato(int idCampeonato) throws CampeonatoException {
+        Campeonato campeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+        List<Club> clubesInscriptos = campeonato.getInscriptos();
+        List<ClubVO> resultado = new ArrayList<>();
+        for (Club c: clubesInscriptos) {
+            resultado.add(c.toVO());
+        }
+        return resultado;
+
+    }
 	
 	
 }
