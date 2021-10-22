@@ -142,7 +142,7 @@ public class Campeonato implements Comparable<Campeonato>{
 		this.idCampeonato = id;
 	}
 	
-	public List<Jugador> getJugadores() throws CampeonatoException {
+	public List<Jugador> getJugadores() throws CampeonatoException, ClubException {
 		return CampeonatoDAO.getInstancia().getJugadoresCampeonato(this.idCampeonato);
 	}
 
@@ -185,7 +185,7 @@ public class Campeonato implements Comparable<Campeonato>{
 		return new CampeonatoVO(this.idCampeonato, this.descripcion, this.fechaInicio, this.fechaFin, this.estado, this.eliminadoC, this.tipo, this.categoria);
 	}
 	
-	public String[][] getEstaditicaJugadoresCampeonato() throws CampeonatoException{
+	public String[][] getEstaditicaJugadoresCampeonato() throws CampeonatoException, ClubException{
 		List<Jugador> jugadoresCampeonato = this.getJugadores();
 		String [][] datos = new String[jugadoresCampeonato.size()][4];
 		int cont = 0;

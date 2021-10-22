@@ -9,6 +9,7 @@ import Entity.CampeonatoEntity;
 import Entity.ClubEntity;
 import controlador.Controlador;
 import exceptions.CampeonatoException;
+import exceptions.ClubException;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Jugador;
@@ -93,7 +94,7 @@ public class CampeonatoDAO {
 	}
 	
 	
-	public List<Jugador> getJugadoresCampeonato(Integer idCampeonato) throws CampeonatoException {
+	public List<Jugador> getJugadoresCampeonato(Integer idCampeonato) throws CampeonatoException, ClubException {
 		List<Jugador> jugadores = new ArrayList<Jugador>();
 		Campeonato camp = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		List<Club> clubes = camp.getInscriptos();

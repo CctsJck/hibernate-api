@@ -112,14 +112,29 @@ public class ClubDAO {
 			SessionManager.getInstancia().getSession().getTransaction().commit();
 		}
 		
-		public List<Jugador> obtenerJugadoresClub(int idClub) {
+		public List<Jugador> obtenerJugadoresClub(int idClub) throws ClubException {
 			List<Jugador> jugadores = new ArrayList<Jugador>();
 			@SuppressWarnings("unchecked")
 			List<JugadorEntity> auxJugadores = SessionManager.getInstancia().getSession().createQuery("from JugadorEntity j where j.club = "+idClub).list();
-			for (JugadorEntity jugador : auxJugadores) {
-				jugadores.add(JugadorDAO.getInstancia().toModelo(jugador));
+			if(auxJugadores != null) {
+				for (JugadorEntity jugador : auxJugadores) {
+					jugadores.add(JugadorDAO.getInstancia().toModelo(jugador));
+				}
+				return jugadores;
 			}
-			return jugadores;
+			throw new ClubException("No existe el club");
+
+			
+		}
+		
+		public Club obtenerClubPorIdRepresentante(int idRepresentante) throws ClubException {
+			ClubEntity auxClub = (ClubEntity) SessionManager.getInstancia().getSession().createQuery("select distinct c from ClubEntity c INNER JOIN c.responsables r where r.legajo="+idRepresentante).uniqueResult();
+			System.out.println(auxClub);
+			if(auxClub != null) {
+				return toModeloClub(auxClub);
+			}
+			throw new ClubException("No existe el club");
+			
 		}
 	
 	

@@ -200,7 +200,7 @@ public class Controlador {
 		par.validarPartido(auxClub);
 	}
 	
-	public String[][] getEstaditicaJugadoresCampeonato(int idCampeonato) throws CampeonatoException {
+	public String[][] getEstaditicaJugadoresCampeonato(int idCampeonato) throws CampeonatoException, ClubException {
 		Campeonato campeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		return campeonato.getEstaditicaJugadoresCampeonato();
 		
@@ -352,6 +352,16 @@ public class Controlador {
 	public ResponsableVO getResponsablePorId(int idRepresentante) throws ResponsableException {
 		Responsable representante = RepresentanteDAO.getInstancia().obtenerRepresentanteporID(idRepresentante);
 		return representante.toVO();
+	}
+	
+	public ClubVO getClubPorId(int idClub) throws ClubException {
+		Club club = ClubDAO.getInstancia().obtenerClubPorID(idClub);
+		return club.toVO();
+	}
+	
+	public ClubVO getClubPorIdRepresentante(int idRepresentante) throws ClubException {
+		Club club = ClubDAO.getInstancia().obtenerClubPorIdRepresentante(idRepresentante);
+		return club.toVO();
 	}
 	
 	

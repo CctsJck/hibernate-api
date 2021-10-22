@@ -117,7 +117,7 @@ public class Club implements Comparable<Club>{
 		return RepresentanteDAO.getInstancia().getResponsablesClub(this.idClub);
 	}
 
-	public List<Jugador> getJugadores() {
+	public List<Jugador> getJugadores() throws ClubException {
 		return ClubDAO.getInstancia().obtenerJugadoresClub(this.idClub);
 	}
 	
