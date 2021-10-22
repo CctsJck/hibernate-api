@@ -344,6 +344,16 @@ public class Controlador {
 
 	}
 	
+	public JugadorVO getJugadorPorId(int idJugador) throws JugadorException {
+		Jugador jugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+		return jugador.toVO();
+	}
+	
+	public ResponsableVO getResponsablePorId(int idRepresentante) throws ResponsableException {
+		Responsable representante = RepresentanteDAO.getInstancia().obtenerRepresentanteporID(idRepresentante);
+		return representante.toVO();
+	}
+	
 	
 	
 	
