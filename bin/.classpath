@@ -6,19 +6,19 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\hibernate3.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\jboss-javassist-javassist-047f7c7\javassist.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\jta-1.1.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\jtds-1.2.5.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\slf4j-api-1.5.6.jar"/>
-	<classpathentry kind="lib" path="I:\Mi unidad\TPO API\Libreria Hibernate\lib\slf4j-simple-1.5.6.jar"/>
 	<classpathentry excluding="src/" kind="src" path=""/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/javassist.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/jtds-1.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/OneDrive - Fundación UADE/ingenieria informatica/3er ano/2do cuatrimestre/Aplicaciones interactivas/lib/slf4j-simple-1.5.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
