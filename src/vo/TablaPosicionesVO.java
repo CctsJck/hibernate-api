@@ -9,6 +9,7 @@ public class TablaPosicionesVO implements Serializable{
 
 	private static final long serialVersionUID = 2055235611122534426L;
 	private Integer idTabla;
+	private int idClub;
 	private int cantidadJugados;
 	private int cantidadganados;
 	private int cantidadempatados;
@@ -22,9 +23,10 @@ public class TablaPosicionesVO implements Serializable{
 	
 	public TablaPosicionesVO() {}
 
-	public TablaPosicionesVO(Integer idTabla, int cantidadJugados, int cantidadganados, int cantidadempatados,
+	public TablaPosicionesVO(Integer idTabla,int idClub, int cantidadJugados, int cantidadganados, int cantidadempatados,
 			int cantidadperdidos, int golesFavor, int golesContra, int diferenciaGoles, int puntos, float promedio) {
 		this.idTabla = idTabla;
+		this.idClub = idClub;
 		this.cantidadJugados = cantidadJugados;
 		this.cantidadganados = cantidadganados;
 		this.cantidadempatados = cantidadempatados;
@@ -35,6 +37,14 @@ public class TablaPosicionesVO implements Serializable{
 		this.puntos = puntos;
 		this.promedio = promedio;
 
+	}
+
+	public int getIdClub() {
+		return idClub;
+	}
+
+	public void setIdClub(int idClub) {
+		this.idClub = idClub;
 	}
 
 	public Integer getIdTabla() {

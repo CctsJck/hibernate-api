@@ -9,6 +9,7 @@ import java.util.List;
 import Entity.TablaPosicionesEntity;
 import exceptions.CampeonatoException;
 import exceptions.ClubException;
+import exceptions.TablaPosicionesException;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Partido;
@@ -30,6 +31,22 @@ public class TablaPosicionesDAO {
 		TablaPosicionesEntity aux = (TablaPosicionesEntity) SessionManager.getInstancia().getSession().createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" and t.club = "+idClub).uniqueResult();
 
 		return toModelo(aux);
+	}
+	
+	public List<TablaPosiciones> obtenerTablaCampeonato(Integer idCampeonato) throws TablaPosicionesException{
+		List<TablaPosiciones> tablas = new ArrayList<TablaPosiciones>();
+		List<TablaPosicionesEntity> aux = (List<TablaPosicionesEntity>) SessionManager.getInstancia().getSession().createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" ORDER BY t.promedio").list();
+		if (aux != null) {
+			for (TablaPosicionesEntity tabla : aux) {
+				tablas.add(toModelo(tabla));
+			}
+			
+			return tablas;
+		}
+		throw new TablaPosicionesException("No existen las tablas");
+		
+		
+		
 	}
 	
 	TablaPosiciones toModelo(TablaPosicionesEntity t) {

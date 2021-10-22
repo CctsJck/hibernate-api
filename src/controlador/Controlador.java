@@ -21,6 +21,7 @@ import exceptions.ClubException;
 import exceptions.JugadorException;
 import exceptions.PartidoException;
 import exceptions.ResponsableException;
+import exceptions.TablaPosicionesException;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Falta;
@@ -362,6 +363,11 @@ public class Controlador {
 	public ClubVO getClubPorIdRepresentante(int idRepresentante) throws ClubException {
 		Club club = ClubDAO.getInstancia().obtenerClubPorIdRepresentante(idRepresentante);
 		return club.toVO();
+	}
+	
+	public List<TablaPosicionesVO> obtenerTablasCampeonato(int idCampeonato) throws TablaPosicionesException{
+		List<TablaPosiciones> tablas = TablaPosicionesDAO.getInstancia().obtenerTablaCampeonato(idCampeonato);
+		return this.convertirTablasATablasVO(tablas);
 	}
 	
 	
