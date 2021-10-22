@@ -31,7 +31,7 @@ public class TablaPosicionesVO implements Serializable{
 		this.cantidadganados = cantidadganados;
 		this.cantidadempatados = cantidadempatados;
 		this.cantidadperdidos = cantidadperdidos;
-		this.golesFavor = golesFavor;
+		this.golesFavor = golesFavor; 
 		this.golesContra = golesContra;
 		this.diferenciaGoles = diferenciaGoles;
 		this.puntos = puntos;

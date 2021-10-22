@@ -134,7 +134,7 @@ public class TablaPosiciones {
 	public TablaPosicionesVO toVO() {
 		return new TablaPosicionesVO(this.idTabla,this.club.getIdClub(),this.cantidadJugados,this.cantidadganados,this.cantidadempatados,this.cantidadperdidos,this.golesFavor,this.golesContra,this.diferenciaGoles,this.puntos,this.promedio);
 	}
-	
+	 
 	
 
 }

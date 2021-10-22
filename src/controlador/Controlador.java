@@ -253,7 +253,7 @@ public class Controlador {
 			tablasVO.add(tabla.toVO());
 		}
 		return tablasVO;
-	}
+	} 
 	
 	public List<ResponsableVO> convertirResponsablesAResponsablesVO(List<Responsable> responsables){
 		List<ResponsableVO> responsablesVO = new ArrayList<ResponsableVO>();

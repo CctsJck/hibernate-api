@@ -7,6 +7,6 @@ public class TablaPosicionesException extends Exception{
 	
 	public TablaPosicionesException(String mensaje) {
 		super(mensaje); 
-		
+		 
 	}
 }
