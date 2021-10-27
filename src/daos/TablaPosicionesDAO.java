@@ -41,12 +41,13 @@ public class TablaPosicionesDAO {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<TablaPosiciones> tablas = new ArrayList<TablaPosiciones>();
 		List<TablaPosicionesEntity> aux = (List<TablaPosicionesEntity>) session.createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" ORDER BY t.promedio").list();
-		session.close();
+		
+		
 		if (aux != null) {
 			for (TablaPosicionesEntity tabla : aux) {
 				tablas.add(toModelo(tabla));
 			}
-			
+			session.close();
 			return tablas; 
 		}
 		throw new TablaPosicionesException("No existen las tablas");

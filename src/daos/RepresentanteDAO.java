@@ -27,12 +27,14 @@ public class RepresentanteDAO {
 	}
 	public Responsable obtenerRepresentanteporID(int idRepresentante) throws ResponsableException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
 		RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity e where e.legajo="+idRepresentante+"and e.eliminadoR='noEliminado'").uniqueResult();
-		session.getTransaction().commit();
-		session.close();
+		//session.close();
+
+		System.out.println(aux.getNombre());
 		if(aux != null) {
-			return toModelo(aux);
+			Responsable resp = toModelo(aux);
+			session.close();
+			return resp;
 		}
 		throw new ResponsableException("No existe el responsable");
 	}
