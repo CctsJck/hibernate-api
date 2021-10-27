@@ -2,11 +2,15 @@ package daos;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Session;
+
 import Entity.CampeonatoEntity;
 import Entity.FaltaEntity;
 import Entity.JugadorEntity;
 import Entity.PartidoEntity;
 import exceptions.ClubException;
+import hibernate.HibernateUtil;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Falta;
@@ -27,9 +31,11 @@ public class FaltaDAO {
 	}
 	
 	public List<Falta> obtenerFaltasCampeonato(Integer idCampeonato) throws ClubException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<Falta> resultado = new ArrayList<Falta>();
 		@SuppressWarnings("unchecked")
-		List<FaltaEntity> aux = SessionManager.getInstancia().getSession().createQuery("from FaltaEntity f where f.campeonato = "+idCampeonato).list();
+		List<FaltaEntity> aux = session.createQuery("from FaltaEntity f where f.campeonato = "+idCampeonato).list();
+		session.close();
 		for (FaltaEntity e : aux) {
 			resultado.add(toModelo(e)); 
 		}
@@ -43,10 +49,12 @@ public class FaltaDAO {
 	
 	public List<Falta> obtenerFaltasJugadorX(Integer idJugador) throws ClubException {
 		List<Falta> resultado = new ArrayList<Falta>();
-		SessionManager.getInstancia().getSession().beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 		@SuppressWarnings("unchecked")
-		List<FaltaEntity> aux = (List<FaltaEntity>) SessionManager.getInstancia().getSession().createQuery("from FaltaEntity f where f.jugador ="+ idJugador).list();
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		List<FaltaEntity> aux = session.createQuery("from FaltaEntity f where f.jugador ="+ idJugador).list();
+		session.getTransaction().commit();
+		session.close();
 		if(aux.size() != 0)
 			for(FaltaEntity e : aux)
 				resultado.add(toModelo(e));
@@ -54,17 +62,21 @@ public class FaltaDAO {
 	}
 	
 	public Long obtenerCantidadFaltasJugadorX(Integer idJugador , Integer idCampeonato) {
-		SessionManager.getInstancia().getSession().beginTransaction();
-		Long aux = (Long) SessionManager.getInstancia().getSession().createQuery("select count(*) from FaltaEntity f where f.jugador ="+ idJugador +" and f.campeonato="+idCampeonato).uniqueResult();
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Long aux = (Long) session.createQuery("select count(*) from FaltaEntity f where f.jugador ="+ idJugador +" and f.campeonato="+idCampeonato).uniqueResult();
+		session.getTransaction().commit();
+		session.close();
 		return aux;
 	}
 	
 	public void agregarFaltaJugador(Falta faltaNuevo) {
 		FaltaEntity aux = toEntity(faltaNuevo);
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().save(aux);
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.save(aux);
+		session.getTransaction().commit();
+		session.close();
 		
 		
 	}
@@ -88,8 +100,6 @@ public class FaltaDAO {
 		Falta aux = new Falta(auxJugador, auxPartido, auxCampeonato,falta.getMinuto(),falta.getTipo());
 		
 		return aux;
-		
 	}
-	
 	
 }
