@@ -3,12 +3,13 @@ package daos;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.hibernate.Session;
 
 import Entity.ClubEntity;
 import Entity.RepresentanteEntity;
 import exceptions.ClubException;
 import exceptions.ResponsableException;
+import hibernate.HibernateUtil;
 import modelo.Club;
 import modelo.Responsable;
 import sessionManager.SessionManager;
@@ -25,9 +26,11 @@ public class RepresentanteDAO {
 		return instancia;
 	}
 	public Responsable obtenerRepresentanteporID(int idRepresentante) throws ResponsableException{
-		SessionManager.getInstancia().getSession().beginTransaction();
-		RepresentanteEntity aux = (RepresentanteEntity) SessionManager.getInstancia().getSession().createQuery("from RepresentanteEntity e where e.legajo="+idRepresentante+"and e.eliminadoR='noEliminado'").uniqueResult();
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity e where e.legajo="+idRepresentante+"and e.eliminadoR='noEliminado'").uniqueResult();
+		session.getTransaction().commit();
+		session.close();
 		if(aux != null) {
 			return toModelo(aux);
 		}
@@ -35,9 +38,11 @@ public class RepresentanteDAO {
 	}
 	
 	public List<Responsable> getResponsablesClub(int idClub){
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<Responsable> respModelo = new ArrayList<Responsable>();
 		@SuppressWarnings("unchecked")
-		List<RepresentanteEntity> resp = (List<RepresentanteEntity>) SessionManager.getInstancia().getSession().createQuery("from RepresentanteEntity r where r.club = "+idClub).list();
+		List<RepresentanteEntity> resp = (List<RepresentanteEntity>) session.createQuery("from RepresentanteEntity r where r.club = "+idClub).list();
+		session.close();
 		for (RepresentanteEntity r : resp) {
 			respModelo.add(toModelo(r));
 		}
@@ -45,13 +50,16 @@ public class RepresentanteDAO {
 	}
 	
 	public void grabar(Responsable responsable) {
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().save(toEntity(responsable));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.save(toEntity(responsable));
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	public void modificarRepresentante(Responsable representante,int idRepresentante,String nombre,int DNI,String tipoDocumento,int idClub,String eliminado) throws ClubException {
-		SessionManager.getInstancia().getSession().beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 		representante.setLegajo(idRepresentante);
 		representante.setDNI(DNI);
 		representante.setTipoDocumento(tipoDocumento);
@@ -63,18 +71,21 @@ public class RepresentanteDAO {
 
 			representante.setClub(auxClub);
 		}
-		SessionManager.getInstancia().getSession().flush();
-		SessionManager.getInstancia().getSession().clear();
-		SessionManager.getInstancia().getSession().merge(toEntity(representante));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		session.flush();
+		session.clear();
+		session.merge(toEntity(representante));
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	public void eliminar(Responsable resp) {
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().flush();
-		SessionManager.getInstancia().getSession().clear();
-		SessionManager.getInstancia().getSession().delete(toEntity(resp));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.flush();
+		session.clear();
+		session.delete(toEntity(resp));
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	RepresentanteEntity toEntity(Responsable representante) {

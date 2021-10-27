@@ -96,6 +96,7 @@ public class Test {
 		Controlador.getInstancia().validarPartido(2, 1);
 		
 		Controlador.getInstancia().getEstaditicaJugadoresCampeonato(1);
+		System.out.println("hola");
 		
 		//Descomentar si desea modificar o eliminar
 		
