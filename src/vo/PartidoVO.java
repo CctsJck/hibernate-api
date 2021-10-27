@@ -14,6 +14,8 @@ public class PartidoVO implements Serializable{
 	private Integer idPartido;
 	private int nroFecha;
 	private int nroZona;
+	private int visitante;
+	private int local;
 	private Integer golesLocal;
 	private Integer golesVisitante;
 	private Date fechaPartido;
@@ -23,9 +25,11 @@ public class PartidoVO implements Serializable{
 	
 	public PartidoVO() {}
 
-	public PartidoVO(Integer idPartido, int nroFecha, int nroZona,
+	public PartidoVO(Integer idPartido,int local,int visitante, int nroFecha, int nroZona,
 			Integer golesLocal, Integer golesVisitante, Date fechaPartido, boolean convalidaLocal,
 			boolean convalidaVisitante) {
+		this.visitante = visitante;
+		this.local = local;
 		this.idPartido = idPartido;
 		this.nroFecha = nroFecha;
 		this.nroZona = nroZona;
@@ -80,6 +84,22 @@ public class PartidoVO implements Serializable{
 
 	public Date getFechaPartido() {
 		return fechaPartido;
+	}
+
+	public int getVisitante() {
+		return visitante;
+	}
+
+	public void setVisitante(int visitante) {
+		this.visitante = visitante;
+	}
+
+	public int getLocal() {
+		return local;
+	}
+
+	public void setLocal(int local) {
+		this.local = local;
 	}
 
 	public void setFechaPartido(Date fechaPartido) {

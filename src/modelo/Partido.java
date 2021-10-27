@@ -5,6 +5,7 @@ import java.util.List;
 
 import controlador.Controlador;
 import daos.CampeonatoDAO;
+import daos.ClubDAO;
 import daos.PartidoDAO;
 import daos.TablaPosicionesDAO;
 import exceptions.ClubException;
@@ -160,7 +161,7 @@ public class Partido {
 	}
 	
 	public PartidoVO toVO() {
-		return new PartidoVO(this.idPartido,this.nroFecha,this.nroZona,this.golesLocal,this.golesVisitante,this.fechaPartido,this.convalidaLocal,this.convalidaVisitante);
+		return new PartidoVO(this.idPartido,clubVisitante.getIdClub(),clubVisitante.getIdClub(),this.nroFecha,this.nroZona,this.golesLocal,this.golesVisitante,this.fechaPartido,this.convalidaLocal,this.convalidaVisitante);
 	}
 	
 	public void agregarGolJugador(Jugador auxJugador, int minuto, String tipo) {

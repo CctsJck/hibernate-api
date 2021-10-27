@@ -172,10 +172,10 @@ public class PartidoDAO {
         	Session session = HibernateUtil.getSessionFactory().openSession();
             List<Partido> partidosCampeonato = new ArrayList<Partido>();
             List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity p WHERE p.campeonato = "+idCampeonato).list(); 
-            session.close();
             for (PartidoEntity partido : auxPartidos) {
                 partidosCampeonato.add(PartidoDAO.getInstancia().toModelo(partido));
             }
+            session.close();
             return partidosCampeonato;
         }
 
