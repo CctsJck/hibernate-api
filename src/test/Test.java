@@ -18,7 +18,7 @@ public class Test {
 
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws ParseException, ClubException, CampeonatoException, PartidoException, JugadorException {
-		SessionManager.getInstancia().openSession();
+		//SessionManager.getInstancia().openSession();
 		SimpleDateFormat fecha = new SimpleDateFormat("dd-mm-yyyy");
 		
 		Controlador.getInstancia().crearCampeonato("Copa Libertadores", fecha.parse("20-08-2000"), fecha.parse("20-08-2001"), "Puntos",2001);
@@ -109,7 +109,7 @@ public class Test {
 		//Controlador.getInstancia().eliminarRepresentante(1);
 
 		
-		SessionManager.getInstancia().closeSession();
+		//SessionManager.getInstancia().closeSession();
 		System.out.println("Probando VSCode");
 		
 		

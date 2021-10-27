@@ -38,9 +38,11 @@ public class PartidoDAO {
 		session.beginTransaction();
 		PartidoEntity aux = (PartidoEntity) session.createQuery("from PartidoEntity p where p.idPartido = "+idPartido).uniqueResult();
 		session.getTransaction().commit();
-		session.close();
+		
 		if (aux != null) {
-			return toModelo(aux);
+			Partido partidoModelo =  toModelo(aux);
+			session.close();
+			return partidoModelo;
 		}
 		throw new PartidoException("El partido no existe");
 	}

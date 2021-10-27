@@ -33,8 +33,10 @@ public class TablaPosicionesDAO {
 	public TablaPosiciones obtenerTablaCampeonatoClub(Integer idCampeonato,int idClub){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		TablaPosicionesEntity aux = (TablaPosicionesEntity) session.createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" and t.club = "+idClub).uniqueResult();
+		
+		TablaPosiciones tabla = toModelo(aux);
 		session.close();
-		return toModelo(aux);
+		return tabla;
 	}
 	
 	public List<TablaPosiciones> obtenerTablaCampeonato(Integer idCampeonato) throws TablaPosicionesException{
