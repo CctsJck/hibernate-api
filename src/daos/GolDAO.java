@@ -2,10 +2,14 @@ package daos;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Session;
+
 import Entity.GolEntity;
 import Entity.JugadorEntity;
 import Entity.PartidoEntity;
 import exceptions.ClubException;
+import hibernate.HibernateUtil;
 import modelo.Club;
 import modelo.Gol;
 import modelo.Jugador;
@@ -26,8 +30,10 @@ private static GolDAO instancia;
 	
 	public List<Gol> obtenerGolesJugador(Integer idJugador) throws ClubException{
 		List<Gol> resultado = new ArrayList<Gol>();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		@SuppressWarnings("unchecked")
-		List<GolEntity> aux = SessionManager.getInstancia().getSession().createQuery("from FaltaEntity f where f.campeonato = "+idJugador).list();
+		List<GolEntity> aux = session.createQuery("from FaltaEntity f where f.campeonato = "+idJugador).list();
+		session.close();
 		for (GolEntity e : aux) {
 			resultado.add(toModelo(e)); 
 		}
@@ -35,14 +41,18 @@ private static GolDAO instancia;
 	}
 	
 	public void agregarGolJugador(Gol golNuevo) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		GolEntity aux = toEntity(golNuevo);
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().save(aux);
-		SessionManager.getInstancia().getSession().getTransaction().commit();		
+		session.beginTransaction();
+		session.save(aux);
+		session.getTransaction().commit();		
+		session.close();
 	}
 	
 	public Long obtenerCantidadGolesJugadorCampeonato(Integer idJugador, Integer idCampeonato){
-		Long aux = (Long) SessionManager.getInstancia().getSession().createQuery("select count(*) from GolEntity g , PartidoEntity p where g.partido = p.idPartido and g.jugador = "+idJugador+" and p.campeonato = "+idCampeonato).uniqueResult();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Long aux = (Long) session.createQuery("select count(*) from GolEntity g , PartidoEntity p where g.partido = p.idPartido and g.jugador = "+idJugador+" and p.campeonato = "+idCampeonato).uniqueResult();
+		session.close();
 		return aux;
 	}
 	

@@ -2,10 +2,14 @@ package daos;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Session;
+
 import Entity.CampeonatoEntity;
 import Entity.ClubEntity;
 import Entity.JugadorEntity;
 import exceptions.ClubException;
+import hibernate.HibernateUtil;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Jugador;
@@ -27,10 +31,12 @@ public class ClubDAO {
 	
 	public List<Club> obtenerClubes() {
 		List<Club> clubes = new ArrayList<>();
-		SessionManager.getInstancia().getSession().beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 		@SuppressWarnings("unchecked")
-		List<ClubEntity> aux = (List<ClubEntity>) SessionManager.getInstancia().getSession().createQuery("from ClubEntity").list();
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		List<ClubEntity> aux = (List<ClubEntity>) session.createQuery("from ClubEntity").list();
+		session.getTransaction().commit();
+		session.close();
 		for(ClubEntity e : aux) {
 			clubes.add(toModeloClub(e));
 		}
@@ -38,8 +44,10 @@ public class ClubDAO {
     }
 	
 	public Club obtenerClubPorID(Integer id) throws ClubException{
-        ClubEntity aux= (ClubEntity) SessionManager.getInstancia().getSession().createQuery("from ClubEntity c where c.idClub = "+ id).uniqueResult();
-        
+		Session session = HibernateUtil.getSessionFactory().openSession();
+        ClubEntity aux= (ClubEntity) session.createQuery("from ClubEntity c where c.idClub = "+ id).uniqueResult();
+		session.close();
+        		
         if(aux!=null) {
             return toModeloClub(aux);
         }
@@ -53,14 +61,15 @@ public class ClubDAO {
 	}
 
 	public void modificarClub(Club club, int idClub, String nombre, String direccion) {
-		SessionManager.getInstancia().getSession().beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 		club.setDireccion(direccion);
 		club.setNombre(nombre);
 		club.setIdClub(idClub);
-		SessionManager.getInstancia().getSession().flush();
-		SessionManager.getInstancia().getSession().clear();
-		SessionManager.getInstancia().getSession().merge(toEntity(club));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		session.flush();
+		session.clear();
+		session.merge(toEntity(club));
+		session.getTransaction().commit();
 		
 	}
 
@@ -89,33 +98,40 @@ public class ClubDAO {
 	}
 	 
 	 public void grabar(Club club) {
-	        SessionManager.getInstancia().getSession().beginTransaction();
-	        
-	        SessionManager.getInstancia().getSession().save(toEntity(club));
-	        SessionManager.getInstancia().getSession().getTransaction().commit();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+	        session.beginTransaction();
+	        session.save(toEntity(club));
+	        session.getTransaction().commit();
+	        session.close();
 		}
 
 		public void eliminarClub(Club club) {
-			SessionManager.getInstancia().getSession().beginTransaction();
-			SessionManager.getInstancia().getSession().flush();
-			SessionManager.getInstancia().getSession().clear();
-			SessionManager.getInstancia().getSession().delete(toEntity(club));
-			SessionManager.getInstancia().getSession().getTransaction().commit();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+	        session.beginTransaction();
+			session.flush();
+			session.clear();
+			session.delete(toEntity(club));
+			session.getTransaction().commit();
+			session.close();
 			
 		}
 		
 		public void actualizarClub(Club club) {
-			SessionManager.getInstancia().getSession().beginTransaction();
-			SessionManager.getInstancia().getSession().flush();
-			SessionManager.getInstancia().getSession().clear();
-			SessionManager.getInstancia().getSession().update(toEntity(club));
-			SessionManager.getInstancia().getSession().getTransaction().commit();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.flush();
+			session.clear();
+			session.update(toEntity(club));
+			session.getTransaction().commit();
+			session.close();
 		}
 		
 		public List<Jugador> obtenerJugadoresClub(int idClub) throws ClubException {
 			List<Jugador> jugadores = new ArrayList<Jugador>();
-			@SuppressWarnings("unchecked")
-			List<JugadorEntity> auxJugadores = SessionManager.getInstancia().getSession().createQuery("from JugadorEntity j where j.club = "+idClub).list();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			List<JugadorEntity> auxJugadores = session.createQuery("from JugadorEntity j where j.club = "+idClub).list();
+			session.close();
+
 			if(auxJugadores != null) {
 				for (JugadorEntity jugador : auxJugadores) {
 					jugadores.add(JugadorDAO.getInstancia().toModelo(jugador));
@@ -128,8 +144,9 @@ public class ClubDAO {
 		}
 		
 		public Club obtenerClubPorIdRepresentante(int idRepresentante) throws ClubException {
-			ClubEntity auxClub = (ClubEntity) SessionManager.getInstancia().getSession().createQuery("select distinct c from ClubEntity c INNER JOIN c.responsables r where r.legajo="+idRepresentante).uniqueResult();
-			System.out.println(auxClub);
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			ClubEntity auxClub = (ClubEntity) session.createQuery("select distinct c from ClubEntity c INNER JOIN c.responsables r where r.legajo="+idRepresentante).uniqueResult();
+			session.close();
 			if(auxClub != null) {
 				return toModeloClub(auxClub);
 			}

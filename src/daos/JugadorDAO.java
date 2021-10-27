@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+import org.hibernate.Session;
 
 import Entity.ClubEntity;
 
 import Entity.JugadorEntity;
 import exceptions.ClubException;
 import exceptions.JugadorException;
+import hibernate.HibernateUtil;
 import modelo.Club;
 
 import modelo.Jugador;
@@ -33,18 +34,22 @@ public class JugadorDAO {
 	
 	
 	public void grabar(Jugador jugador) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
         JugadorEntity jugadorNuevo= toEntity(jugador);
-        SessionManager.getInstancia().getSession().beginTransaction();
-        SessionManager.getInstancia().getSession().save(jugadorNuevo);
-        SessionManager.getInstancia().getSession().getTransaction().commit();
+        session.beginTransaction();
+        session.save(jugadorNuevo);
+        session.getTransaction().commit();
+        session.close();
     }
 	
 	public List<Jugador> obtenerJugadores() {
 		List<Jugador> jugadores = new ArrayList<Jugador>();
-		SessionManager.getInstancia().getSession().beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 		@SuppressWarnings("unchecked")
-		List<JugadorEntity> aux = (List<JugadorEntity>) SessionManager.getInstancia().getSession().createQuery("from JugadorEntity").list();
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		List<JugadorEntity> aux = (List<JugadorEntity>) session.createQuery("from JugadorEntity").list();
+		session.getTransaction().commit();
+		session.close();
 		for(JugadorEntity e : aux)
 			jugadores.add(toModelo(e));
 		return jugadores;
@@ -52,10 +57,11 @@ public class JugadorDAO {
 	}
 	
 	public Jugador obtenerJugador(int idJugador) throws JugadorException{
-		
-		SessionManager.getInstancia().getSession().beginTransaction();
-		JugadorEntity aux = (JugadorEntity) SessionManager.getInstancia().getSession().createQuery("from JugadorEntity e where e.idJugador= "+ idJugador +"and e.eliminadoJ = 'noEliminado'").uniqueResult();
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		JugadorEntity aux = (JugadorEntity) session.createQuery("from JugadorEntity e where e.idJugador= "+ idJugador +"and e.eliminadoJ = 'noEliminado'").uniqueResult();
+		session.getTransaction().commit();
+		session.close();
 		if(aux != null) {
 			return toModelo(aux);
 		}
@@ -63,15 +69,17 @@ public class JugadorDAO {
 
 	}
 	public void eliminarJugador(Jugador aux) {
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().flush();
-		SessionManager.getInstancia().getSession().clear();
-		SessionManager.getInstancia().getSession().update(toEntity(aux));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
-		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.flush();
+		session.clear();
+		session.update(toEntity(aux));
+		session.getTransaction().commit();
+		session.close();
 	}
 	public void modificarJugador(Jugador jugador,int idJugador,String tipoDocumento,int numeroDocumento,String nombre,String apellido,int idClub,Date fechaNac) throws ClubException {
-		SessionManager.getInstancia().getSession().beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 		jugador.setIdJugador(idJugador);
 		jugador.setTipoDocumento(tipoDocumento);
 		jugador.setNumeroDocumento(numeroDocumento);
@@ -84,10 +92,11 @@ public class JugadorDAO {
 			Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
 			jugador.setClub(auxClub);
 		}
-		SessionManager.getInstancia().getSession().flush();
-		SessionManager.getInstancia().getSession().clear();
-		SessionManager.getInstancia().getSession().update(toEntity(jugador));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		session.flush();
+		session.clear();
+		session.update(toEntity(jugador));
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	JugadorEntity toEntity(Jugador jugador) {
