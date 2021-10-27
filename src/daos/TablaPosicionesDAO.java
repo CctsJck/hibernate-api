@@ -6,10 +6,13 @@ package daos;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import Entity.TablaPosicionesEntity;
 import exceptions.CampeonatoException;
 import exceptions.ClubException;
 import exceptions.TablaPosicionesException;
+import hibernate.HibernateUtil;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Partido;
@@ -28,14 +31,17 @@ public class TablaPosicionesDAO {
 	}
 	
 	public TablaPosiciones obtenerTablaCampeonatoClub(Integer idCampeonato,int idClub){
-		TablaPosicionesEntity aux = (TablaPosicionesEntity) SessionManager.getInstancia().getSession().createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" and t.club = "+idClub).uniqueResult();
-
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		TablaPosicionesEntity aux = (TablaPosicionesEntity) session.createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" and t.club = "+idClub).uniqueResult();
+		session.close();
 		return toModelo(aux);
 	}
 	
 	public List<TablaPosiciones> obtenerTablaCampeonato(Integer idCampeonato) throws TablaPosicionesException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<TablaPosiciones> tablas = new ArrayList<TablaPosiciones>();
-		List<TablaPosicionesEntity> aux = (List<TablaPosicionesEntity>) SessionManager.getInstancia().getSession().createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" ORDER BY t.promedio").list();
+		List<TablaPosicionesEntity> aux = (List<TablaPosicionesEntity>) session.createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" ORDER BY t.promedio").list();
+		session.close();
 		if (aux != null) {
 			for (TablaPosicionesEntity tabla : aux) {
 				tablas.add(toModelo(tabla));
@@ -154,23 +160,27 @@ public class TablaPosicionesDAO {
 	}
 	
 	public void grabar(TablaPosiciones tabla) {
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().save(toEntity(tabla));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.save(toEntity(tabla));
+		session.getTransaction().commit();
 	}
 	
 	public void actualizar(TablaPosiciones tabla) {
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().flush();
-		SessionManager.getInstancia().getSession().clear();
-		SessionManager.getInstancia().getSession().update(toEntity(tabla));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.flush();
+		session.clear();
+		session.update(toEntity(tabla));
+		session.getTransaction().commit();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<TablaPosiciones> getTablaPosiciones(int idClub) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
         List<TablaPosiciones> tablas = new ArrayList<TablaPosiciones>();
-        List<TablaPosicionesEntity> auxTablas = SessionManager.getInstancia().getSession().createQuery("FROM TablaPosicionesEntity t WHERE t.club = "+idClub).list();
+        List<TablaPosicionesEntity> auxTablas = session.createQuery("FROM TablaPosicionesEntity t WHERE t.club = "+idClub).list();
+        session.close();
         for (TablaPosicionesEntity tabla : auxTablas) {
             tablas.add(toModelo(tabla));
         }

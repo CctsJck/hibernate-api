@@ -2,11 +2,14 @@ package daos;
 
 
 
+import org.hibernate.Session;
+
 import Entity.ClubEntity;
 import Entity.JugadorEntity;
 import Entity.MiembroEntity;
 import Entity.PartidoEntity;
 import exceptions.ClubException;
+import hibernate.HibernateUtil;
 import modelo.Miembro;
 
 import sessionManager.SessionManager;
@@ -23,17 +26,20 @@ public class MiembroDAO {
 	}
 	
 	public Miembro getMiembro(Integer idJugador) throws ClubException {
-		MiembroEntity aux = (MiembroEntity) SessionManager.getInstancia().getSession().createQuery("from MiembroEntity m where m.idJugador = "+idJugador).uniqueResult();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		MiembroEntity aux = (MiembroEntity) session.createQuery("from MiembroEntity m where m.idJugador = "+idJugador).uniqueResult();
+		session.close();
 		return toModelo(aux);
 		
 	}
 	
 	
 	public void grabar(Miembro miembroNuevo) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
         MiembroEntity MiembroNuevo= toEntity(miembroNuevo);
-        SessionManager.getInstancia().getSession().beginTransaction();
-        SessionManager.getInstancia().getSession().save(MiembroNuevo);
-        SessionManager.getInstancia().getSession().getTransaction().commit();
+        session.beginTransaction();
+        session.save(MiembroNuevo);
+        session.getTransaction().commit();
     }
 	
 	MiembroEntity toEntity(Miembro m) {

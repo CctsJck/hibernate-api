@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import org.hibernate.Session;
+
 import Entity.CampeonatoEntity;
 import Entity.ClubEntity;
 import controlador.Controlador;
 import exceptions.CampeonatoException;
 import exceptions.ClubException;
+import hibernate.HibernateUtil;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Jugador;
@@ -68,16 +72,19 @@ public class CampeonatoDAO {
 
 
 	public void grabar(Campeonato campeonato) {
-		
-		SessionManager.getInstancia().getSession().beginTransaction();
-		SessionManager.getInstancia().getSession().save(toEntity(campeonato));
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.save(toEntity(campeonato));
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	public Campeonato obtenerCampeonatoPorID(Integer id) throws CampeonatoException{
-		SessionManager.getInstancia().getSession().beginTransaction();
-        CampeonatoEntity aux = (CampeonatoEntity) SessionManager.getInstancia().getSession().createQuery("from CampeonatoEntity c where c.eliminadoC = 'noEliminado' and c.idCampeonato = "+ id).uniqueResult();
-        SessionManager.getInstancia().getSession().getTransaction().commit();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+        CampeonatoEntity aux = (CampeonatoEntity) session.createQuery("from CampeonatoEntity c where c.eliminadoC = 'noEliminado' and c.idCampeonato = "+ id).uniqueResult();
+        session.getTransaction().commit();
+        session.close();
         if(aux!=null) {
             return toCampeonatoModelo(aux);
         }
@@ -85,18 +92,22 @@ public class CampeonatoDAO {
     }
 	
 	public void actualizar(Campeonato c) {
-		SessionManager.getInstancia().getSession().beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 		CampeonatoEntity aux = toEntity(c);
-		SessionManager.getInstancia().getSession().flush();
-		SessionManager.getInstancia().getSession().clear();
-		SessionManager.getInstancia().getSession().update(aux);
-		SessionManager.getInstancia().getSession().getTransaction().commit();
+		session.flush();
+		session.clear();
+		session.update(aux);
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	
 	public List<Jugador> getJugadoresCampeonato(Integer idCampeonato) throws CampeonatoException, ClubException {
 		List<Jugador> jugadores = new ArrayList<Jugador>();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Campeonato camp = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+		session.close();
 		List<Club> clubes = camp.getInscriptos();
 		for(Club auxClub : clubes ) {
 			List<Jugador> auxjugadores = auxClub.getJugadores();
@@ -150,8 +161,10 @@ public class CampeonatoDAO {
 	}
 
 	public List<Campeonato> getCampeonatos() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<Campeonato> campeonatos = new ArrayList<Campeonato>();
-        List<CampeonatoEntity> auxCampeonatos = SessionManager.getInstancia().getSession().createQuery("FROM CampeonatoEntity p").list(); 
+        List<CampeonatoEntity> auxCampeonatos = session.createQuery("FROM CampeonatoEntity p").list(); 
+        session.close();
         for (CampeonatoEntity camp : auxCampeonatos) {
             campeonatos.add(CampeonatoDAO.getInstancia().toCampeonatoModelo(camp));
         }
