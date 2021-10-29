@@ -76,7 +76,7 @@ public class Miembro {
 	}
 	
 	public MiembroVO toVO() {
-		return new MiembroVO(this.idLista,this.ingreso,this.egreso);
+		return new MiembroVO(this.idLista,this.ingreso,this.egreso,this.jugador.getIdJugador(),this.partido.getIdPartido());
 	}
 	
 }

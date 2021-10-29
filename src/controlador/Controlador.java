@@ -13,6 +13,7 @@ import daos.ClubDAO;
 import daos.FaltaDAO;
 import daos.GolDAO;
 import daos.JugadorDAO;
+import daos.MiembroDAO;
 import daos.PartidoDAO;
 import daos.RepresentanteDAO;
 import daos.TablaPosicionesDAO;
@@ -145,6 +146,7 @@ public class Controlador {
 	
 	public void crearPartido(int nroFecha,int nroZona,int categoria,Integer clubLocal,Integer clubVisitante,Date fechaPartido,Integer idCampeonato) throws CampeonatoException, ClubException {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+		System.out.println(aux.getEstado());
 		Club local = ClubDAO.getInstancia().obtenerClubPorID(clubLocal);
 		Club visitante = ClubDAO.getInstancia().obtenerClubPorID(clubVisitante);
 		aux.crearPartidos(nroFecha, nroZona,local , visitante, fechaPartido);
@@ -389,6 +391,15 @@ public class Controlador {
 	
 	public List<ClubVO> obtenerClubes() throws ClubException{
 		return this.convertirClubesAClubesVO(ClubDAO.getInstancia().obtenerClubes());
+	}
+	
+	public List<MiembroVO> obtenerJugadoresPartido(int idPartido) throws ClubException{
+		List<MiembroVO> resultado = new ArrayList<MiembroVO>();
+		List<Miembro> miembros = MiembroDAO.getInstancia().obtenerJugadoresPartido(idPartido);
+		for(Miembro m: miembros) {
+			resultado.add(m.toVO());
+		}
+		return resultado;
 	}
 	
 	

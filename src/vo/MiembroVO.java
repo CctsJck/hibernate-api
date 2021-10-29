@@ -13,13 +13,33 @@ public class MiembroVO implements Serializable{
 	private Integer idLista; 
 	private Integer ingreso;
 	private Integer egreso;
+	private Integer idJugador;
+	private Integer idPartido;
 	
 	public MiembroVO() {}
 
-	public MiembroVO(Integer idLista, Integer ingreso, Integer egreso) {
+	public MiembroVO(Integer idLista, Integer ingreso, Integer egreso,Integer idJugador,Integer idPartido) {
+		this.idPartido = idPartido;
+		this.idJugador = idJugador;
 		this.idLista = idLista;
 		this.ingreso = ingreso;
 		this.egreso = egreso;
+	}
+	
+	public Integer getIdJugador() {
+		return idJugador;
+	}
+
+	public void setIdJugador(Integer idJugador) {
+		this.idJugador = idJugador;
+	}
+
+	public Integer getIdPartido() {
+		return idPartido;
+	}
+
+	public void setIdPartido(Integer idPartido) {
+		this.idPartido = idPartido;
 	}
 
 	public Integer getIdLista() {
