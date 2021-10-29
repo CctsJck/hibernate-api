@@ -163,10 +163,9 @@ public class Campeonato implements Comparable<Campeonato>{
 	}
 	
 	public void crearPartidos(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido) {
-		
-		//CampeonatoDAO.getInstancia().crearPartidos(this.inscriptos,this.inscriptos,this);
-		if (this.getEstado() == "inactivo") {
+		if (this.getEstado().compareTo("inactivo") == 0) {
 			Partido partido = new Partido(nroFecha, nroZona, clubLocal, clubVisitante,fechaPartido, this);
+			
 			partido.grabar();
 		}
 		

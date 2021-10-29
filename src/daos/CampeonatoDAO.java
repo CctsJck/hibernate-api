@@ -39,6 +39,7 @@ public class CampeonatoDAO {
 		CampeonatoEntity aux = new CampeonatoEntity(campeonato.getDescripcion(),campeonato.getFechaInicio(),campeonato.getFechaFin(), campeonato.getTipo(),campeonato.getCategoria());
 		aux.setIdCampeonato(campeonato.getIdCampeonato());
 		aux.setEliminado(campeonato.getEliminado());
+		System.out.println("ESTADO"+campeonato.getEstado());
 		aux.setEstado(campeonato.getEstado());
 		
 		if (campeonato.getInscriptos() != null) {
