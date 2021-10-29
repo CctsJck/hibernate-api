@@ -30,18 +30,22 @@ public class ClubDAO {
 	
 	
 	
-	public List<Club> obtenerClubes() {
+	public List<Club> obtenerClubes() throws ClubException {
 		List<Club> clubes = new ArrayList<>();
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
 		@SuppressWarnings("unchecked")
 		List<ClubEntity> aux = (List<ClubEntity>) session.createQuery("from ClubEntity").list();
-		session.getTransaction().commit();
 		session.close();
-		for(ClubEntity e : aux) {
-			clubes.add(toModeloClub(e));
+		
+		if(aux != null) {
+			for(ClubEntity e : aux) {
+				clubes.add(toModeloClub(e));
+			}
+	        return clubes;
 		}
-        return clubes;
+		
+		throw new ClubException("No se encontraron los clubes");
+		
     }
 	
 	public Club obtenerClubPorID(Integer id) throws ClubException{

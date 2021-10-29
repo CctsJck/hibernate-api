@@ -323,7 +323,7 @@ public class Controlador {
 	}
 	
 	
-	public List<ClubVO> obtenerClubesDisponiblesCampeonato(int idCampeonato) throws CampeonatoException  {
+	public List<ClubVO> obtenerClubesDisponiblesCampeonato(int idCampeonato) throws CampeonatoException, ClubException  {
 		Campeonato campeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		List<Club> clubesInscriptos = campeonato.getInscriptos();
 		List<ClubVO> resultado = new ArrayList<>();
@@ -385,6 +385,10 @@ public class Controlador {
 	public List<ResponsableVO> obtenerRepresentantes() throws ResponsableException{
 		List<Responsable> representantes = RepresentanteDAO.getInstancia().obtenerRepresentantes();
 		return this.convertirResponsablesAResponsablesVO(representantes);
+	}
+	
+	public List<ClubVO> obtenerClubes() throws ClubException{
+		return this.convertirClubesAClubesVO(ClubDAO.getInstancia().obtenerClubes());
 	}
 	
 	
