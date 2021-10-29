@@ -116,6 +116,10 @@ public class CampeonatoEntity {
 		return estado;
 	}
 	
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
 
 	public List<ClubEntity> getInscriptos() {
 		return inscriptos;

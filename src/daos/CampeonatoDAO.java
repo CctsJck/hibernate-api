@@ -39,6 +39,8 @@ public class CampeonatoDAO {
 		CampeonatoEntity aux = new CampeonatoEntity(campeonato.getDescripcion(),campeonato.getFechaInicio(),campeonato.getFechaFin(), campeonato.getTipo(),campeonato.getCategoria());
 		aux.setIdCampeonato(campeonato.getIdCampeonato());
 		aux.setEliminado(campeonato.getEliminado());
+		aux.setEstado(campeonato.getEstado());
+		
 		if (campeonato.getInscriptos() != null) {
 			for (Club club : campeonato.getInscriptos()) {
 				aux2.add((ClubDAO.getInstancia().toEntityExcepcion(club)));
@@ -46,7 +48,6 @@ public class CampeonatoDAO {
 			}
 			aux.setInscriptos(aux2);
 		}
-		System.out.println("Llegue");
 		return aux;
 	}
 	
@@ -62,6 +63,7 @@ public class CampeonatoDAO {
 		Campeonato campeonato = new Campeonato(entity.getDescripcion(),entity.getFechaInicio(),entity.getFechaFin(),entity.getTipo(),entity.getCategoria());
 		campeonato.setIdCampeonato(entity.getIdCampeonato());
 		campeonato.setEliminado("noEliminado");
+		campeonato.setEstado(entity.getEstado());
 		for(ClubEntity x: entity.getInscriptos()) {
 			campeonato.agregarClub(ClubDAO.getInstancia().toModeloClub(x));
 		}
@@ -95,6 +97,7 @@ public class CampeonatoDAO {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		CampeonatoEntity aux = toEntity(c);
+		System.out.println(aux.getEstado());
 		session.flush();
 		session.clear();
 		session.update(aux);
