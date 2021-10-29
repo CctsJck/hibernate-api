@@ -23,10 +23,11 @@ public class JugadorVO implements Serializable{
 	private int categoria;
 	private String estado;
 	private String eliminado;
+	private Integer idClub;
 	
 	public JugadorVO() {}
 
-	public JugadorVO(Integer idJugador, String tipoDocumento, int numeroDocumento, String nombre, String apellido, Date fechaNacimiento, int categoria, String estado, String eliminado) {
+	public JugadorVO(Integer idJugador, String tipoDocumento, int numeroDocumento, String nombre, String apellido, Date fechaNacimiento, int categoria, String estado, String eliminado, Integer idClub) {
 		this.idJugador = idJugador;
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
@@ -36,6 +37,7 @@ public class JugadorVO implements Serializable{
 		this.categoria = categoria;
 		this.estado = estado;
 		this.eliminado = eliminado;
+		this.idClub = idClub;
 	}
 
 	public Integer getIdJugador() {
@@ -112,5 +114,14 @@ public class JugadorVO implements Serializable{
 		this.eliminado = eliminado;
 	}
 
+	public Integer getIdClub() {
+		return idClub;
+	}
+
+	public void setIdClub(Integer idClub) {
+		this.idClub = idClub;
+	}
+
+	
 	
 }

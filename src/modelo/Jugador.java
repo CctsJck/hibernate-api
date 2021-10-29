@@ -157,7 +157,7 @@ public class Jugador {
 	}
 	
 	public JugadorVO toVO() {
-		return new JugadorVO(this.idJugador,this.tipoDocumento,this.numeroDocumento,this.nombre,this.apellido,this.fechaNacimiento,this.categoria,this.estado,this.eliminado);
+		return new JugadorVO(this.idJugador,this.tipoDocumento,this.numeroDocumento,this.nombre,this.apellido,this.fechaNacimiento,this.categoria,this.estado,this.eliminado,this.club.getIdClub());
 	}
 	
 	

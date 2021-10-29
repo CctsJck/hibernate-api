@@ -13,15 +13,19 @@ public class ResponsableVO implements Serializable{
 	private Integer DNI;
 	private String nombre;
 	private String eliminado;
+	private Integer idClub;
+	
+	
 	
 	public ResponsableVO() {}
 
-	public ResponsableVO(Integer legajo, String tipodocumento, Integer DNI, String nombre,String eliminado) {
+	public ResponsableVO(Integer legajo, String tipodocumento, Integer DNI, String nombre,String eliminado, Integer idClub) {
 		this.legajo = legajo;
 		this.tipodocumento = tipodocumento;
 		this.DNI = DNI;
 		this.nombre = nombre;
 		this.eliminado = eliminado;
+		this.idClub = idClub;
 	}
 
 	public Integer getLegajo() {
@@ -64,6 +68,15 @@ public class ResponsableVO implements Serializable{
 	public void setEliminado(String eliminado) {
 		this.eliminado = eliminado;
 	}
+
+	public Integer getIdClub() {
+		return idClub;
+	}
+
+	public void setIdClub(Integer idClub) {
+		this.idClub = idClub;
+	}
+
 	
 	
 	

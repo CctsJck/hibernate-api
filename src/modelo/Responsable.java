@@ -76,7 +76,8 @@ public class Responsable {
 	}
 	
 	public ResponsableVO toVO() {
-		return new ResponsableVO(this.legajo,this.tipodocumento,this.DNI,this.nombre,this.eliminado);
+		
+		return new ResponsableVO(this.legajo,this.tipodocumento,this.DNI,this.nombre,this.eliminado,this.club.getIdClub());
 	}
 	 
 	 
