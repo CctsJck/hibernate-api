@@ -80,6 +80,23 @@ public class RepresentanteDAO {
 		session.close();
 	}
 	
+	public List<Responsable> obtenerRepresentantes() throws ResponsableException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Responsable> respModelo = new ArrayList<Responsable>();
+		List<RepresentanteEntity> resp = (List<RepresentanteEntity>) session.createQuery("from RepresentanteEntity r").list();
+		if (resp != null) {
+			for (RepresentanteEntity r : resp) {
+				respModelo.add(toModelo(r));
+			}
+			session.close();
+			return respModelo;
+		}
+		throw new ResponsableException("No se encontraron los representantes");
+		
+		
+		
+	}
+	
 	public void eliminar(Responsable resp) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();

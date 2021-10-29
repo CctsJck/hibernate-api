@@ -382,5 +382,10 @@ public class Controlador {
 
     }
 	
+	public List<ResponsableVO> obtenerRepresentantes() throws ResponsableException{
+		List<Responsable> representantes = RepresentanteDAO.getInstancia().obtenerRepresentantes();
+		return this.convertirResponsablesAResponsablesVO(representantes);
+	}
+	
 	
 }
