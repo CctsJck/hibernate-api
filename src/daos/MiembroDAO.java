@@ -2,6 +2,9 @@ package daos;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 
 import Entity.ClubEntity;
@@ -53,6 +56,16 @@ public class MiembroDAO {
 		
 		return auxM;
 		
+	}
+	public List<Miembro> obtenerJugadoresPartido(int idPartido) throws ClubException{
+		List<Miembro> miembros = new ArrayList<>();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		@SuppressWarnings("unchecked")
+		List<MiembroEntity> aux  = (List<MiembroEntity>) session.createQuery("from MiembroEntity where idPartido="+idPartido).list();
+		for(MiembroEntity e : aux) {
+			miembros.add(toModelo(e));
+		}
+		return miembros;	
 	}
 	
 	

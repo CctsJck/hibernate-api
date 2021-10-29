@@ -49,9 +49,9 @@ public class JugadorDAO {
 		@SuppressWarnings("unchecked")
 		List<JugadorEntity> aux = (List<JugadorEntity>) session.createQuery("from JugadorEntity").list();
 		session.getTransaction().commit();
-		session.close();
 		for(JugadorEntity e : aux)
 			jugadores.add(toModelo(e));
+		session.close();
 		return jugadores;
 
 	}
