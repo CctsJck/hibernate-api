@@ -27,7 +27,7 @@ public class RepresentanteDAO {
 	}
 	public Responsable obtenerRepresentanteporID(int idRepresentante) throws ResponsableException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity e where e.legajo="+idRepresentante+"and e.eliminadoR='noEliminado'").uniqueResult();
+		RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity e where e.legajo="+idRepresentante).uniqueResult();
 		//session.close();
 
 		System.out.println(aux.getNombre());
@@ -83,7 +83,7 @@ public class RepresentanteDAO {
 	public List<Responsable> obtenerRepresentantes() throws ResponsableException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<Responsable> respModelo = new ArrayList<Responsable>();
-		List<RepresentanteEntity> resp = (List<RepresentanteEntity>) session.createQuery("from RepresentanteEntity r").list();
+		List<RepresentanteEntity> resp = (List<RepresentanteEntity>) session.createQuery("from RepresentanteEntity r ORDER BY r.legajo").list();
 		if (resp != null) {
 			for (RepresentanteEntity r : resp) {
 				respModelo.add(toModelo(r));
@@ -119,7 +119,7 @@ public class RepresentanteDAO {
 	Responsable toModelo(RepresentanteEntity entity) {
 		Responsable aux = new Responsable(entity.getTipoDocumento(),entity.getDNI(),entity.getNombre(),ClubDAO.getInstancia().toModeloClub(entity.getClub()));
 		aux.setLegajo(entity.getLegajo());
-		aux.setEliminado("noEliminado");
+		aux.setEliminado(entity.getEliminado());
 		return aux;
 	}
 
