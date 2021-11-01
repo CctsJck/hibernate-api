@@ -210,7 +210,7 @@ public class Campeonato implements Comparable<Campeonato>{
         Long partidosJugados = MiembroDAO.getInstancia().obtenerPartidosJugados(idJugador,this.getIdCampeonato());
         datos[0] = jugadorCampeonato.getNombre();
         datos[1] = jugadorCampeonato.getClub().getNombre();
-        datos[2] = Long.toString(faltas);
+        datos[2] = Long.toString(faltas);//agregar distincion entre rojas y amarillas
         datos[3] = Long.toString(goles);
         datos[4] = Long.toString(partidosJugados);
         return datos;
