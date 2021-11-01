@@ -45,6 +45,13 @@ public class MiembroDAO {
         session.getTransaction().commit();
     }
 	
+	public Long obtenerPartidosJugados(int idJugador,int idCampeonato) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long aux = (Long) session.createQuery("SELECT count() FROM MiembroEntity m INNER JOIN m.partido p INNER JOIN p.campeonato c WHERE idJugador = "+idJugador+" AND c.idCampeonato ="+idCampeonato).uniqueResult();
+        session.close();
+        return aux;
+    }
+	
 	MiembroEntity toEntity(Miembro m) {
 		ClubEntity auxClub = ClubDAO.getInstancia().toEntity(m.getClub());
 		PartidoEntity auxPartido = PartidoDAO.getInstancia().toEntity(m.getPartido());

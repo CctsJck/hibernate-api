@@ -14,10 +14,12 @@ import daos.ClubDAO;
 import daos.FaltaDAO;
 import daos.GolDAO;
 import daos.JugadorDAO;
+import daos.MiembroDAO;
 import daos.PartidoDAO;
 import daos.TablaPosicionesDAO;
 import exceptions.CampeonatoException;
 import exceptions.ClubException;
+import exceptions.JugadorException;
 import vo.CampeonatoVO;
 import vo.ClubVO;
 import vo.FaltaVO;
@@ -199,6 +201,20 @@ public class Campeonato implements Comparable<Campeonato>{
 		}
 		return datos;
 	}
+	
+	public String[] getEstaditicaJugadorCampeonato(int idJugador) throws CampeonatoException, ClubException, JugadorException{
+        Jugador jugadorCampeonato = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+        String [] datos = new String[5];
+        Long faltas = FaltaDAO.getInstancia().obtenerCantidadFaltasJugadorX(idJugador, idCampeonato);
+        Long goles = GolDAO.getInstancia().obtenerCantidadGolesJugadorCampeonato(idJugador, idCampeonato);
+        Long partidosJugados = MiembroDAO.getInstancia().obtenerPartidosJugados(idJugador,this.getIdCampeonato());
+        datos[0] = jugadorCampeonato.getNombre();
+        datos[1] = jugadorCampeonato.getClub().getNombre();
+        datos[2] = Long.toString(faltas);
+        datos[3] = Long.toString(goles);
+        datos[4] = Long.toString(partidosJugados);
+        return datos;
+    }
 	
 	public void crearPartidosGrupos() throws ClubException {
 		Date fecha = this.getFechaInicio();

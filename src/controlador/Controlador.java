@@ -216,6 +216,11 @@ public class Controlador {
 	
 	}
 	
+	public String[] getEstaditicaJugadorCampeonato(int idJugador, int idCampeonato) throws CampeonatoException, JugadorException {
+        Campeonato campeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+        return campeonato.getEstaditicaJugadorCampeonato(idJugador);
+    }
+	
 	public void finalizarCargaEquiposTorneo(int idCampeonato) throws CampeonatoException {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		aux.setEstado("activo");
