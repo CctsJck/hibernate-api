@@ -63,10 +63,12 @@ public class PartidoDAO {
 	public void grabar(Partido partido) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
+		
 		session.save(toEntity(partido));
 		session.flush();
 		session.clear();
 		session.getTransaction().commit();
+		session.close();
 		
 	}
 	
@@ -79,6 +81,8 @@ public class PartidoDAO {
 		session.flush();
 		session.clear();
 		session.getTransaction().commit();
+		session.close();
+
 	}
 
 	PartidoEntity toEntity(Partido partido) {
@@ -112,6 +116,8 @@ public class PartidoDAO {
 		session.beginTransaction();
 		Long cantidad =  (Long) session.createQuery("select count(*) from MiembroEntity m where m.club ="+idClub+" and m.partido="+idPartido).uniqueResult();
 		session.getTransaction().commit();
+		session.close();
+
 		return cantidad;
 		
 	}

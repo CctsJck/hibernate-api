@@ -56,7 +56,7 @@ public class ClubDAO {
         if(aux!=null) {
             return toModeloClub(aux);
         }
-        throw new ClubException("No existe el club");
+        throw new ClubException("ERROR: No existe el club");
     }
 	
 	Club toModeloClub(ClubEntity c) {
