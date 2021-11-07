@@ -407,5 +407,10 @@ public class Controlador {
 		return resultado;
 	}
 	
+	public List<PartidoVO> obtenerPartidosPendientesValidar(int idClub) throws PartidoException {
+		List<Partido> partidos = PartidoDAO.getInstancia().obtenerPartidosPendientesValidar(idClub);
+		return this.convertirPartidosAPartidosVO(partidos);
+	}
+	
 	
 }

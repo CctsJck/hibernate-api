@@ -47,6 +47,20 @@ public class PartidoDAO {
 		throw new PartidoException("El partido no existe");
 	}
 	
+	public List<Partido> obtenerPartidosPendientesValidar(int idClub) throws PartidoException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Partido> partidos = new ArrayList<Partido>();
+		List<PartidoEntity> auxPart = session.createQuery("FROM PartidoEntity WHERE (idClubLocal = "+idClub+" AND validadoLocal = 0 ) OR (idClubVisitante = "+idClub+" AND validadoLocal = 0 )").list();
+		if (auxPart != null) {
+			for (PartidoEntity partido : auxPart) {
+				partidos.add(toModelo(partido));
+			}
+			session.close();
+			return partidos;
+		}
+		throw new PartidoException("No hay partidos para validar");
+	}
+	
 	Partido toModelo(PartidoEntity e) throws ClubException {
 		Partido partido = new Partido(e.getNroFecha(),e.getNroZona(),ClubDAO.getInstancia().toModeloClub(e.getClubLocal()),ClubDAO.getInstancia().toModeloClub(e.getClubVisitante()) ,e.getFechaPartido(),CampeonatoDAO.getInstancia().toCampeonatoModelo(e.getCampeonato()));
 		partido.setIdPartido(e.getIdPartido());
