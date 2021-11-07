@@ -161,7 +161,7 @@ public class Partido {
 	}
 	
 	public PartidoVO toVO() {
-		return new PartidoVO(this.idPartido,clubLocal.getIdClub(),clubVisitante.getIdClub(),this.nroFecha,this.nroZona,this.golesLocal,this.golesVisitante,this.fechaPartido,this.convalidaLocal,this.convalidaVisitante);
+		return new PartidoVO(this.idPartido,clubLocal.getIdClub(),clubVisitante.getIdClub(),this.nroFecha,this.nroZona,this.golesLocal,this.golesVisitante,this.fechaPartido,this.convalidaLocal,this.convalidaVisitante,this.getCampeonato().getIdCampeonato());
 	}
 	
 	public void agregarGolJugador(Jugador auxJugador, int minuto, String tipo) {

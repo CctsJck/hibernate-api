@@ -151,7 +151,6 @@ public class ClubDAO {
 		public Club obtenerClubPorIdRepresentante(int idRepresentante) throws ClubException {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			ClubEntity auxClub = (ClubEntity) session.createQuery("select distinct c from ClubEntity c INNER JOIN c.responsables r where r.legajo="+idRepresentante).uniqueResult();
-			System.out.println(auxClub.getNombre());
 			if(auxClub != null) {
 				Club clubModelo = toModeloClub(auxClub);
 				session.close();
