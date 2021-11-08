@@ -129,14 +129,14 @@ public class Partido {
 
 	public void setConvalidaLocal(boolean estado) throws ClubException {
 		this.convalidaLocal = estado;
-		if (this.convalidaLocal = true) {
+		if (estado = true) {
 			TablaPosicionesDAO.getInstancia().modificarTabla(this.getClubLocal().getIdClub(),this);
 		}
 	}
 
 	public void setConvalidaVisitante(boolean estado) throws ClubException {
 		this.convalidaVisitante = estado;
-		if (this.convalidaVisitante = true) {
+		if (estado = true) {
 			TablaPosicionesDAO.getInstancia().modificarTabla(this.getClubVisitante().getIdClub(),this);
 		}
 
@@ -196,11 +196,19 @@ public class Partido {
 	}
 
 	public void validarPartido(Club auxClub) throws ClubException{
-		if (this.getClubLocal().getIdClub() == auxClub.getIdClub()) {
+		
+		if (Integer.compare(this.getClubLocal().getIdClub(), auxClub.getIdClub()) == 0) {
 			this.setConvalidaLocal(true);
+			System.out.println("Local");
 		} else {
 			this.setConvalidaVisitante(true);
+			System.out.println("Visitante");
+
 		}
+		
+		
+
+		
 		this.actualizar();
 	}
 	

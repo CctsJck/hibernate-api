@@ -200,6 +200,7 @@ public class Controlador {
 	public void validarPartido(int idClub, int idPartido) throws ClubException, PartidoException {
         Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
 		Partido par = PartidoDAO.getInstancia().obtenerPartido(idPartido);
+		
 		par.validarPartido(auxClub);
 	}
 	

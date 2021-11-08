@@ -67,8 +67,14 @@ public class PartidoDAO {
 		partido.setGolesLocal(e.getGolesLocal());
 		partido.setGolesVisitante(e.getGolesVisitante());
 		
+		
+
+		
 		partido.setConvalidaLocal(e.isConvalidaLocal());
 		partido.setConvalidaVisitante(e.isConvalidaVisitante());
+		
+		System.out.println(partido.isConvalidaLocal());
+		System.out.println(partido.isConvalidaVisitante());
 		
 		return partido;
 		
