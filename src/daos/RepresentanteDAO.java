@@ -110,14 +110,14 @@ public class RepresentanteDAO {
 	RepresentanteEntity toEntity(Responsable representante) {
 		ClubEntity auxClub = new ClubEntity(representante.getClub().getNombre(),representante.getClub().getDireccion());
 		auxClub.setIdClub(representante.getClub().getIdClub());
-		RepresentanteEntity auxRepresentante = new RepresentanteEntity(representante.getTipoDocumento(),representante.getDNI(),representante.getNombre(),auxClub);
+		RepresentanteEntity auxRepresentante = new RepresentanteEntity(representante.getTipoDocumento(),representante.getDNI(),representante.getNombre(),auxClub,representante.getIdUsuario());
 		auxRepresentante.setLegajo(representante.getLegajo());
 		auxRepresentante.setEliminado(representante.getEliminado());
 		return auxRepresentante;
 	}
 	
 	Responsable toModelo(RepresentanteEntity entity) {
-		Responsable aux = new Responsable(entity.getTipoDocumento(),entity.getDNI(),entity.getNombre(),ClubDAO.getInstancia().toModeloClub(entity.getClub()));
+		Responsable aux = new Responsable(entity.getTipoDocumento(),entity.getDNI(),entity.getNombre(),ClubDAO.getInstancia().toModeloClub(entity.getClub()),entity.getIdUsuario());
 		aux.setLegajo(entity.getLegajo());
 		aux.setEliminado(entity.getEliminado());
 		return aux;

@@ -17,6 +17,7 @@ import daos.MiembroDAO;
 import daos.PartidoDAO;
 import daos.RepresentanteDAO;
 import daos.TablaPosicionesDAO;
+import daos.UsuarioDAO;
 import exceptions.CampeonatoException;
 import exceptions.ClubException;
 import exceptions.JugadorException;
@@ -32,6 +33,7 @@ import modelo.Miembro;
 import modelo.Partido;
 import modelo.Responsable;
 import modelo.TablaPosiciones;
+import modelo.Usuario;
 import vo.CampeonatoVO;
 import vo.ClubVO;
 import vo.FaltaVO;
@@ -93,8 +95,11 @@ public class Controlador {
 	}
 	
 	public void agregarJugador(String tipoDocumento, Integer documento, String nombre,String apellido,int idClub, Date fechaNacimiento) throws ClubException{
+		Usuario usuario = new Usuario("jugador","1234");
+		UsuarioDAO.getInstancia().grabar(usuario);
+		Integer idUsuario = UsuarioDAO.getInstancia().obtenerIdUsuario();
 		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
-        	Jugador jugador = new Jugador(tipoDocumento, documento, nombre, apellido,auxClub,fechaNacimiento);
+        	Jugador jugador = new Jugador(tipoDocumento, documento, nombre, apellido,auxClub,fechaNacimiento,idUsuario);
         	jugador.setEliminado("noEliminado");
         	auxClub.agregarJugador(jugador);
      
@@ -109,8 +114,11 @@ public class Controlador {
 	}
 	
 	public void crearRepresentante(String tipoDocumento,int DNI,String nombre,int idClub) throws ClubException{
+		Usuario usuario = new Usuario("Repre","1234");
+		UsuarioDAO.getInstancia().grabar(usuario);
+		Integer idUsuario = UsuarioDAO.getInstancia().obtenerIdUsuario();
 		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
-		Responsable nuevoRepresentante = new Responsable(tipoDocumento,DNI,nombre,auxClub);
+		Responsable nuevoRepresentante = new Responsable(tipoDocumento,DNI,nombre,auxClub,idUsuario);
 		nuevoRepresentante.setEliminado("noEliminado");
 		nuevoRepresentante.grabar();
 	}

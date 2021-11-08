@@ -29,6 +29,7 @@ public class JugadorEntity {
 	private String nombre;
 	private String apellido;
 	private String eliminadoJ;
+	private Integer idUsuario;
 	 
 	@ManyToOne()
 	@JoinColumn(name="idClub") 
@@ -49,7 +50,7 @@ public class JugadorEntity {
 	
 	public JugadorEntity() {}
 	
-	public JugadorEntity(String tipoDocumento,int numeroDocumento, String nombre,String apellido, ClubEntity club, Date fechaNacimiento) {
+	public JugadorEntity(String tipoDocumento,int numeroDocumento, String nombre,String apellido, ClubEntity club, Date fechaNacimiento,Integer idUsuario) {
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
 		this.nombre = nombre;
@@ -65,7 +66,7 @@ public class JugadorEntity {
         
         this.goles = new ArrayList<GolEntity>();
         this.faltas = new ArrayList<FaltaEntity>();
-       
+        this.idUsuario = idUsuario;
 	}
 
 	public Integer getIdJugador() {
@@ -155,6 +156,15 @@ public class JugadorEntity {
 	public void setEliminado(String eliminado) {
 		this.eliminadoJ = eliminado;
 	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	
 	
 	
 	

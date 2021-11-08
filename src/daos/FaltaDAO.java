@@ -93,7 +93,7 @@ public class FaltaDAO {
 	
 	Falta toModelo(FaltaEntity falta) throws ClubException {
 		Club auxClub = ClubDAO.getInstancia().toModeloClub(falta.getJugador().getClub());
-		Jugador auxJugador = new Jugador(falta.getJugador().getTipoDocumento(),falta.getJugador().getNumeroDocumento(),falta.getJugador().getNombre(),falta.getJugador().getApellido(),auxClub,falta.getJugador().getFechaNacimiento());
+		Jugador auxJugador = new Jugador(falta.getJugador().getTipoDocumento(),falta.getJugador().getNumeroDocumento(),falta.getJugador().getNombre(),falta.getJugador().getApellido(),auxClub,falta.getJugador().getFechaNacimiento(),falta.getJugador().getIdUsuario());
 		Partido auxPartido = PartidoDAO.getInstancia().toModelo(falta.getPartido());
 		Campeonato auxCampeonato =	CampeonatoDAO.getInstancia().toCampeonatoModelo(falta.getCampeonato());
 

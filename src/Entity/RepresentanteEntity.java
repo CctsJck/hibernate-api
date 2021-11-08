@@ -24,6 +24,7 @@ public class RepresentanteEntity {
 	private Integer DNI;
 	private String nombre;
 	private String eliminadoR;
+	private Integer idUsuario;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idClub")
@@ -31,11 +32,12 @@ public class RepresentanteEntity {
 	
 	public RepresentanteEntity() {}
 	
-	public RepresentanteEntity(String tipodocumento,int DNI, String nombre, ClubEntity club) {
+	public RepresentanteEntity(String tipodocumento,int DNI, String nombre, ClubEntity club,Integer idUsuario) {
 		this.tipoDocumento= tipodocumento;
 		this.DNI = DNI;
 		this.nombre = nombre;
 		this.club = club;
+		this.idUsuario = idUsuario;
 	}
 
 	public Integer getLegajo() {
@@ -82,6 +84,16 @@ public class RepresentanteEntity {
 	public void setEliminado(String eliminado) {
 		this.eliminadoR = eliminado;
 	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	
+	
 	
 
 	

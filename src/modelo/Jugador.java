@@ -29,8 +29,9 @@ public class Jugador {
 	private List<Gol> goles;
 	private List<Falta> faltas;
 	private Miembro miembro;
+	private Integer idUsuario;
 	
-	public Jugador(String tipoDocumento,Integer numeroDocumento, String nombre, String apellido, Club club, Date fechaNacimiento) {
+	public Jugador(String tipoDocumento,Integer numeroDocumento, String nombre, String apellido, Club club, Date fechaNacimiento,Integer idUsuario) {
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
 		this.nombre = nombre;
@@ -45,7 +46,10 @@ public class Jugador {
         	this.categoria = auxCategoria - 2000;
         this.goles = new ArrayList<Gol>();
         this.faltas = new ArrayList<Falta>();
+        this.idUsuario = idUsuario;
 	}
+
+	
 
 	public Integer getIdJugador() {
 		return idJugador;
@@ -156,8 +160,17 @@ public class Jugador {
 		this.eliminado = eliminado;
 	}
 	
+	
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 	public JugadorVO toVO() {
-		return new JugadorVO(this.idJugador,this.tipoDocumento,this.numeroDocumento,this.nombre,this.apellido,this.fechaNacimiento,this.categoria,this.estado,this.eliminado,this.club.getIdClub());
+		return new JugadorVO(this.idJugador,this.tipoDocumento,this.numeroDocumento,this.nombre,this.apellido,this.fechaNacimiento,this.categoria,this.estado,this.eliminado,this.club.getIdClub(),this.idUsuario);
 	}
 	
 	

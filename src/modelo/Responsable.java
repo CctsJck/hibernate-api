@@ -12,13 +12,15 @@ public class Responsable {
 	private String nombre;
 	private Club club;
 	private String eliminado;
+	private Integer idUsuario;
 	
 	
-	public Responsable(String tipoDocumento,int DNI, String nombre, Club club) {
+	public Responsable(String tipoDocumento,int DNI, String nombre, Club club,Integer idUsuario) {
 		this.nombre = nombre;
 		this.club = club;
 		this.tipodocumento= tipoDocumento;
 		this.DNI = DNI;
+		this.idUsuario = idUsuario;
 	}
 
 	public String getTipoDocumento() {
@@ -77,8 +79,18 @@ public class Responsable {
 	
 	public ResponsableVO toVO() {
 		
-		return new ResponsableVO(this.legajo,this.tipodocumento,this.DNI,this.nombre,this.eliminado,this.club.getIdClub());
+		return new ResponsableVO(this.legajo,this.tipodocumento,this.DNI,this.nombre,this.eliminado,this.club.getIdClub(),this.getIdUsuario());
 	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	
+	
 	 
 	 
 

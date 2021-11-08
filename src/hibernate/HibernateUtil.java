@@ -12,6 +12,7 @@ import Entity.MiembroEntity;
 import Entity.PartidoEntity;
 import Entity.RepresentanteEntity;
 import Entity.TablaPosicionesEntity;
+import Entity.UsuarioEntity;
 
 
 public class HibernateUtil
@@ -33,6 +34,7 @@ public class HibernateUtil
         	 config.addAnnotatedClass(FaltaEntity.class);
         	 config.addAnnotatedClass(MiembroEntity.class);
         	 config.addAnnotatedClass(RepresentanteEntity.class);
+        	 config.addAnnotatedClass(UsuarioEntity.class);
 
         	 
 

@@ -43,6 +43,7 @@ public class MiembroDAO {
         session.beginTransaction();
         session.save(MiembroNuevo);
         session.getTransaction().commit();
+        session.close();
     }
 	
 	public Long obtenerPartidosJugados(int idJugador,int idCampeonato) {

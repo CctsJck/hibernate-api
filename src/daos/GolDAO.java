@@ -58,7 +58,7 @@ private static GolDAO instancia;
 	
 	Gol toModelo(GolEntity gol) throws ClubException {
 		Club auxClub = ClubDAO.getInstancia().toModeloClub(gol.getJugador().getClub());
-		Jugador auxJugador = new Jugador(gol.getJugador().getTipoDocumento(),gol.getJugador().getNumeroDocumento(),gol.getJugador().getNombre(),gol.getJugador().getApellido(),auxClub,gol.getJugador().getFechaNacimiento());
+		Jugador auxJugador = new Jugador(gol.getJugador().getTipoDocumento(),gol.getJugador().getNumeroDocumento(),gol.getJugador().getNombre(),gol.getJugador().getApellido(),auxClub,gol.getJugador().getFechaNacimiento(),gol.getJugador().getIdUsuario());
 		Partido auxPartido = PartidoDAO.getInstancia().toModelo(gol.getPartido());
 		
 		return new Gol(auxJugador,auxPartido,gol.getMinuto(),gol.getTipo());

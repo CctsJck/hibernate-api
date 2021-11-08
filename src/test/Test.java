@@ -61,7 +61,7 @@ public class Test {
 		Controlador.getInstancia().asignarParticipaciones(1, 1);
 		Controlador.getInstancia().asignarParticipaciones(2, 1);
 		
-		Controlador.getInstancia().finalizarCargaEquiposTorneo(1);
+		//Controlador.getInstancia().finalizarCargaEquiposTorneo(1);
 		
 		Controlador.getInstancia().agregarJugadorPartido(1, 1, 1);
 		Controlador.getInstancia().agregarJugadorPartido(1, 2, 1);
