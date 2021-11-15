@@ -147,7 +147,7 @@ public class JugadorDAO {
 	
 	public boolean existeJugadorDNI(int documento) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		JugadorEntity aux = (JugadorEntity) session.createQuery("from JugadorEntity j where j.documento= "+documento).uniqueResult();
+		JugadorEntity aux = (JugadorEntity) session.createQuery("from JugadorEntity j where j.numeroDocumento= "+documento).uniqueResult();
 		session.close();
 		if (aux != null) {
 			return true;

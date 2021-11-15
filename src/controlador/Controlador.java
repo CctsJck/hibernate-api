@@ -499,9 +499,10 @@ public class Controlador {
 	}
 	
 	public UsuarioVO getUsuarioByIdAndPassword(int idUsuario, String password) throws UsuarioException {
-        Usuario usuario = UsuarioDAO.getInstancia().getUsuarioByIdAndPassword(idUsuario, password);
-        return usuario.toVO();
-    }
+		Usuario usuario = UsuarioDAO.getInstancia().getUsuarioByIdAndPassword(idUsuario, password);
+		return usuario.toVO();
+	} 
+
 	
 	public JugadorVO getJugadorByIdUsuario(int idUsuario) throws JugadorException {
         Jugador jugador = JugadorDAO.getInstancia().getJugadorByIdUsuario(idUsuario);
@@ -517,6 +518,25 @@ public class Controlador {
 		}
     }
 	
+
+	public UsuarioVO getUsuarioByIdJugador(int idJugador) throws UsuarioException {
+		return UsuarioDAO.getInstancia().getUsuarioByIdJugador(idJugador).toVO();
+	}
+	
+	public void updateUserPassword(int idJugador, String password) throws UsuarioException {
+		UsuarioDAO.getInstancia().updateJugadorPassword(idJugador, password);
+	}
+	
+	public UsuarioVO getUsuarioByIdRepresentante(int idRepresentante) throws UsuarioException {
+		return UsuarioDAO.getInstancia().getUsuarioByIdRepresentante(idRepresentante).toVO();
+	}
+	
+	public void updateReprePassword(int idRepre, String password) throws UsuarioException {
+		UsuarioDAO.getInstancia().updateReprePassword(idRepre, password);
+	}
+	
+
+
 	
 	
 }

@@ -137,7 +137,7 @@ public class RepresentanteDAO {
 	
 	public boolean existeRepresentanteDNI(int documento) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
-		 RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity r where r.documento= "+documento).uniqueResult();
+		 RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity r where r.DNI= "+documento).uniqueResult();
 		 session.close();
 		 if (aux != null) {
 			 return true;
@@ -145,5 +145,7 @@ public class RepresentanteDAO {
 			 return false;
 		 }
 	}
+	
+	
 
 }

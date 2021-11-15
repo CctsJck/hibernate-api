@@ -12,12 +12,14 @@ import exceptions.CampeonatoException;
 import exceptions.ClubException;
 import exceptions.JugadorException;
 import exceptions.PartidoException;
+import exceptions.ResponsableException;
+import exceptions.UsuarioException;
 import sessionManager.SessionManager;
 
 public class Test {
 
 	@SuppressWarnings("deprecation")
-	public static void main(String[] args) throws ParseException, ClubException, CampeonatoException, PartidoException, JugadorException {
+	public static void main(String[] args) throws ParseException, ClubException, CampeonatoException, PartidoException, JugadorException, UsuarioException, ResponsableException {
 		//SessionManager.getInstancia().openSession();
 		SimpleDateFormat fecha = new SimpleDateFormat("dd-mm-yyyy");
 		
@@ -48,7 +50,7 @@ public class Test {
 		Controlador.getInstancia().agregarJugador("DNI", 42968478, "Julian", "Alvarez", 2,new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 30968477, "Leonardo", "Ponzio", 2,new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 40968476, "Enzo", "Perez", 2,new java.sql.Date(2000,12,5));
-		Controlador.getInstancia().agregarJugador("DNI", 33968475, "David", "Martinez", 2,new java.sql.Date(2000,12,5));
+		Controlador.getInstancia().agregarJugador("DNI", 33968490, "David", "Martinez", 2,new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 41966474, "Bruno", "Zuculini", 2,new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 36958473, "Franco", "Armani", 2,new java.sql.Date(2000,12,5));
 		Controlador.getInstancia().agregarJugador("DNI", 31968472, "Jonathan", "Maidana", 2,new java.sql.Date(2000,12,5));

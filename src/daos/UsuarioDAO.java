@@ -47,7 +47,7 @@ public class UsuarioDAO {
     }
 	public boolean existeUsuario(int idUsuario) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		UsuarioEntity aux = (UsuarioEntity) session.createQuery("from UsuarioEntity u where u.idUsuario= "+idUsuario);
+		UsuarioEntity aux = (UsuarioEntity) session.createQuery("from UsuarioEntity u where u.idUsuario= "+idUsuario).uniqueResult();
 		session.close();
 		if (aux != null) {
 			return true;
@@ -55,6 +55,58 @@ public class UsuarioDAO {
 			return false;
 		}
 	}
+
+	
+	public Usuario getUsuarioByIdJugador(int idJugador) throws UsuarioException {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		UsuarioEntity userEntity = (UsuarioEntity) session.createQuery("SELECT u FROM UsuarioEntity u WHERE u.idUsuario = ( SELECT j.idUsuario from JugadorEntity j WHERE j.idJugador = "+idJugador+")").uniqueResult();
+		if (userEntity != null) {
+			Usuario user = userEntity.toModelo();
+			session.close();
+			return user;
+		}
 		
+		throw new UsuarioException("No existe el usuario");
+	}
+	
+	public void updateJugadorPassword(int idJugador, String password) throws UsuarioException {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Usuario user = this.getUsuarioByIdJugador(idJugador);
+		user.setContraseña(password);
+		session.update(user.toEntity());
+		session.getTransaction().commit();
+		session.close();
+		
+		
+	}
+	
+	public Usuario getUsuarioByIdRepresentante(int idRepresentante) throws UsuarioException {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		UsuarioEntity userEntity = (UsuarioEntity) session.createQuery("SELECT u FROM UsuarioEntity u WHERE u.idUsuario = ( SELECT r.idUsuario from RepresentantesEntity r WHERE r.idJugador = "+idRepresentante+")").uniqueResult();
+		if (userEntity != null) {
+			Usuario user = userEntity.toModelo();
+			session.close();
+			return user;
+		}
+		
+		throw new UsuarioException("No existe el usuario");
+	}
+	
+	public void updateReprePassword(int idRepre, String password) throws UsuarioException {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Usuario user = this.getUsuarioByIdRepresentante(idRepre);
+		user.setContraseña(password);
+		session.update(user.toEntity());
+		session.getTransaction().commit();
+		session.close();
+		
+		
+	}
+	
+	
+	
+
 
 }
