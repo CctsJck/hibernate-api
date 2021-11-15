@@ -27,7 +27,7 @@ public class Test {
 		
 		
 		Controlador.getInstancia().crearClub("Boca Juniors", "Brandsen");
-		Controlador.getInstancia().crearClub("River Plate", "Av. Pres. Figueroa Alcorta");
+		Controlador.getInstancia().crearClub("River Plate", "Av. Pres. Figueroa Alcorta"); 
 		
 		Controlador.getInstancia().crearRepresentante("DNI", 34968472, "Sebastian Bataglia", 1);
 		Controlador.getInstancia().crearRepresentante("DNI", 29483556, "Marcelo Gallardo", 2);

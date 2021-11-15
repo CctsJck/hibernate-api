@@ -83,7 +83,7 @@ public class UsuarioDAO {
 	
 	public Usuario getUsuarioByIdRepresentante(int idRepresentante) throws UsuarioException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		UsuarioEntity userEntity = (UsuarioEntity) session.createQuery("SELECT u FROM UsuarioEntity u WHERE u.idUsuario = ( SELECT r.idUsuario from RepresentantesEntity r WHERE r.idJugador = "+idRepresentante+")").uniqueResult();
+		UsuarioEntity userEntity = (UsuarioEntity) session.createQuery("SELECT u FROM UsuarioEntity u WHERE u.idUsuario = ( SELECT r.idUsuario from RepresentanteEntity r WHERE r.legajo = "+idRepresentante+")").uniqueResult();
 		if (userEntity != null) {
 			Usuario user = userEntity.toModelo();
 			session.close();
@@ -103,7 +103,7 @@ public class UsuarioDAO {
 		session.close();
 		
 		
-	}
+	} 
 	
 	
 	
