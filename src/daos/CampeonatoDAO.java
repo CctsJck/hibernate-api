@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 
 import Entity.CampeonatoEntity;
@@ -98,7 +100,6 @@ public class CampeonatoDAO {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		CampeonatoEntity aux = toEntity(c);
-		System.out.println(aux.getEstado());
 		session.flush();
 		session.clear();
 		session.update(aux);
@@ -173,6 +174,17 @@ public class CampeonatoDAO {
             campeonatos.add(CampeonatoDAO.getInstancia().toCampeonatoModelo(camp));
         }
         return campeonatos;
+	}
+	
+	public boolean existeCampeonato(int idCampeonato) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		CampeonatoEntity aux = (CampeonatoEntity) session.createQuery("from CampeonatoEntity c where c.idCampeonato= "+idCampeonato).uniqueResult();
+		session.close();
+		if (aux != null) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 

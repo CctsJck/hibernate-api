@@ -122,5 +122,28 @@ public class RepresentanteDAO {
 		aux.setEliminado(entity.getEliminado());
 		return aux;
 	}
+	
+	public Responsable getRepresentanteByIdUsuario(int idUsuario) throws ResponsableException {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        RepresentanteEntity repreEntity = (RepresentanteEntity) session.createQuery("from RepresentanteEntity r where r.idUsuario="+idUsuario).uniqueResult();
+        if (repreEntity != null) {
+            Responsable repreModelo = toModelo(repreEntity);
+            session.close();
+            return repreModelo;
+        }
+
+        throw new ResponsableException("No existe el representante");
+    }
+	
+	public boolean existeRepresentanteDNI(int documento) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity r where r.documento= "+documento).uniqueResult();
+		 session.close();
+		 if (aux != null) {
+			 return true;
+		 }else {
+			 return false;
+		 }
+	}
 
 }

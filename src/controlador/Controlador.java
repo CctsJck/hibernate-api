@@ -24,6 +24,7 @@ import exceptions.JugadorException;
 import exceptions.PartidoException;
 import exceptions.ResponsableException;
 import exceptions.TablaPosicionesException;
+import exceptions.UsuarioException;
 import modelo.Campeonato;
 import modelo.Club;
 import modelo.Falta;
@@ -43,6 +44,7 @@ import vo.MiembroVO;
 import vo.PartidoVO;
 import vo.ResponsableVO;
 import vo.TablaPosicionesVO;
+import vo.UsuarioVO;
 
 
 public class Controlador {
@@ -60,21 +62,63 @@ public class Controlador {
 	
 	
 	public void agregarGolJugador(int idJugador,int idPartido,int minuto, String tipo) throws JugadorException, PartidoException, ClubException{
-		Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
-		Partido auxPartido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
-		auxPartido.agregarGolJugador(auxJugador, minuto, tipo);
+		if(existeJugador(idJugador) && existePartido(idPartido)) {
+			Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+			Partido auxPartido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
+			auxPartido.agregarGolJugador(auxJugador, minuto, tipo);
+		} else {
+			if (!existeJugador(idJugador)) {
+				throw new JugadorException("No existe un jugador con ese ID correspondiente");
+			}else {
+				throw new PartidoException("No existe un partido con ese ID correspondiente");
+			}
+		}
+	}
+	
+	public boolean existeJugador(int idJugador) {
+		return JugadorDAO.getInstancia().existeJugador(idJugador);
+	}
+	public boolean existePartido(int idPartido) {
+		return PartidoDAO.getInstancia().existePartido(idPartido);
+	}
+	public boolean existeCampeonato(int idCampeonato) {
+		return CampeonatoDAO.getInstancia().existeCampeonato(idCampeonato);
+	}
+	public boolean existeClub(int idClub) {
+		return ClubDAO.getInstancia().existeClub(idClub);
+	}
+	public boolean existeJugadorDNI(int documento) {
+		return JugadorDAO.getInstancia().existeJugadorDNI(documento);
+	}
+	public boolean existeRepresentanteDNI(int documento) {
+		return RepresentanteDAO.getInstancia().existeRepresentanteDNI(documento);
+		
+	}
+	public boolean existeUsuario(int idUsuario) {
+		return UsuarioDAO.getInstancia().existeUsuario(idUsuario);
 	}
 		
 	
 	
 	public void agregarFaltaJugador(int idJugador,int idPartido, int idCampeonato,int minuto, String tipo) throws JugadorException, PartidoException, CampeonatoException, ClubException{
+		if (existeJugador(idJugador) && existePartido(idPartido) && existeCampeonato(idCampeonato)) {
 		Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
 		Partido auxPartido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
 		Campeonato auxCamp = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		
 		Falta nuevaFalta = new Falta(auxJugador,auxPartido,auxCamp,minuto,tipo);
 		auxJugador.agregarFalta(nuevaFalta);
-	
+		} else {
+			if (!existeJugador(idJugador)) {
+				throw new JugadorException("No existe un jugador con ese ID correspondiente");
+			}
+			if (!existePartido(idPartido)) {
+				throw new PartidoException("No existe un partido con ese ID correspondiente");
+			}
+			if (!existeCampeonato(idCampeonato)) {
+				throw new CampeonatoException("No existe un campeonato con ese ID correspondiente");
+			}
+		}
 	}
 	
 	public void crearClub(String nombre,String direccion) {
@@ -87,21 +131,36 @@ public class Controlador {
 		auxClub.borrar();
 	}
 	
-	public void modificarClub(int idClub,String nombre, String direccion) throws ClubException{ 
-		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
+	public void modificarClub(int idClub,String nombre, String direccion) throws ClubException{
+		if(existeClub(idClub)) {
+			Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
+			auxClub.modificar(idClub,nombre,direccion);
+		}else {
+			throw new ClubException("No existe un club con el ID correspondiente");
+		}
 		
-		auxClub.modificar(idClub,nombre,direccion);
+		
+		
 		
 	}
 	
-	public void agregarJugador(String tipoDocumento, Integer documento, String nombre,String apellido,int idClub, Date fechaNacimiento) throws ClubException{
-		Usuario usuario = new Usuario("jugador","1234");
-		UsuarioDAO.getInstancia().grabar(usuario);
-		Integer idUsuario = UsuarioDAO.getInstancia().obtenerIdUsuario();
-		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
-        	Jugador jugador = new Jugador(tipoDocumento, documento, nombre, apellido,auxClub,fechaNacimiento,idUsuario);
-        	jugador.setEliminado("noEliminado");
-        	auxClub.agregarJugador(jugador);
+	public void agregarJugador(String tipoDocumento, Integer documento, String nombre,String apellido,int idClub, Date fechaNacimiento) throws ClubException, UsuarioException, JugadorException{
+		if(existeClub(idClub) && !existeJugadorDNI(documento)) {
+			Usuario usuario = new Usuario("jugador","1234");
+			UsuarioDAO.getInstancia().grabar(usuario);
+			Integer idUsuario;
+			idUsuario = UsuarioDAO.getInstancia().obtenerIdUsuario();
+			Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
+	        Jugador jugador = new Jugador(tipoDocumento, documento, nombre, apellido,auxClub,fechaNacimiento,idUsuario);
+	        jugador.setEliminado("noEliminado");
+	        auxClub.agregarJugador(jugador);
+		}else {
+			if (!existeClub(idClub)) {
+				throw new JugadorException("Ya existe un jugador con el documento ingresado");
+			}else {
+				throw new ClubException("No existe un club con el ID ingresado");
+			}
+		}
      
     }
 	
@@ -113,14 +172,24 @@ public class Controlador {
 		
 	}
 	
-	public void crearRepresentante(String tipoDocumento,int DNI,String nombre,int idClub) throws ClubException{
-		Usuario usuario = new Usuario("Repre","1234");
-		UsuarioDAO.getInstancia().grabar(usuario);
-		Integer idUsuario = UsuarioDAO.getInstancia().obtenerIdUsuario();
-		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
-		Responsable nuevoRepresentante = new Responsable(tipoDocumento,DNI,nombre,auxClub,idUsuario);
-		nuevoRepresentante.setEliminado("noEliminado");
-		nuevoRepresentante.grabar();
+	public void crearRepresentante(String tipoDocumento,int DNI,String nombre,int idClub) throws ClubException, UsuarioException, ResponsableException{
+		if(existeClub(idClub) && !existeRepresentanteDNI(DNI)) {
+			Usuario usuario = new Usuario("Repre","1234");
+			UsuarioDAO.getInstancia().grabar(usuario);
+			Integer idUsuario;
+			idUsuario = UsuarioDAO.getInstancia().obtenerIdUsuario();
+			Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
+			Responsable nuevoRepresentante = new Responsable(tipoDocumento,DNI,nombre,auxClub,idUsuario);
+			nuevoRepresentante.setEliminado("noEliminado");
+			nuevoRepresentante.grabar();
+		} else {
+			if(!existeClub(idClub)) {
+				throw new ClubException("No existe un club con el ID correspondiente");
+			}else {
+				throw new ResponsableException("Ya existe un representante con el documento ingresado");
+			}
+		}
+	
 	}
 	
 			
@@ -154,7 +223,6 @@ public class Controlador {
 	
 	public void crearPartido(int nroFecha,int nroZona,int categoria,Integer clubLocal,Integer clubVisitante,Date fechaPartido,Integer idCampeonato) throws CampeonatoException, ClubException {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
-		System.out.println(aux.getEstado());
 		Club local = ClubDAO.getInstancia().obtenerClubPorID(clubLocal);
 		Club visitante = ClubDAO.getInstancia().obtenerClubPorID(clubVisitante);
 		aux.crearPartidos(nroFecha, nroZona,local , visitante, fechaPartido);
@@ -234,7 +302,6 @@ public class Controlador {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		aux.setEstado("activo");
 		aux.actualizar();
-		//aux.crearPartidos();
 		
 	}
 	
@@ -347,13 +414,10 @@ public class Controlador {
 		List<Integer> auxiliar = new ArrayList<>();
 		for (Club c: clubesInscriptos) {
 			auxiliar.add(c.getIdClub());
-			System.out.println(c.getNombre());
 		}
-		System.out.println(clubesInscriptos.isEmpty());
 		for (Club c: clubes){
 			if (!auxiliar.contains(c.getIdClub())){
 				resultado.add(c.toVO());
-				System.out.println(c.getNombre());
 			}
 		}
 		
@@ -381,9 +445,14 @@ public class Controlador {
 		return club.toVO();
 	}
 	
-	public List<TablaPosicionesVO> obtenerTablasCampeonato(int idCampeonato) throws TablaPosicionesException{
-		List<TablaPosiciones> tablas = TablaPosicionesDAO.getInstancia().obtenerTablaCampeonato(idCampeonato);
-		return this.convertirTablasATablasVO(tablas);
+	public List<TablaPosicionesVO> obtenerTablasCampeonato(int idCampeonato) throws TablaPosicionesException, CampeonatoException{
+		if(existeCampeonato(idCampeonato)) {
+			List<TablaPosiciones> tablas = TablaPosicionesDAO.getInstancia().obtenerTablaCampeonato(idCampeonato);
+			return this.convertirTablasATablasVO(tablas);
+		} else {
+			throw new CampeonatoException("No existe un campeonato con el ID correspondiente");
+		}
+		
 	}
 	
 	
@@ -407,19 +476,47 @@ public class Controlador {
 		return this.convertirClubesAClubesVO(ClubDAO.getInstancia().obtenerClubes());
 	}
 	
-	public List<MiembroVO> obtenerJugadoresPartido(int idPartido) throws ClubException{
-		List<MiembroVO> resultado = new ArrayList<MiembroVO>();
-		List<Miembro> miembros = MiembroDAO.getInstancia().obtenerJugadoresPartido(idPartido);
-		for(Miembro m: miembros) {
-			resultado.add(m.toVO());
+	public List<MiembroVO> obtenerJugadoresPartido(int idPartido) throws ClubException, PartidoException{
+		if(existePartido(idPartido)) {
+			List<MiembroVO> resultado = new ArrayList<MiembroVO>();
+			List<Miembro> miembros = MiembroDAO.getInstancia().obtenerJugadoresPartido(idPartido);
+			for(Miembro m: miembros) {
+				resultado.add(m.toVO());
+			}
+			return resultado;
+		} else {
+			throw new PartidoException("No existe un partido con el ID correspondiente");
 		}
-		return resultado;
 	}
 	
-	public List<PartidoVO> obtenerPartidosPendientesValidar(int idClub) throws PartidoException {
-		List<Partido> partidos = PartidoDAO.getInstancia().obtenerPartidosPendientesValidar(idClub);
-		return this.convertirPartidosAPartidosVO(partidos);
+	public List<PartidoVO> obtenerPartidosPendientesValidar(int idClub) throws PartidoException, ClubException {
+		if(existeClub(idClub)) {
+			List<Partido> partidos = PartidoDAO.getInstancia().obtenerPartidosPendientesValidar(idClub);
+			return this.convertirPartidosAPartidosVO(partidos);
+		} else {
+			throw new ClubException("No existe un club con el ID correspondiente");
+		}
 	}
+	
+	public UsuarioVO getUsuarioByIdAndPassword(int idUsuario, String password) throws UsuarioException {
+        Usuario usuario = UsuarioDAO.getInstancia().getUsuarioByIdAndPassword(idUsuario, password);
+        return usuario.toVO();
+    }
+	
+	public JugadorVO getJugadorByIdUsuario(int idUsuario) throws JugadorException {
+        Jugador jugador = JugadorDAO.getInstancia().getJugadorByIdUsuario(idUsuario);
+        return jugador.toVO();
+    }
+	
+	public ResponsableVO getRepresentanteByIdUsuario(int idUsuario) throws ResponsableException, UsuarioException {
+		if(existeUsuario(idUsuario)) {
+			return RepresentanteDAO.getInstancia().getRepresentanteByIdUsuario(idUsuario).toVO();
+		} else {
+			throw new UsuarioException("No existe un Usuario con el ID correspondiente");
+			
+		}
+    }
+	
 	
 	
 }

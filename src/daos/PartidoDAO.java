@@ -3,6 +3,8 @@ package daos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.classic.Session;
 
 import Entity.CampeonatoEntity;
@@ -203,6 +205,20 @@ public class PartidoDAO {
             }
             session.close();
             return partidosCampeonato;
+        }
+        
+        public boolean existePartido(int idPartido) {
+        	Session session = HibernateUtil.getSessionFactory().openSession();
+        	PartidoEntity aux = (PartidoEntity) session.createQuery("from PartidoEntity p  where p.idPartido= "+idPartido).uniqueResult();
+        	session.close();
+        	if (aux != null) {
+        		return true;
+        	}else {
+        		return false;
+        	}
+        	
+        	
+        	
         }
         
 

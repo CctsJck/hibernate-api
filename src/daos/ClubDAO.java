@@ -159,6 +159,16 @@ public class ClubDAO {
 			throw new ClubException("No existe el club");
 			
 		}
+		public boolean existeClub(int idClub) {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			ClubEntity aux = (ClubEntity) session.createQuery("from ClubEntity c where c.idClub= "+idClub).uniqueResult();
+			session.close();
+			if (aux != null) {
+				return true;
+			}else {
+				return false;
+			}
+		}
 	
 	
 	

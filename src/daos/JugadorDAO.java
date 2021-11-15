@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import Entity.ClubEntity;
@@ -116,6 +120,40 @@ public class JugadorDAO {
 		aux.setEliminado("noEliminado");
 		return aux;
 		
+	}
+	
+	public boolean existeJugador(int idJugador) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		JugadorEntity aux  = (JugadorEntity) session.createQuery("from JugadorEntity e where e.idJugador= " + idJugador).uniqueResult();
+		session.close();
+		if (aux != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Jugador getJugadorByIdUsuario(int idUsuario) throws JugadorException {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        JugadorEntity jugadorEntity = (JugadorEntity) session.createQuery("from JugadorEntity j where j.idUsuario="+idUsuario).uniqueResult();
+        if (jugadorEntity != null) {
+            Jugador jugadorModelo = toModelo(jugadorEntity);
+            session.close();
+            return jugadorModelo;
+        }
+
+        throw new JugadorException("No existe un jugador con ese idUsuario");
+    }
+	
+	public boolean existeJugadorDNI(int documento) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		JugadorEntity aux = (JugadorEntity) session.createQuery("from JugadorEntity j where j.documento= "+documento).uniqueResult();
+		session.close();
+		if (aux != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	
