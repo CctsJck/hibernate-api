@@ -10,13 +10,13 @@ public class UsuarioVO implements Serializable{
 	
 	private Integer idUsuario;
 	private String rol;
-	private String contraseña;
+	private String password;
 	
 	public UsuarioVO() {}
 	
-	public UsuarioVO(Integer idUsuario,String rol,String contraseña) {
+	public UsuarioVO(Integer idUsuario,String rol,String password) {
 		this.idUsuario = idUsuario;
-		this.contraseña = contraseña;
+		this.password = password;
 		this.rol = rol;
 	}
 
@@ -28,12 +28,12 @@ public class UsuarioVO implements Serializable{
 		this.idUsuario = idUsuario;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getRol() {
@@ -45,6 +45,6 @@ public class UsuarioVO implements Serializable{
 	}
 	
 	public Usuario toModelo() {
-        return new Usuario(this.idUsuario, this.rol, this.contraseña);
+        return new Usuario(this.idUsuario, this.rol, this.password);
     }
 }

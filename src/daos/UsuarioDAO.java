@@ -37,7 +37,7 @@ public class UsuarioDAO {
 	
 	public Usuario getUsuarioByIdAndPassword(int idUsuario, String password) throws UsuarioException {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        UsuarioEntity userEntity = (UsuarioEntity) session.createQuery("from UsuarioEntity u where u.idUsuario="+idUsuario+" AND u.contraseña="+password).uniqueResult();
+        UsuarioEntity userEntity = (UsuarioEntity) session.createQuery("from UsuarioEntity u where u.idUsuario="+idUsuario+" AND u.contraseï¿½a="+password).uniqueResult();
         session.close();
         if (userEntity != null) {
             return userEntity.toModelo();
@@ -73,7 +73,7 @@ public class UsuarioDAO {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Usuario user = this.getUsuarioByIdJugador(idJugador);
-		user.setContraseña(password);
+		user.setPassword(password);
 		session.update(user.toEntity());
 		session.getTransaction().commit();
 		session.close();
@@ -97,7 +97,7 @@ public class UsuarioDAO {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Usuario user = this.getUsuarioByIdRepresentante(idRepre);
-		user.setContraseña(password);
+		user.setPassword(password);
 		session.update(user.toEntity());
 		session.getTransaction().commit();
 		session.close();

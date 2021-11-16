@@ -7,18 +7,18 @@ public class Usuario {
 	
 	private Integer idUsuario;
 	private String rol;
-	private String contraseña;
+	private String password;
 	
 	
-	public Usuario(String rol,String contraseña) {
+	public Usuario(String rol,String password) {
 		this.rol = rol;
-		this.contraseña = contraseña;
+		this.password = password;
 	}
 	
-	public Usuario(Integer idUsuario,String rol,String contraseña) {
+	public Usuario(Integer idUsuario,String rol,String password) {
 		this.idUsuario = idUsuario;
 		this.rol = rol;
-		this.contraseña = contraseña;
+		this.password = password;
 	}
 	
 	public Usuario () {}
@@ -44,21 +44,21 @@ public class Usuario {
 	}
 
 
-	public String getContraseña() {
-		return contraseña;
+	public String getPassword() {
+		return password;
 	}
 
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public UsuarioVO toVO() {
-        return new UsuarioVO(this.idUsuario, this.rol, this.contraseña);
+        return new UsuarioVO(this.idUsuario, this.rol, this.password);
     }
 	
 	public UsuarioEntity toEntity() {
-		return new UsuarioEntity(this.idUsuario,this.rol,this.contraseña);
+		return new UsuarioEntity(this.idUsuario,this.rol,this.password);
 		
 	}
 	
