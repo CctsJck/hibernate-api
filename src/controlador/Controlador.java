@@ -547,6 +547,11 @@ public class Controlador {
 		return this.convertirGolesAGolesVO(goles);
 	}
 	
+	public PartidoVO getPartidoById(int idPartido) throws ClubException, PartidoException {
+		return PartidoDAO.getInstancia().obtenerPartido(idPartido).toVO();
+		
+	}
+	
 
 
 	

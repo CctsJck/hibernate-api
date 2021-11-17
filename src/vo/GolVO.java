@@ -11,13 +11,23 @@ public class GolVO implements Serializable{
 	private Integer idGol;
 	private int minuto;
 	private String tipo;
+	private int idJugador;
 	
 	public GolVO() {}
 
-	public GolVO(Integer idGol, int minuto, String tipo) {
+	public GolVO(Integer idGol, int minuto, String tipo, int idJugador) {
 		this.idGol = idGol;
 		this.minuto = minuto;
 		this.tipo = tipo;
+		this.idJugador = idJugador;
+	}
+
+	public int getIdJugador() {
+		return idJugador;
+	}
+
+	public void setIdJugador(int idJugador) {
+		this.idJugador = idJugador;
 	}
 
 	public Integer getIdGol() {

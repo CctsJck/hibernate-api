@@ -40,7 +40,7 @@ public class Gol {
 	}
 	
 	public GolVO toVO() {
-		return new GolVO(this.idGol,this.minuto,this.tipo);
+		return new GolVO(this.idGol,this.minuto,this.tipo, this.jugador.getIdJugador());
 	}
 
 }
