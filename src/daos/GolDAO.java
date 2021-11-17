@@ -9,6 +9,7 @@ import Entity.GolEntity;
 import Entity.JugadorEntity;
 import Entity.PartidoEntity;
 import exceptions.ClubException;
+import exceptions.GolException;
 import hibernate.HibernateUtil;
 import modelo.Club;
 import modelo.Gol;
@@ -56,12 +57,29 @@ private static GolDAO instancia;
 		return aux;
 	}
 	
+	public List<Gol> getGolesPartido(int idPartido) throws GolException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Gol> goles = new ArrayList<>();
+		List<GolEntity> golesEntity = session.createQuery("FROM GolEntity g WHERE g.partido = "+idPartido).list();
+		if (golesEntity != null) {
+			for(GolEntity gol : golesEntity) {
+				goles.add(this.toModelo(gol));
+			}
+			session.close();
+			return goles;
+		}
+		throw new GolException("No hubo goles en ese partido");
+		
+
+	}
+	
 	Gol toModelo(GolEntity gol) throws ClubException {
 		Club auxClub = ClubDAO.getInstancia().toModeloClub(gol.getJugador().getClub());
 		Jugador auxJugador = new Jugador(gol.getJugador().getTipoDocumento(),gol.getJugador().getNumeroDocumento(),gol.getJugador().getNombre(),gol.getJugador().getApellido(),auxClub,gol.getJugador().getFechaNacimiento(),gol.getJugador().getIdUsuario());
 		Partido auxPartido = PartidoDAO.getInstancia().toModelo(gol.getPartido());
-		
-		return new Gol(auxJugador,auxPartido,gol.getMinuto(),gol.getTipo());
+		Gol golModelo = new Gol(auxJugador,auxPartido,gol.getMinuto(),gol.getTipo());
+		golModelo.setIdGol(gol.getIdGol());
+		return golModelo;
 	}
 	
 	GolEntity toEntity(Gol gol) {

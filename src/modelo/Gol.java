@@ -11,7 +11,7 @@ public class Gol {
 	private String tipo;
 		
 	public Gol(Jugador jugador, Partido partido, int minuto, String tipo) {
-		this.setIdGol(null);
+		
 		this.jugador = jugador;
 		this.partido = partido;
 		this.minuto = minuto;

@@ -20,6 +20,8 @@ import daos.TablaPosicionesDAO;
 import daos.UsuarioDAO;
 import exceptions.CampeonatoException;
 import exceptions.ClubException;
+import exceptions.FaltaException;
+import exceptions.GolException;
 import exceptions.JugadorException;
 import exceptions.PartidoException;
 import exceptions.ResponsableException;
@@ -533,6 +535,16 @@ public class Controlador {
 	
 	public void updateReprePassword(int idRepre, String password) throws UsuarioException {
 		UsuarioDAO.getInstancia().updateReprePassword(idRepre, password);
+	}
+	
+	public List<FaltaVO> getFaltasPartido(int idPartido) throws FaltaException{
+		List<Falta> faltas = FaltaDAO.getInstancia().getFaltasPartido(idPartido);
+		return this.convertirFaltasAFaltasVO(faltas);
+	}
+	
+	public List<GolVO> getGolesPartido(int idPartido) throws GolException{
+		List<Gol> goles = GolDAO.getInstancia().getGolesPartido(idPartido);
+		return this.convertirGolesAGolesVO(goles);
 	}
 	
 

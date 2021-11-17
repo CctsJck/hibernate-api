@@ -10,6 +10,7 @@ import Entity.FaltaEntity;
 import Entity.JugadorEntity;
 import Entity.PartidoEntity;
 import exceptions.ClubException;
+import exceptions.FaltaException;
 import hibernate.HibernateUtil;
 import modelo.Campeonato;
 import modelo.Club;
@@ -79,6 +80,20 @@ public class FaltaDAO {
 		session.close();
 		
 		
+	}
+	
+	public List<Falta> getFaltasPartido(int idPartido) throws FaltaException {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Falta> faltas = new ArrayList<>();
+		List<FaltaEntity> faltasEntity = session.createQuery("FROM FaltaEntity f WHERE f.partido="+idPartido).list();
+		if (faltasEntity != null) {
+			for (FaltaEntity falta : faltasEntity) {
+				faltas.add(this.toModelo(falta));
+			}
+			session.close();
+			return faltas;
+		}
+		throw new FaltaException("No hubo faltas en ese partido");
 	}
 	
 	FaltaEntity toEntity(Falta falta) {
