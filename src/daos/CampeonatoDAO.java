@@ -187,5 +187,17 @@ public class CampeonatoDAO {
 		}
 	}
 	
+	public List<Campeonato> getCampeonatosPorIdJugador(int idJugador){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Campeonato> campeonatos = new ArrayList<Campeonato>();
+		List<CampeonatoEntity> auxCampeonatos = (List<CampeonatoEntity>) session.createQuery("SELECT DISTINCT c FROM CampeonatoEntity c INNER JOIN c.partidos p INNER JOIN p.jugadoresLocales jl INNER JOIN p.jugadoresVisitantes jv WHERE jl.jugador ="+idJugador+" OR jv.jugador ="+idJugador).list();
+		session.close();
+		for (CampeonatoEntity camp : auxCampeonatos) {
+            campeonatos.add(CampeonatoDAO.getInstancia().toCampeonatoModelo(camp));
+            System.out.println(camp.getDescripcion());
+        }
+		return campeonatos;
+	}
+	
 
 }

@@ -407,6 +407,11 @@ public class Controlador {
 		return this.convertirCampeonatosACampeonatosVO(aux);
 	}
 	
+	public List<CampeonatoVO> obtenerCampeonatosPorIdJugador(int idJugador){
+		List<Campeonato> aux = CampeonatoDAO.getInstancia().getCampeonatosPorIdJugador(idJugador);
+		return this.convertirCampeonatosACampeonatosVO(aux);
+	}
+	
 	
 	public List<ClubVO> obtenerClubesDisponiblesCampeonato(int idCampeonato) throws CampeonatoException, ClubException  {
 		Campeonato campeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
