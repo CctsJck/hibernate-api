@@ -53,7 +53,7 @@ public class Falta {
 	}
 	
 	public FaltaVO toVO() {
-		return new FaltaVO (this.idFalta,this.minuto,this.tipo);
+		return new FaltaVO (this.idFalta,this.minuto,this.tipo,this.jugador.getIdJugador());
 	}
 	
 	

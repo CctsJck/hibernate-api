@@ -12,13 +12,15 @@ public class FaltaVO implements Serializable{
 	private Integer idFalta;
 	private int minuto;
 	private String tipo;
+	private int idJugador;
 	
 	public FaltaVO() {}
 
-	public FaltaVO(int idFalta, int minuto, String tipo) {
+	public FaltaVO(int idFalta, int minuto, String tipo , int idJugador) {
 		this.idFalta = idFalta;
 		this.minuto = minuto;
 		this.tipo = tipo;
+		this.idJugador = idJugador;
 	}
 
 	public Integer getIdFalta() {
