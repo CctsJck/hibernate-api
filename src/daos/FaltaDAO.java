@@ -111,9 +111,9 @@ public class FaltaDAO {
 		Jugador auxJugador = new Jugador(falta.getJugador().getTipoDocumento(),falta.getJugador().getNumeroDocumento(),falta.getJugador().getNombre(),falta.getJugador().getApellido(),auxClub,falta.getJugador().getFechaNacimiento(),falta.getJugador().getIdUsuario());
 		Partido auxPartido = PartidoDAO.getInstancia().toModelo(falta.getPartido());
 		Campeonato auxCampeonato =	CampeonatoDAO.getInstancia().toCampeonatoModelo(falta.getCampeonato());
-
+		auxJugador.setIdJugador(falta.getJugador().getIdJugador());
 		Falta aux = new Falta(auxJugador, auxPartido, auxCampeonato,falta.getMinuto(),falta.getTipo());
-		
+		aux.setIdFalta(falta.getIdFalta());
 		return aux;
 	}
 	

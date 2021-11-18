@@ -20,6 +20,14 @@ public class FaltaVO implements Serializable{
 		this.idFalta = idFalta;
 		this.minuto = minuto;
 		this.tipo = tipo;
+		this.idJugador = idJugador; 
+	}
+
+	public int getIdJugador() {
+		return idJugador;
+	}
+
+	public void setIdJugador(int idJugador) {
 		this.idJugador = idJugador;
 	}
 

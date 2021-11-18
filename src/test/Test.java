@@ -22,7 +22,7 @@ public class Test {
 	public static void main(String[] args) throws ParseException, ClubException, CampeonatoException, PartidoException, JugadorException, UsuarioException, ResponsableException {
 		//SessionManager.getInstancia().openSession();
 		SimpleDateFormat fecha = new SimpleDateFormat("dd-mm-yyyy");
-		
+		 
 		//fijarse cuando ejecutamos el test si el campeonato es por Puntos o por Zona
 		Controlador.getInstancia().crearCampeonato("Copa Libertadores", fecha.parse("20-08-2000"), fecha.parse("20-08-2001"), "Puntos",2001);
 		
