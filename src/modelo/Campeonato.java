@@ -203,17 +203,21 @@ public class Campeonato implements Comparable<Campeonato>{
 	}
 	
 	public String[] getEstaditicaJugadorCampeonato(int idJugador) throws CampeonatoException, ClubException, JugadorException{
-        Jugador jugadorCampeonato = JugadorDAO.getInstancia().obtenerJugador(idJugador);
-        String [] datos = new String[5];
-        Long faltas = FaltaDAO.getInstancia().obtenerCantidadFaltasJugadorX(idJugador, idCampeonato);
-        Long goles = GolDAO.getInstancia().obtenerCantidadGolesJugadorCampeonato(idJugador, idCampeonato);
-        Long partidosJugados = MiembroDAO.getInstancia().obtenerPartidosJugados(idJugador,this.getIdCampeonato());
-        datos[0] = jugadorCampeonato.getNombre();
-        datos[1] = jugadorCampeonato.getClub().getNombre();
-        datos[2] = Long.toString(faltas);//agregar distincion entre rojas y amarillas
-        datos[3] = Long.toString(goles);
-        datos[4] = Long.toString(partidosJugados);
-        return datos;
+		Jugador jugadorCampeonato = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+		String [] datos = new String[7];
+		Long faltas = FaltaDAO.getInstancia().obtenerCantidadFaltasJugadorX(idJugador, idCampeonato);
+		Long goles = GolDAO.getInstancia().obtenerCantidadGolesJugadorCampeonato(idJugador, idCampeonato);
+		Long partidosJugados = MiembroDAO.getInstancia().obtenerPartidosJugados(idJugador,this.getIdCampeonato());
+		Long amarillas = JugadorDAO.getInstancia().obtenerAmarillas(idJugador,idCampeonato);
+		Long rojas = JugadorDAO.getInstancia().obtenerRojas(idJugador,idCampeonato);
+		datos[0] = jugadorCampeonato.getNombre();
+		datos[1] = jugadorCampeonato.getClub().getNombre();
+		datos[2] = Long.toString(partidosJugados);
+		datos[3] = Long.toString(goles);
+		datos[4] = Long.toString(faltas);
+		datos[5] = Long.toString(amarillas);
+		datos[6] = Long.toString(rojas);
+		return datos;
     }
 	
 	public void crearPartidosGrupos() throws ClubException {

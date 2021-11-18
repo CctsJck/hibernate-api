@@ -155,6 +155,24 @@ public class JugadorDAO {
 			return false;
 		}
 	}
+	public Long obtenerAmarillas(int idJugador, Integer idCampeonato) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Long aux = (Long) session.createQuery("select count(*) from PartidoEntity p INNER JOIN p.faltas f where p.campeonato = "+idCampeonato+" and f.jugador= "+idJugador+" and tipo = 'Amarilla'").uniqueResult();
+		session.getTransaction().commit();
+		session.close();
+		return aux;
+
+	}
+
+	public Long obtenerRojas(int idJugador, Integer idCampeonato) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Long aux = (Long) session.createQuery("select count(*) from PartidoEntity p INNER JOIN p.faltas f where p.campeonato = "+idCampeonato+" and f.jugador= "+idJugador+" and tipo = 'Roja'").uniqueResult();
+		session.getTransaction().commit();
+		session.close();
+		return aux;
+	}
 	
 	
 	
