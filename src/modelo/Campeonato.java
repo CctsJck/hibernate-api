@@ -164,10 +164,9 @@ public class Campeonato implements Comparable<Campeonato>{
 		this.estado = estado;
 	}
 	
-	public void crearPartidos(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido) {
+	public void crearPartidos(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido,String fase) {
 		if (this.getEstado().compareTo("inactivo") == 0) {
-			Partido partido = new Partido(nroFecha, nroZona, clubLocal, clubVisitante,fechaPartido, this);
-			
+			Partido partido = new Partido(nroFecha, nroZona, clubLocal, clubVisitante,fechaPartido, this,fase);			
 			partido.grabar();
 		}
 		
@@ -283,17 +282,17 @@ public class Campeonato implements Comparable<Campeonato>{
 				if(j==0){
 					if(i%2==0) {
 						//jornadas[i][j] = matriz2[i][j] + "-" + matriz1[i][j] + " ";
-						this.crearPartidos(i+1, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]) , fecha);
+						this.crearPartidos(i+1, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]) , fecha,null);
 					}
 					else {
 						//jornadas[i][j] = matriz1[i][j] + "-" + matriz2[i][j] + " ";
-						this.crearPartidos(i+1, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]) , fecha);
+						this.crearPartidos(i+1, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]) , fecha,null);
 
 					}
 				}
 				else {
 					//jornadas[i][j] = matriz1[i][j] + "-" + matriz2[i][j] + " ";
-					this.crearPartidos(i+1, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]) , fecha);
+					this.crearPartidos(i+1, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]) , fecha,null);
 					
 				}
 				
@@ -302,18 +301,18 @@ public class Campeonato implements Comparable<Campeonato>{
 				if(j==0){
 					if(i%2==0) {
 						//jornadas2[i][j] = matriz1[i][j] + "-" + matriz2[i][j] + " ";
-						this.crearPartidos(fechaVuelta, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]) , fechaPartidoVuelta);
+						this.crearPartidos(fechaVuelta, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]) , fechaPartidoVuelta,null);
 
 					}
 					else {
 						//jornadas2[i][j] = matriz2[i][j] + "-" + matriz1[i][j] + " ";
-						this.crearPartidos(fechaVuelta, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]) , fechaPartidoVuelta);
+						this.crearPartidos(fechaVuelta, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]) , fechaPartidoVuelta,null);
 
 					}
 				}
 				else {
 					//jornadas2[i][j] = matriz2[i][j] + "-" + matriz1[i][j] + " ";
-					this.crearPartidos(fechaVuelta, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]) , fechaPartidoVuelta);
+					this.crearPartidos(fechaVuelta, 0, ClubDAO.getInstancia().obtenerClubPorID(matriz2[i][j]),ClubDAO.getInstancia().obtenerClubPorID(matriz1[i][j]) , fechaPartidoVuelta,null);
 
 				}
 				

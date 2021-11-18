@@ -27,8 +27,9 @@ public class Partido {
 	private Campeonato campeonato;
 	private List<Miembro> jugadoresLocales;
 	private List<Miembro> jugadoresVisitantes;
+	private String fase;
 
-	public Partido(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido, Campeonato campeonato) {
+	public Partido(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido, Campeonato campeonato,String fase) {
 		this.nroFecha = nroFecha;
 		this.nroZona = nroZona;
 		//this.categoria = categoria;
@@ -40,6 +41,18 @@ public class Partido {
 		this.convalidaLocal = false;
 		this.convalidaVisitante = false;
 		this.campeonato = campeonato;
+		this.fase = fase;
+		}
+			
+		
+	
+
+	public String getFase() {
+		return fase;
+	}
+
+	public void setFase(String fase) {
+		this.fase = fase;
 	}
 
 	public Integer getIdPartido() {
@@ -161,7 +174,7 @@ public class Partido {
 	}
 	
 	public PartidoVO toVO() {
-		return new PartidoVO(this.idPartido,clubLocal.getIdClub(),clubVisitante.getIdClub(),this.nroFecha,this.nroZona,this.golesLocal,this.golesVisitante,this.fechaPartido,this.convalidaLocal,this.convalidaVisitante,this.getCampeonato().getIdCampeonato());
+		return new PartidoVO(this.idPartido,clubLocal.getIdClub(),clubVisitante.getIdClub(),this.nroFecha,this.nroZona,this.golesLocal,this.golesVisitante,this.fechaPartido,this.convalidaLocal,this.convalidaVisitante,this.getCampeonato().getIdCampeonato(),this.fase);
 	}
 	
 	public void agregarGolJugador(Jugador auxJugador, int minuto, String tipo) {

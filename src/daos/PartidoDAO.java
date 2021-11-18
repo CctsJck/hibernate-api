@@ -64,7 +64,7 @@ public class PartidoDAO {
 	}
 	
 	Partido toModelo(PartidoEntity e) throws ClubException {
-		Partido partido = new Partido(e.getNroFecha(),e.getNroZona(),ClubDAO.getInstancia().toModeloClub(e.getClubLocal()),ClubDAO.getInstancia().toModeloClub(e.getClubVisitante()) ,e.getFechaPartido(),CampeonatoDAO.getInstancia().toCampeonatoModelo(e.getCampeonato()));
+		Partido partido = new Partido(e.getNroFecha(),e.getNroZona(),ClubDAO.getInstancia().toModeloClub(e.getClubLocal()),ClubDAO.getInstancia().toModeloClub(e.getClubVisitante()) ,e.getFechaPartido(),CampeonatoDAO.getInstancia().toCampeonatoModelo(e.getCampeonato()),e.getFase());
 		partido.setIdPartido(e.getIdPartido());
 		partido.setGolesLocal(e.getGolesLocal());
 		partido.setGolesVisitante(e.getGolesVisitante());
@@ -108,7 +108,7 @@ public class PartidoDAO {
 	}
 
 	PartidoEntity toEntity(Partido partido) {
-		PartidoEntity aux = new PartidoEntity(partido.getNroFecha(),partido.getNroZona(),ClubDAO.getInstancia().toEntity(partido.getClubLocal()),ClubDAO.getInstancia().toEntity(partido.getClubVisitante()),partido.getFechaPartido(),CampeonatoDAO.getInstancia().toEntity(partido.getCampeonato()));
+		PartidoEntity aux = new PartidoEntity(partido.getNroFecha(),partido.getNroZona(),ClubDAO.getInstancia().toEntity(partido.getClubLocal()),ClubDAO.getInstancia().toEntity(partido.getClubVisitante()),partido.getFechaPartido(),CampeonatoDAO.getInstancia().toEntity(partido.getCampeonato()),partido.getFase());
 		aux.setIdPartido(partido.getIdPartido());
 		aux.setGolesLocal(partido.getGolesLocal());
 		aux.setGolesVisitante(partido.getGolesVisitante());

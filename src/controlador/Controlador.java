@@ -223,18 +223,19 @@ public class Controlador {
 		campeonato.grabar();
 	}
 	
-	public void crearPartido(int nroFecha,int nroZona,int categoria,Integer clubLocal,Integer clubVisitante,Date fechaPartido,Integer idCampeonato) throws CampeonatoException, ClubException {
+	public void crearPartido(int nroFecha,int nroZona,int categoria,Integer clubLocal,Integer clubVisitante,Date fechaPartido,Integer idCampeonato,String fase) throws CampeonatoException, ClubException {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		Club local = ClubDAO.getInstancia().obtenerClubPorID(clubLocal);
 		Club visitante = ClubDAO.getInstancia().obtenerClubPorID(clubVisitante);
-		aux.crearPartidos(nroFecha, nroZona,local , visitante, fechaPartido);
+		aux.crearPartidos(nroFecha, nroZona,local , visitante, fechaPartido,fase);
 	}
 	
 	public void activarCampeonato(int idCampeonato) throws CampeonatoException {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+		this.crearPartidosNuevos(idCampeonato);
 		aux.setEstado("activo");
 		aux.actualizar();
-		
+			
 	}
 	
 	

@@ -154,7 +154,7 @@ public class CampeonatoDAO {
 							cont+=1;
 						}
 					}
-					Partido partido = new Partido(nroFecha,nroZona,inscriptos.get(fila),inscriptos.get(columna),fecha, campeonato);
+					Partido partido = new Partido(nroFecha,nroZona,inscriptos.get(fila),inscriptos.get(columna),fecha, campeonato,null);
 					partido.grabar();
 					nroFecha+=1;
 				}

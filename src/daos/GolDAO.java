@@ -87,7 +87,7 @@ private static GolDAO instancia;
 	GolEntity toEntity(Gol gol) {
 
 		JugadorEntity auxJugador = JugadorDAO.getInstancia().toEntity(gol.getJugador());
-		PartidoEntity auxPartido = new PartidoEntity(gol.getPartido().getNroFecha(),gol.getPartido().getNroZona(),ClubDAO.getInstancia().toEntity(gol.getPartido().getClubLocal()),ClubDAO.getInstancia().toEntity(gol.getPartido().getClubVisitante()),gol.getPartido().getFechaPartido(),CampeonatoDAO.getInstancia().toEntity(gol.getPartido().getCampeonato()));
+		PartidoEntity auxPartido = new PartidoEntity(gol.getPartido().getNroFecha(),gol.getPartido().getNroZona(),ClubDAO.getInstancia().toEntity(gol.getPartido().getClubLocal()),ClubDAO.getInstancia().toEntity(gol.getPartido().getClubVisitante()),gol.getPartido().getFechaPartido(),CampeonatoDAO.getInstancia().toEntity(gol.getPartido().getCampeonato()),gol.getPartido().getFase());
 		auxPartido.setIdPartido(gol.getPartido().getIdPartido());
 		
 		GolEntity nuevoGol = new GolEntity(auxJugador,auxPartido,gol.getMinuto(),gol.getTipo());

@@ -26,8 +26,11 @@ public class PartidoEntity {
 	private Integer idPartido;
 	private int nroFecha;
 	private int nroZona;
+	private String fase;
 	//private int categoria;
 	
+
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idClubLocal")
 	private ClubEntity clubLocal;
@@ -67,7 +70,7 @@ public class PartidoEntity {
 	
 	public PartidoEntity() {}
 	
-	public PartidoEntity(int nroFecha, int nroZona, ClubEntity clubLocal, ClubEntity clubVisitante,Date fechaPartido, CampeonatoEntity campeonato) {
+	public PartidoEntity(int nroFecha, int nroZona, ClubEntity clubLocal, ClubEntity clubVisitante,Date fechaPartido, CampeonatoEntity campeonato,String fase) {
 		this.nroFecha = nroFecha;
 		this.nroZona = nroZona;
 		//this.categoria = categoria;
@@ -79,6 +82,7 @@ public class PartidoEntity {
 		//this.convalidaLocal = false;
 		//this.convalidaVisitante = false;
 		this.campeonato = campeonato;
+		this.fase = fase;
 	}
 
 	public Integer getIdPartido() {
@@ -183,6 +187,13 @@ public class PartidoEntity {
 	
 	public void setIdPartido(Integer id) {
 		this.idPartido = id;
+	}
+	public String getFase() {
+		return fase;
+	}
+
+	public void setFase(String fase) {
+		this.fase = fase;
 	}
 	
 	
