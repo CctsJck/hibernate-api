@@ -60,7 +60,7 @@ private static GolDAO instancia;
 	public List<Gol> getGolesPartido(int idPartido) throws GolException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<Gol> goles = new ArrayList<>();
-		List<GolEntity> golesEntity = session.createQuery("FROM GolEntity g WHERE g.partido = "+idPartido).list();
+		List<GolEntity> golesEntity = session.createQuery("FROM GolEntity g WHERE g.partido = "+idPartido+" ORDER BY g.minuto asc").list();
 		if (golesEntity != null) {
 			for(GolEntity gol : golesEntity) {
 				goles.add(this.toModelo(gol));

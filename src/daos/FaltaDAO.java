@@ -85,7 +85,7 @@ public class FaltaDAO {
 	public List<Falta> getFaltasPartido(int idPartido) throws FaltaException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<Falta> faltas = new ArrayList<>();
-		List<FaltaEntity> faltasEntity = session.createQuery("FROM FaltaEntity f WHERE f.partido="+idPartido).list();
+		List<FaltaEntity> faltasEntity = session.createQuery("FROM FaltaEntity f WHERE f.partido="+idPartido+" ORDER BY f.minuto asc").list();
 		if (faltasEntity != null) {
 			for (FaltaEntity falta : faltasEntity) {
 				faltas.add(this.toModelo(falta));

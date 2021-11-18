@@ -199,7 +199,7 @@ public class PartidoDAO {
         public List<Partido> obtenerPartidoDeCampeonato(int idCampeonato) throws ClubException{
         	Session session = HibernateUtil.getSessionFactory().openSession();
             List<Partido> partidosCampeonato = new ArrayList<Partido>();
-            List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity p WHERE p.campeonato = "+idCampeonato).list(); 
+            List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity p WHERE p.campeonato = "+idCampeonato+" ORDER BY p.fechaPartido desc").list(); 
             for (PartidoEntity partido : auxPartidos) {
                 partidosCampeonato.add(PartidoDAO.getInstancia().toModelo(partido));
             }
