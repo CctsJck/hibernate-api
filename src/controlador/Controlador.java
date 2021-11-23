@@ -238,15 +238,40 @@ public class Controlador {
 			
 	}
 	
-	
 	public void agregarJugadorPartido(int idPartido, int idJugador,int idClub) throws ClubException, PartidoException, JugadorException {
-		Club club = ClubDAO.getInstancia().obtenerClubPorID(idClub);
-		Partido par = PartidoDAO.getInstancia().obtenerPartido(idPartido);
-		Jugador jug = JugadorDAO.getInstancia().obtenerJugador(idJugador);
-		par.agregarJugadorPartido(club, jug);
-		
-		
-	}
+        Club club = ClubDAO.getInstancia().obtenerClubPorID(idClub);
+        Partido par = PartidoDAO.getInstancia().obtenerPartido(idPartido);
+        Jugador jug = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+        if(juegaPartido(par,jug) != true) {
+            par.agregarJugadorPartido(club, jug);
+        }else {
+        	throw new PartidoException("El jugador ya se encuentra inscripto a un partido en ese día");
+        }
+
+    }
+	
+	private boolean juegaPartido(Partido partido,Jugador jugador) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        boolean resultado = false;
+        cal1.setTime(partido.getFechaPartido());
+        List<Partido> partidosFecha = PartidoDAO.getInstancia().obtenerPartidosPorFecha(jugador.getClub().getIdClub());
+        for (Partido p : partidosFecha) {
+            cal2.setTime(p.getFechaPartido());
+            if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
+            		List<Miembro> jugadoresPartido = MiembroDAO.getInstancia().obtenerJugadoresPartido(p.getIdPartido());
+            		for(Miembro m: jugadoresPartido) {
+            			int x = m.getJugador().getIdJugador();
+            			if (Integer.compare(jugador.getIdJugador(), x) == 0) {
+            				resultado = true;
+            			}
+            		}
+            }
+        }
+        return resultado;
+    }
+	
+	
 	
 	public List<ResponsableVO> getResponsableClub(int idClub) throws ClubException{
 		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
@@ -263,7 +288,6 @@ public class Controlador {
 	
 	public List<JugadorVO> getJugadoresClub(int idClub) throws ClubException{
 		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
-		System.out.println(auxClub.getJugadores().size());
 		List<Jugador> auxJugadores = auxClub.getJugadores();
 		return convertirJugadoresAJugadoresVO(auxJugadores);
 	}
@@ -351,7 +375,6 @@ public class Controlador {
 	}
 	
 	public List<JugadorVO> convertirJugadoresAJugadoresVO(List<Jugador> jugadores){
-		System.out.println(jugadores.size());
 		List<JugadorVO> jugadoresVO = new ArrayList<JugadorVO>();
 		for (Jugador jugador : jugadores) {
 			jugadoresVO.add(jugador.toVO());

@@ -75,8 +75,6 @@ public class PartidoDAO {
 		partido.setConvalidaLocal(e.isConvalidaLocal());
 		partido.setConvalidaVisitante(e.isConvalidaVisitante());
 		
-		System.out.println(partido.isConvalidaLocal());
-		System.out.println(partido.isConvalidaVisitante());
 		
 		return partido;
 		
@@ -219,6 +217,17 @@ public class PartidoDAO {
         	
         	
         	
+        }
+        
+        public List<Partido> obtenerPartidosPorFecha(int idClub){
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            List<Partido> partidosFecha = new ArrayList<Partido>();
+            @SuppressWarnings("unchecked")
+            List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity WHERE idClubLocal = " +idClub+ " or idClubVisitante = " +idClub).list();
+            for(PartidoEntity partido : auxPartidos) {
+                partidosFecha.add(toModelo(partido));
+            }
+            return partidosFecha;
         }
         
 

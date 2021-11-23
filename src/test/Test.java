@@ -20,7 +20,7 @@ public class Test {
 
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws ParseException, ClubException, CampeonatoException, PartidoException, JugadorException, UsuarioException, ResponsableException {
-		//SessionManager.getInstancia().openSession();
+		
 		SimpleDateFormat fecha = new SimpleDateFormat("dd-mm-yyyy");
 		 
 		//fijarse cuando ejecutamos el test si el campeonato es por Puntos o por Zona
@@ -33,7 +33,8 @@ public class Test {
 		Controlador.getInstancia().crearRepresentante("DNI", 34968472, "Sebastian Bataglia", 1);
 		Controlador.getInstancia().crearRepresentante("DNI", 29483556, "Marcelo Gallardo", 2);
 		
-	//	Controlador.getInstancia().crearPartido(1, 1, 02, 1, 2, fecha.parse("20-08-2000"), 1,null);
+		Controlador.getInstancia().crearPartido(1, 1, 02, 1, 2, fecha.parse("20-08-2000"), 1,null);
+		Controlador.getInstancia().crearPartido(2, 1, 02, 1, 2, fecha.parse("20-08-2000"), 1, null);
 
 		
 		Controlador.getInstancia().agregarJugador("DNI", 39968123, "Aguston", "Rossi", 1, new java.sql.Date(2000,12,5));
@@ -66,9 +67,8 @@ public class Test {
 		
 		Controlador.getInstancia().activarCampeonato(1);
 		
-		//Controlador.getInstancia().finalizarCargaEquiposTorneo(1);
-		
 		Controlador.getInstancia().agregarJugadorPartido(1, 1, 1);
+		Controlador.getInstancia().agregarJugadorPartido(2, 1, 1);
 		Controlador.getInstancia().agregarJugadorPartido(1, 2, 1);
 		Controlador.getInstancia().agregarJugadorPartido(1, 3, 1);
 		Controlador.getInstancia().agregarJugadorPartido(1, 4, 1);
@@ -101,7 +101,7 @@ public class Test {
 		Controlador.getInstancia().validarPartido(2, 1);
 		
 		Controlador.getInstancia().getEstaditicaJugadoresCampeonato(1);
-		System.out.println("hola");
+		
 		
 		//Descomentar si desea modificar o eliminar
 		
@@ -114,8 +114,8 @@ public class Test {
 		//Controlador.getInstancia().eliminarRepresentante(1);
 
 		
-		//SessionManager.getInstancia().closeSession();
-		System.out.println("Probando VSCode");
+		
+	
 		
 		
 
