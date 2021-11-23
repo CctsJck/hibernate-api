@@ -197,5 +197,17 @@ public class CampeonatoDAO {
 		return campeonatos;
 	}
 	
+	public Campeonato getCampeonatoById(int idCampeonato) throws CampeonatoException {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		CampeonatoEntity campEntity = (CampeonatoEntity) session.createQuery("FROM CampeonatoEntity c WHERE c.idCampeonato = "+idCampeonato).uniqueResult();
+		if (campEntity != null) {
+			Campeonato camp = this.toCampeonatoModelo(campEntity);
+			session.close();
+			return camp;
+		}
+		throw new CampeonatoException("No existe un campeonato con id"+idCampeonato);
+
+	}
+	
 
 }

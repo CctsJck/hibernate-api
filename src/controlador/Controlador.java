@@ -67,6 +67,7 @@ public class Controlador {
 		if(existeJugador(idJugador) && existePartido(idPartido)) {
 			Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
 			Partido auxPartido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
+			
 			auxPartido.agregarGolJugador(auxJugador, minuto, tipo);
 		} else {
 			if (!existeJugador(idJugador)) {
@@ -596,6 +597,10 @@ public class Controlador {
 	
 	public List<JugadorVO> getJugadoresDisponiblesPartido(int idPartido, int idClub) throws JugadorException{
 		return this.convertirJugadoresAJugadoresVO(JugadorDAO.getInstancia().getJugadoresDisponiblePartido(idPartido, idClub));
+	}
+	
+	public CampeonatoVO getCampeonatoById(int idCampeonato) throws CampeonatoException {
+		return CampeonatoDAO.getInstancia().getCampeonatoById(idCampeonato).toVO();
 	}
 	
 

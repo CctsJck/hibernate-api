@@ -186,20 +186,23 @@ public class Partido {
 	public void agregarGolJugador(Jugador auxJugador, int minuto, String tipo) {
 		Gol nuevoGol = new Gol(auxJugador,this,minuto,tipo);
 		auxJugador.agregarGol(nuevoGol);
-		if (this.getClubLocal().getIdClub() == auxJugador.getClub().getIdClub()) {
-			if (tipo == "a favor") {
+		if (Integer.compare(this.getClubLocal().getIdClub(), auxJugador.getClub().getIdClub()) == 0) { 
+			
+			if (tipo.compareTo("a favor") == 0) {
 				//El gol fue del local a favor
+				System.out.println("A favor");
 				this.setGolesLocal(this.getGolesLocal() + 1);
-			} else if(tipo == "en contra") {
+				System.out.println("Gol");
+			} else if(tipo.compareTo("en contra") == 0) {
 				//El gol fue del local pero en contra
 				this.setGolesVisitante(this.getGolesVisitante() + 1);
 			}
 			
-		} else if(this.getClubVisitante().getIdClub() == auxJugador.getClub().getIdClub()) {
-			if (tipo == "a favor") {
+		} else if(Integer.compare(this.getClubVisitante().getIdClub(), auxJugador.getClub().getIdClub()) == 0) { 
+			if (tipo.compareTo("a favor") == 0) {
 				//El gol fue del visitante a favor
 				this.setGolesVisitante(this.getGolesVisitante() + 1);
-			} else if(tipo == "en contra") {
+			} else if(tipo.compareTo("en contra") == 0) {
 				//El gol fue del visitante pero en contra
 				this.setGolesLocal(this.getGolesLocal() + 1);
 			}
