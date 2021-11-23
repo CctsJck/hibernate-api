@@ -23,15 +23,16 @@ public class Jugador {
 	private String apellido;
 	private Club club;
 	private Date fechaNacimiento;
-	private int categoria;
+	private Integer categoria;
 	private String estado;
 	private String eliminado;
 	private List<Gol> goles;
 	private List<Falta> faltas;
 	private Miembro miembro;
 	private Integer idUsuario;
+	private Date fichaje;
 	
-	public Jugador(String tipoDocumento,Integer numeroDocumento, String nombre, String apellido, Club club, Date fechaNacimiento,Integer idUsuario) {
+	public Jugador(String tipoDocumento,Integer numeroDocumento, String nombre, String apellido, Club club, Date fechaNacimiento,Integer idUsuario,Date fichaje) {
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
 		this.nombre = nombre;
@@ -40,16 +41,30 @@ public class Jugador {
 		this.fechaNacimiento = fechaNacimiento;
 		SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
 		int auxCategoria = Integer.parseInt(getYearFormat.format(this.fechaNacimiento));
-        if(auxCategoria > 1999)
-        	this.categoria = auxCategoria - 1900;
-        else
+        if(Integer.compare(auxCategoria, 2000) == 1) {
+        	System.out.println("Entre bien");
         	this.categoria = auxCategoria - 2000;
+        	System.out.println(this.categoria);
+        	
+        }else {
+        	this.categoria = auxCategoria - 1900;
+        	}
         this.goles = new ArrayList<Gol>();
         this.faltas = new ArrayList<Falta>();
         this.idUsuario = idUsuario;
+        this.fichaje = fichaje;
 	}
 
-	
+
+	public Date getFichaje() {
+		return fichaje;
+	}
+
+
+	public void setFichaje(Date fichaje) {
+		this.fichaje = fichaje;
+	}
+
 
 	public Integer getIdJugador() {
 		return idJugador;
@@ -170,7 +185,7 @@ public class Jugador {
 	}
 
 	public JugadorVO toVO() {
-		return new JugadorVO(this.idJugador,this.tipoDocumento,this.numeroDocumento,this.nombre,this.apellido,this.fechaNacimiento,this.categoria,this.estado,this.eliminado,this.club.getIdClub(),this.idUsuario);
+		return new JugadorVO(this.idJugador,this.tipoDocumento,this.numeroDocumento,this.nombre,this.apellido,this.fechaNacimiento,this.categoria,this.estado,this.eliminado,this.club.getIdClub(),this.idUsuario,this.fichaje);
 	}
 	
 	

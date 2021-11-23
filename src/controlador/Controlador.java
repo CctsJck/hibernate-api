@@ -146,14 +146,14 @@ public class Controlador {
 		
 	}
 	
-	public void agregarJugador(String tipoDocumento, Integer documento, String nombre,String apellido,int idClub, Date fechaNacimiento) throws ClubException, UsuarioException, JugadorException{
+	public void agregarJugador(String tipoDocumento, Integer documento, String nombre,String apellido,int idClub, Date fechaNacimiento,Date fichaje) throws ClubException, UsuarioException, JugadorException{
 		if(existeClub(idClub) && !existeJugadorDNI(documento)) {
 			Usuario usuario = new Usuario("jugador","1234");
 			UsuarioDAO.getInstancia().grabar(usuario);
 			Integer idUsuario;
 			idUsuario = UsuarioDAO.getInstancia().obtenerIdUsuario();
 			Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(idClub);
-	        Jugador jugador = new Jugador(tipoDocumento, documento, nombre, apellido,auxClub,fechaNacimiento,idUsuario);
+	        Jugador jugador = new Jugador(tipoDocumento, documento, nombre, apellido,auxClub,fechaNacimiento,idUsuario,fichaje);
 	        jugador.setEliminado("noEliminado");
 	        auxClub.agregarJugador(jugador);
 		}else {
@@ -238,17 +238,30 @@ public class Controlador {
 			
 	}
 	
-	public void agregarJugadorPartido(int idPartido, int idJugador,int idClub) throws ClubException, PartidoException, JugadorException {
+	public void agregarJugadorPartido(int idPartido, int idJugador,int idClub) throws ClubException, PartidoException, JugadorException, CampeonatoException {
         Club club = ClubDAO.getInstancia().obtenerClubPorID(idClub);
         Partido par = PartidoDAO.getInstancia().obtenerPartido(idPartido);
         Jugador jug = JugadorDAO.getInstancia().obtenerJugador(idJugador);
-        if(juegaPartido(par,jug) != true) {
+        if(juegaPartido(par,jug) != true && verificacionFechaFichaje(par.getCampeonato().getIdCampeonato(),jug) != true) {
             par.agregarJugadorPartido(club, jug);
         }else {
-        	throw new PartidoException("El jugador ya se encuentra inscripto a un partido en ese día");
+        	if (juegaPartido(par,jug) == true) {
+        		throw new PartidoException("El jugador ya se encuentra inscripto a un partido en ese día");
+        	}else {
+        		throw new JugadorException("El jugador fue registrado una vez iniciado el torneo");
+        	}
         }
-
     }
+	
+	private boolean verificacionFechaFichaje(int idCampeonato,Jugador jugador) throws CampeonatoException {
+		boolean resultado = false;
+		Campeonato camp = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+		if (camp.getFechaInicio().after(jugador.getFichaje())) {
+			resultado = true;
+		}
+		
+		return resultado;
+	}
 	
 	private boolean juegaPartido(Partido partido,Jugador jugador) {
         Calendar cal1 = Calendar.getInstance();

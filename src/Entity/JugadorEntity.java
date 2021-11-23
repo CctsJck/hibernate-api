@@ -30,6 +30,7 @@ public class JugadorEntity {
 	private String apellido;
 	private String eliminadoJ;
 	private Integer idUsuario;
+	private Date fichaje;
 	 
 	@ManyToOne()
 	@JoinColumn(name="idClub") 
@@ -50,7 +51,7 @@ public class JugadorEntity {
 	
 	public JugadorEntity() {}
 	
-	public JugadorEntity(String tipoDocumento,int numeroDocumento, String nombre,String apellido, ClubEntity club, Date fechaNacimiento,Integer idUsuario) {
+	public JugadorEntity(String tipoDocumento,int numeroDocumento, String nombre,String apellido, ClubEntity club, Date fechaNacimiento,Integer idUsuario,Date fichaje) {
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
 		this.nombre = nombre;
@@ -59,14 +60,25 @@ public class JugadorEntity {
 		this.fechaNacimiento = fechaNacimiento;
 		SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
 		int auxCategoria = Integer.parseInt(getYearFormat.format(this.fechaNacimiento));
-        if(auxCategoria > 1999)
-        	this.categoria = auxCategoria - 1900;
-        else
+		if(Integer.compare(auxCategoria, 2000) == 1) {
         	this.categoria = auxCategoria - 2000;
-        
+        }else {
+        	this.categoria = auxCategoria - 1900;
+        	}
         this.goles = new ArrayList<GolEntity>();
         this.faltas = new ArrayList<FaltaEntity>();
         this.idUsuario = idUsuario;
+        this.fichaje = fichaje;
+	}
+	
+	
+
+	public Date getFichaje() {
+		return fichaje;
+	}
+
+	public void setFichaje(Date fichaje) {
+		this.fichaje = fichaje;
 	}
 
 	public Integer getIdJugador() {
@@ -164,14 +176,4 @@ public class JugadorEntity {
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-	
-	
-	
-	
-	
-
-	
-
-	
-	
 }

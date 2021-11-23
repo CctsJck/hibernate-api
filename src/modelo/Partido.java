@@ -32,7 +32,7 @@ public class Partido {
 	public Partido(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido, Campeonato campeonato,String fase) {
 		this.nroFecha = nroFecha;
 		this.nroZona = nroZona;
-		//this.categoria = categoria;
+		this.campeonato = campeonato;
 		this.clubLocal = clubLocal;
 		this.clubVisitante = clubVisitante;
 		this.golesLocal = 0;
@@ -46,6 +46,12 @@ public class Partido {
 			
 		
 	
+
+	public void setCampeonato(Campeonato campeonato) {
+		this.campeonato = campeonato;
+	}
+
+
 
 	public String getFase() {
 		return fase;

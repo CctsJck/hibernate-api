@@ -106,7 +106,7 @@ public class JugadorDAO {
 	JugadorEntity toEntity(Jugador jugador) {
 		ClubEntity auxClub = new ClubEntity(jugador.getClub().getNombre(),jugador.getClub().getDireccion());
 		auxClub.setIdClub(jugador.getClub().getIdClub());
-		JugadorEntity auxJugador = new JugadorEntity(jugador.getTipoDocumento(),jugador.getNumeroDocumento(),jugador.getNombre(),jugador.getApellido(),auxClub,jugador.getFechaNacimiento(),jugador.getIdUsuario());
+		JugadorEntity auxJugador = new JugadorEntity(jugador.getTipoDocumento(),jugador.getNumeroDocumento(),jugador.getNombre(),jugador.getApellido(),auxClub,jugador.getFechaNacimiento(),jugador.getIdUsuario(),jugador.getFichaje());
 		auxJugador.setEliminado(jugador.getEliminado());
 		auxJugador.setIdJugador(jugador.getIdJugador());
 		
@@ -115,7 +115,7 @@ public class JugadorDAO {
 	
 	
 	Jugador toModelo(JugadorEntity entity) {
-		Jugador aux = new Jugador(entity.getTipoDocumento(),entity.getNumeroDocumento(),entity.getNombre(),entity.getApellido(),ClubDAO.getInstancia().toModeloClub(entity.getClub()),entity.getFechaNacimiento(),entity.getIdUsuario());
+		Jugador aux = new Jugador(entity.getTipoDocumento(),entity.getNumeroDocumento(),entity.getNombre(),entity.getApellido(),ClubDAO.getInstancia().toModeloClub(entity.getClub()),entity.getFechaNacimiento(),entity.getIdUsuario(),entity.getFichaje());
 		aux.setIdJugador(entity.getIdJugador());
 		aux.setEliminado("noEliminado");
 		return aux;
