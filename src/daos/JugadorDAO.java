@@ -174,6 +174,21 @@ public class JugadorDAO {
 		return aux;
 	}
 	
+	public List<Jugador> getJugadoresDisponiblePartido(int idPartido, int idClub) throws JugadorException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<JugadorEntity> jugadoresEntity = session.createQuery("FROM JugadorEntity j WHERE j.idJugador NOT IN (SELECT m.jugador FROM MiembroEntity m WHERE m.partido="+idPartido+") AND j.club = "+idClub).list();
+		if (jugadoresEntity != null) {
+			List<Jugador> jugadores = new ArrayList<Jugador>();
+			for (JugadorEntity jugador : jugadoresEntity) {
+				jugadores.add(this.toModelo(jugador));
+			}
+			session.close();
+			return jugadores;
+		}
+		
+		throw new JugadorException("No hay mas jugadores del club "+idClub+" para el partido "+idPartido);
+	}
+	
 	
 	
 	

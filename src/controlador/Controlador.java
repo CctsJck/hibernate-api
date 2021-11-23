@@ -594,6 +594,10 @@ public class Controlador {
 		
 	}
 	
+	public List<JugadorVO> getJugadoresDisponiblesPartido(int idPartido, int idClub) throws JugadorException{
+		return this.convertirJugadoresAJugadoresVO(JugadorDAO.getInstancia().getJugadoresDisponiblePartido(idPartido, idClub));
+	}
+	
 
 
 	
