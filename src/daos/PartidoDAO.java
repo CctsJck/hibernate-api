@@ -52,7 +52,7 @@ public class PartidoDAO {
 	public List<Partido> obtenerPartidosPendientesValidar(int idClub) throws PartidoException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<Partido> partidos = new ArrayList<Partido>();
-		List<PartidoEntity> auxPart = session.createQuery("FROM PartidoEntity WHERE (idClubLocal = "+idClub+" AND validadoLocal = 0 ) OR (idClubVisitante = "+idClub+" AND validadoLocal = 0 )").list();
+		List<PartidoEntity> auxPart = session.createQuery("FROM PartidoEntity WHERE (idClubLocal = "+idClub+" AND validadoLocal = 0 ) OR (idClubVisitante = "+idClub+" AND validadoVisitante = 0 )").list();
 		if (auxPart != null) {
 			for (PartidoEntity partido : auxPart) {
 				partidos.add(toModelo(partido));
