@@ -117,7 +117,7 @@ public class JugadorDAO {
 	Jugador toModelo(JugadorEntity entity) {
 		Jugador aux = new Jugador(entity.getTipoDocumento(),entity.getNumeroDocumento(),entity.getNombre(),entity.getApellido(),ClubDAO.getInstancia().toModeloClub(entity.getClub()),entity.getFechaNacimiento(),entity.getIdUsuario(),entity.getFichaje());
 		aux.setIdJugador(entity.getIdJugador());
-		aux.setEliminado("noEliminado");
+		aux.setEliminado(entity.getEliminado());
 		return aux;
 		
 	}
