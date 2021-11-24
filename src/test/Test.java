@@ -99,8 +99,8 @@ public class Test {
 		
 		Controlador.getInstancia().validarPartido(1, 1);
 		Controlador.getInstancia().validarPartido(2, 1);
-		
-		Controlador.getInstancia().getEstaditicaJugadoresCampeonato(1);
+		Controlador.getInstancia().validarPartido(1, 4);
+		//Controlador.getInstancia().getEstaditicaJugadoresCampeonato(1);
 		
 		
 		//Descomentar si desea modificar o eliminar

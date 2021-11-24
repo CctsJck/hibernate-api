@@ -105,15 +105,20 @@ public class TablaPosicionesDAO {
 			TablaPosiciones tabla = TablaPosicionesDAO.getInstancia().obtenerTablaCampeonatoClub(partido.getCampeonato().getIdCampeonato(),auxClub.getIdClub());
 			if (tabla != null) {
 				tabla.setCantidadJugados(tabla.getCantidadJugados() + 1);
-				if (idClub == partido.getClubLocal().getIdClub()) {
+				if (Integer.compare(partido.getGolesLocal(), partido.getGolesVisitante())  == 0 ) {
+					//Empataron el partido
+					System.out.println("Empataron");
+					tabla.setCantidadempatados(tabla.getCantidadempatados() + 1);
+					tabla.setPuntos(tabla.getPuntos() + 1);
+				} else if (Integer.compare(idClub, partido.getClubLocal().getIdClub()) == 0) {
 					//El id que me pasan es el del club local
-					if (partido.getGolesLocal() > partido.getGolesVisitante()) {
+					if (Integer.compare(partido.getGolesLocal() , partido.getGolesVisitante()) == 1) {
 						//El partido lo gano el equipo local
 						tabla.setCantidadganados(tabla.getCantidadganados() + 1);
 						
 						//Actualizo los puntos
 						tabla.setPuntos(tabla.getPuntos() + 3);
-					} else if (partido.getGolesLocal() < partido.getGolesVisitante()) {
+					} else if (Integer.compare(partido.getGolesLocal() , partido.getGolesVisitante()) == -1 ) {
 						//El partido lo perdio el local
 						tabla.setCantidadperdidos(tabla.getCantidadperdidos() + 1);
 					}
@@ -127,17 +132,13 @@ public class TablaPosicionesDAO {
 					tabla.setDiferenciaGoles(tabla.getGolesFavor() - tabla.getGolesContra());
 
 						
-				} else if (partido.getGolesLocal() == partido.getGolesVisitante()) {
-					//Empataron el partido
-					tabla.setCantidadempatados(tabla.getCantidadempatados() + 1);
-					tabla.setPuntos(tabla.getPuntos() + 1);
-				} else if (idClub == partido.getClubVisitante().getIdClub())  {
+				}  else if (Integer.compare(idClub, partido.getClubVisitante().getIdClub()) == 0)  {
 					//El id que me pasan es el del club visitante
-					if (partido.getGolesVisitante() > partido.getGolesLocal()) {
+					if (Integer.compare(partido.getGolesVisitante(), partido.getGolesLocal()) == 1 ) {
 						//Gano el visitante
 						tabla.setCantidadganados(tabla.getCantidadganados() + 1);
 						tabla.setPuntos(tabla.getPuntos() + 3);
-					} else if (partido.getGolesVisitante() < partido.getGolesLocal()) {
+					} else if (Integer.compare(partido.getGolesVisitante(), partido.getGolesLocal()) == -1 ) {
 						//Perdio el visitante
 						tabla.setCantidadperdidos(tabla.getCantidadperdidos() + 1);
 					}
@@ -153,7 +154,7 @@ public class TablaPosicionesDAO {
 				}
 				
 				//Actualizo el promedio
-				tabla.setPromedio(tabla.getPuntos() / tabla.getCantidadJugados()); 
+				tabla.setPromedio((float) tabla.getPuntos() / (float) tabla.getCantidadJugados()); 
 				
 				//Actualizamos en la BD
 				tabla.actualizar();

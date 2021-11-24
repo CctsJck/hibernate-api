@@ -146,17 +146,30 @@ public class Partido {
 		this.fechaPartido = fechaPartido;
 	}
 
-	public void setConvalidaLocal(boolean estado) throws ClubException {
-		this.convalidaLocal = estado;
-		if (estado = true) {
-			TablaPosicionesDAO.getInstancia().modificarTabla(this.getClubLocal().getIdClub(),this);
+	public void setConvalidaLocal(boolean estado, String accion) throws ClubException {
+		
+		
+		if (accion.compareTo("actualizarTabla") == 0) {
+			this.convalidaLocal = estado;
+			if (estado == true) {
+				TablaPosicionesDAO.getInstancia().modificarTabla(this.getClubLocal().getIdClub(),this);
+			}
+		} else if (accion.compareTo("modelo") == 0) {
+			this.convalidaLocal = estado;
 		}
+		
 	}
 
-	public void setConvalidaVisitante(boolean estado) throws ClubException {
-		this.convalidaVisitante = estado;
-		if (estado = true) {
-			TablaPosicionesDAO.getInstancia().modificarTabla(this.getClubVisitante().getIdClub(),this);
+	public void setConvalidaVisitante(boolean estado, String accion) throws ClubException {
+		
+		
+		if (accion.compareTo("actualizarTabla") == 0) {
+			this.convalidaVisitante = estado;
+			if (estado == true) {
+				TablaPosicionesDAO.getInstancia().modificarTabla(this.getClubVisitante().getIdClub(),this);
+			}
+		} else if (accion.compareTo("modelo") == 0) {
+			this.convalidaVisitante = estado;
 		}
 
 
@@ -220,11 +233,10 @@ public class Partido {
 	public void validarPartido(Club auxClub) throws ClubException{
 		
 		if (Integer.compare(this.getClubLocal().getIdClub(), auxClub.getIdClub()) == 0) {
-			this.setConvalidaLocal(true);
+			this.setConvalidaLocal(true,"actualizarTabla");
 			System.out.println("Local");
 		} else {
-			this.setConvalidaVisitante(true);
-			System.out.println("Visitante");
+			this.setConvalidaVisitante(true,"actualizarTabla");
 
 		}
 		

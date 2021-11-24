@@ -68,12 +68,8 @@ public class PartidoDAO {
 		partido.setIdPartido(e.getIdPartido());
 		partido.setGolesLocal(e.getGolesLocal());
 		partido.setGolesVisitante(e.getGolesVisitante());
-		
-		
-
-		
-		partido.setConvalidaLocal(e.isConvalidaLocal());
-		partido.setConvalidaVisitante(e.isConvalidaVisitante());
+		partido.setConvalidaLocal(e.isConvalidaLocal(),"modelo");
+		partido.setConvalidaVisitante(e.isConvalidaVisitante(),"modelo");
 		
 		
 		return partido;
