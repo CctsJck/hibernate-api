@@ -209,5 +209,21 @@ public class CampeonatoDAO {
 
 	}
 	
+	public List<Campeonato> getCampeonatosByIdClub(int idClub) throws CampeonatoException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Campeonato> campsModelo = new ArrayList<Campeonato>();
+		List<CampeonatoEntity> campsEntity = session.createQuery("SELECT c FROM CampeonatoEntity c INNER JOIN c.inscriptos i WHERE i.idClub = "+idClub).list();
+		if (campsEntity != null) {
+			for(CampeonatoEntity camp : campsEntity) {
+				campsModelo.add(this.toCampeonatoModelo(camp));
+			}
+			session.close();
+			return campsModelo;
+		}
+		
+		throw new CampeonatoException("El equipo con idClub "+idClub+" no esta jugando ningun torneo");
+
+	}
+	
 
 }

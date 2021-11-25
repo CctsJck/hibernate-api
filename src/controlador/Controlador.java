@@ -644,6 +644,10 @@ public class Controlador {
 		
 	}
 	
+	public List<CampeonatoVO> getCampeontosByIdClub(int idClub) throws CampeonatoException{
+		return this.convertirCampeonatosACampeonatosVO(CampeonatoDAO.getInstancia().getCampeonatosByIdClub(idClub));
+	}
+	
 
 
 	
