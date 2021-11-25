@@ -648,6 +648,10 @@ public class Controlador {
 		return this.convertirCampeonatosACampeonatosVO(CampeonatoDAO.getInstancia().getCampeonatosByIdClub(idClub));
 	}
 	
+	public List<JugadorVO> getJugadoresDisponiblesTorneo(int idClub, int idCampeonato) throws JugadorException{
+		return this.convertirJugadoresAJugadoresVO(JugadorDAO.getInstancia().getJugadoresDisponiblePartido(idCampeonato, idClub));
+	}
+	
 
 
 	

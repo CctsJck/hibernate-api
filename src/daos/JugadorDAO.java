@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import Entity.ClubEntity;
 
 import Entity.JugadorEntity;
+import exceptions.CampeonatoException;
 import exceptions.ClubException;
 import exceptions.JugadorException;
 import hibernate.HibernateUtil;
@@ -187,6 +188,20 @@ public class JugadorDAO {
 		}
 		
 		throw new JugadorException("No hay mas jugadores del club "+idClub+" para el partido "+idPartido);
+	}
+	
+	public List<Jugador> getJugadoresDisponibleTorneo(int idClub, int idCampeonato) throws CampeonatoException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<JugadorEntity> jugadoresEntity = session.createQuery("FROM JugadorEntity j WHERE j.club = "+idClub+" AND j.idJugador NOT IN (SELECT jt.jugador FROM JugadoresTorneoEntity jt WHERE jt.campeonato = "+idCampeonato+")").list();
+		if (jugadoresEntity != null) {
+			List<Jugador> jugadores = new ArrayList<Jugador>();
+			for (JugadorEntity jugador : jugadoresEntity) {
+				jugadores.add(this.toModelo(jugador));
+			}
+			session.close();
+		}
+		
+		throw new CampeonatoException("No hay jugadores disponibles del club "+idClub+" para el campeonato "+idCampeonato);
 	}
 	
 	
