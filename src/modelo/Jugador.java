@@ -31,7 +31,10 @@ public class Jugador {
 	private Miembro miembro;
 	private Integer idUsuario;
 	private Date fichaje;
+	private List<JugadoresTorneo> campeonatosHabilitados; 
 	
+
+
 	public Jugador(String tipoDocumento,Integer numeroDocumento, String nombre, String apellido, Club club, Date fechaNacimiento,Integer idUsuario,Date fichaje) {
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
@@ -187,6 +190,16 @@ public class Jugador {
 	public JugadorVO toVO() {
 		return new JugadorVO(this.idJugador,this.tipoDocumento,this.numeroDocumento,this.nombre,this.apellido,this.fechaNacimiento,this.categoria,this.estado,this.eliminado,this.club.getIdClub(),this.idUsuario,this.fichaje);
 	}
+	
+	
+	public List<JugadoresTorneo> getCampeonatosHabilitados() {
+		return campeonatosHabilitados;
+	}
+	
+	public void setCampeonatosHabilitados(List<JugadoresTorneo> campeonatosHabilitados) {
+		this.campeonatosHabilitados = campeonatosHabilitados;
+	}
+
 	
 	
 	

@@ -17,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import modelo.JugadoresTorneo;
+
 import javax.persistence.JoinColumn;
 
 
@@ -38,6 +41,9 @@ public class CampeonatoEntity {
 	private String eliminadoC;
 	@Column(name = "tipoCampeonato")
 	private String tipo;
+	
+	@OneToMany(mappedBy="campeonato", cascade = CascadeType.ALL)
+	private List<JugadoresTorneoEntity> jugadoresHabilitados;
 
 
 	private int categoria;

@@ -13,6 +13,7 @@ import daos.ClubDAO;
 import daos.FaltaDAO;
 import daos.GolDAO;
 import daos.JugadorDAO;
+import daos.JugadoresTorneoDAO;
 import daos.MiembroDAO;
 import daos.PartidoDAO;
 import daos.RepresentanteDAO;
@@ -32,6 +33,7 @@ import modelo.Club;
 import modelo.Falta;
 import modelo.Gol;
 import modelo.Jugador;
+import modelo.JugadoresTorneo;
 import modelo.Miembro;
 import modelo.Partido;
 import modelo.Responsable;
@@ -42,6 +44,7 @@ import vo.ClubVO;
 import vo.FaltaVO;
 import vo.GolVO;
 import vo.JugadorVO;
+import vo.JugadoresTorneoVO;
 import vo.MiembroVO;
 import vo.PartidoVO;
 import vo.ResponsableVO;
@@ -601,6 +604,36 @@ public class Controlador {
 	
 	public CampeonatoVO getCampeonatoById(int idCampeonato) throws CampeonatoException {
 		return CampeonatoDAO.getInstancia().getCampeonatoById(idCampeonato).toVO();
+	}
+	
+	public void agregarJugadorTorneo(int idJugador,int idCampeonato) throws JugadorException, CampeonatoException {
+		Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+		Campeonato auxCampeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+		auxCampeonato.agregarJugadorTorneo(auxJugador);
+	}
+	
+	public void deshabilitarJugadorTorneo (int idJugadorTorneo) {
+		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorById(idJugadorTorneo);
+		auxJugadorTorneo.setEstado(false);
+		JugadoresTorneoDAO.getInstancia().update(auxJugadorTorneo);
+	}
+	
+	public List<JugadoresTorneoVO> getJugadoresHabilitados(int idCampeonato){
+		List<JugadoresTorneo> jugadoresHabilitados = JugadoresTorneoDAO.getInstancia().obtenerJugadoresHabilitados(idCampeonato);
+		return this.convertirJugadoresTorneoAJugadoresTorneoVO(jugadoresHabilitados);
+		
+		
+	}
+	
+	public List<JugadoresTorneoVO> convertirJugadoresTorneoAJugadoresTorneoVO(List<JugadoresTorneo> jugadoresHabilitados){
+		
+		List<JugadoresTorneoVO> jugadoresHabilitadosVO = new ArrayList<JugadoresTorneoVO>();
+		for (JugadoresTorneo jugador : jugadoresHabilitados) {
+			jugadoresHabilitadosVO.add(jugador.toVO());
+		}
+		
+		return jugadoresHabilitadosVO;
+		
 	}
 	
 

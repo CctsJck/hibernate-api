@@ -5,6 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+
 import Entity.FaltaEntity;
 import Entity.PartidoEntity;
 import Entity.TablaPosicionesEntity;
@@ -14,6 +17,7 @@ import daos.ClubDAO;
 import daos.FaltaDAO;
 import daos.GolDAO;
 import daos.JugadorDAO;
+import daos.JugadoresTorneoDAO;
 import daos.MiembroDAO;
 import daos.PartidoDAO;
 import daos.TablaPosicionesDAO;
@@ -40,7 +44,12 @@ public class Campeonato implements Comparable<Campeonato>{
 	private TablaPosiciones tablaPosiciones;
 	private String tipo;
 	private int categoria;
+	private List<JugadoresTorneo> jugadoresHabilitados;
 	
+
+
+
+
 	public Campeonato(String descripcion, Date fechaInicio, Date fechaFin , String tipo,int categoria) {
 		this.idCampeonato = null;
 		this.descripcion = descripcion;
@@ -327,6 +336,23 @@ public class Campeonato implements Comparable<Campeonato>{
 		}
 	
 	
+	}
+	
+	public List<JugadoresTorneo> getJugadoresHabilitados() {
+		return jugadoresHabilitados;
+	}
+
+
+
+	public void setJugadoresHabilitados(List<JugadoresTorneo> jugadoresHabilitados) {
+		this.jugadoresHabilitados = jugadoresHabilitados;
+	}
+
+
+
+	public void agregarJugadorTorneo(Jugador auxJugador) {
+		JugadoresTorneo jugadorTorneo = new JugadoresTorneo (auxJugador,this,true);
+		JugadoresTorneoDAO.getInstancia().save(jugadorTorneo);
 	}
 
 	

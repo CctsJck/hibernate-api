@@ -8,6 +8,7 @@ import Entity.ClubEntity;
 import Entity.FaltaEntity;
 import Entity.GolEntity;
 import Entity.JugadorEntity;
+import Entity.JugadoresTorneoEntity;
 import Entity.MiembroEntity;
 import Entity.PartidoEntity;
 import Entity.RepresentanteEntity;
@@ -35,6 +36,7 @@ public class HibernateUtil
         	 config.addAnnotatedClass(MiembroEntity.class);
         	 config.addAnnotatedClass(RepresentanteEntity.class);
         	 config.addAnnotatedClass(UsuarioEntity.class);
+        	 config.addAnnotatedClass(JugadoresTorneoEntity.class);
 
         	 
 

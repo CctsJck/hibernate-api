@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import modelo.JugadoresTorneo;
+
 
 
 @Entity
@@ -48,6 +50,9 @@ public class JugadorEntity {
 	
 	@OneToMany(mappedBy="jugador", cascade = CascadeType.ALL)
 	private List<MiembroEntity> miembro;
+	
+	@OneToMany(mappedBy="jugador", cascade = CascadeType.ALL)
+	private List<JugadoresTorneoEntity> campeonatosHabilitados; 
 	
 	public JugadorEntity() {}
 	
