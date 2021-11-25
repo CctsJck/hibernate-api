@@ -90,4 +90,14 @@ public class JugadoresTorneoDAO {
 		return jugadoresHabilitados;
 	}
 	
+	public boolean existeJugador(Integer idJugador, Integer idCampeonato) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		JugadoresTorneoEntity auxJugador = (JugadoresTorneoEntity) session.createQuery("FROM JugadoresTorneoEntity m WHERE m.campeonato = "+idCampeonato+" and m.jugador ="+idJugador).uniqueResult();
+		session.close();
+		
+		if (auxJugador != null) {
+			return true;
+		}else {return false;}
+		
+	}
 }

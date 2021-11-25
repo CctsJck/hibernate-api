@@ -245,23 +245,31 @@ public class Controlador {
 	public void agregarJugadorPartido(int idPartido, int idJugador,int idClub) throws ClubException, PartidoException, JugadorException, CampeonatoException {
         Club club = ClubDAO.getInstancia().obtenerClubPorID(idClub);
         Partido par = PartidoDAO.getInstancia().obtenerPartido(idPartido);
-        Jugador jug = JugadorDAO.getInstancia().obtenerJugador(idJugador);
-        if(juegaPartido(par,jug) != true && verificacionFechaFichaje(par.getCampeonato().getIdCampeonato(),jug) != true) {
-            par.agregarJugadorPartido(club, jug);
+        if(JugadoresTorneoDAO.getInstancia().existeJugador(idJugador, par.getCampeonato().getIdCampeonato())) {
+        	Jugador jug = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+            if(juegaPartido(par,jug) != true && verificacionFechaFichaje(par.getCampeonato().getIdCampeonato(),jug) != true) {
+                par.agregarJugadorPartido(club, jug);
+            }else {
+            	if (juegaPartido(par,jug) == true) {
+            		throw new PartidoException("El jugador ya se encuentra inscripto a un partido en ese día");
+            	}else if (verificacionFechaFichaje(par.getCampeonato().getIdCampeonato(),jug) == true) {
+            		throw new JugadorException("El jugador fue registrado una vez iniciado el torneo");
+            	}
+            }
         }else {
-        	if (juegaPartido(par,jug) == true) {
-        		throw new PartidoException("El jugador ya se encuentra inscripto a un partido en ese día");
-        	}else {
-        		throw new JugadorException("El jugador fue registrado una vez iniciado el torneo");
-        	}
+        	throw new JugadorException("El jugador no esta inscripto en este torneo");
         }
     }
 	
 	private boolean verificacionFechaFichaje(int idCampeonato,Jugador jugador) throws CampeonatoException {
 		boolean resultado = false;
 		Campeonato camp = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
-		if (camp.getFechaInicio().after(jugador.getFichaje())) {
+		
+		if (camp.getFechaInicio().compareTo(jugador.getFichaje()) < 0) {
+			
 			resultado = true;
+		}else {
+	
 		}
 		
 		return resultado;

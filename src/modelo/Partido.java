@@ -1,5 +1,6 @@
 package modelo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -224,9 +225,25 @@ public class Partido {
 	}
 	
 	public void agregarJugadorPartido(Club club, Jugador jugador) {
-		if (PartidoDAO.getInstancia().obtenerCantidadJugadoresPartidoEquipo(this.idPartido, club.getIdClub())<17 && PartidoDAO.getInstancia().validoParaJugar(jugador.getIdJugador(), this.getCampeonato().getIdCampeonato()) && this.getCampeonato().getCategoria() >= jugador.getCategoria()) {
-			Miembro miem = new Miembro(club,this,jugador);
-			miem.grabar();
+//		//if (PartidoDAO.getInstancia().obtenerCantidadJugadoresPartidoEquipo(this.idPartido, club.getIdClub())<17 && PartidoDAO.getInstancia().validoParaJugar(jugador.getIdJugador(), this.getCampeonato().getIdCampeonato()) && this.getCampeonato().getCategoria() >= jugador.getCategoria()) {
+//			System.out.println("entro al if");
+//			Miembro miem = new Miembro(club,this,jugador);
+//			miem.grabar();
+//		}
+		
+		SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
+        int añoActual = Integer.parseInt(getYearFormat.format(new Date()));
+        
+        
+		
+		if (PartidoDAO.getInstancia().obtenerCantidadJugadoresPartidoEquipo(this.idPartido, club.getIdClub())<17) {
+			if (PartidoDAO.getInstancia().validoParaJugar(jugador.getIdJugador(), this.getCampeonato().getIdCampeonato())){
+				if (Integer.compare(this.getCampeonato().getCategoria(), jugador.getCategoria()) < 0 ||  Integer.compare(this.getCampeonato().getCategoria(), jugador.getCategoria()) == 0) {
+					Miembro miem = new Miembro(club,this,jugador);
+					miem.grabar();
+					
+				}
+			}
 		}
 	}
 
