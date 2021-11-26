@@ -6,6 +6,7 @@ package daos;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import Entity.TablaPosicionesEntity;
@@ -191,5 +192,22 @@ public class TablaPosicionesDAO {
 
         return tablas;
     }
+	
+	public List<TablaPosiciones> getTablaPosicionesByIdCampeonatoAndFase(int idCampeonato, String fase) throws TablaPosicionesException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+        List<TablaPosiciones> tablas = new ArrayList<TablaPosiciones>();
+        List<TablaPosicionesEntity> auxTablas = session.createQuery("SELECT DISTINCT t FROM TablaPosicionesEntity t INNER JOIN t.campeonato c INNER JOIN c.partidos p WHERE p.campeonato = "+idCampeonato+" AND p.fase = '"+fase+"' ORDER BY puntos DESC").list();
+        if (auxTablas != null) {
+        	for (TablaPosicionesEntity tabla : auxTablas) {
+        		tablas.add(this.toModelo(tabla));
+        	}
+        	session.close();
+        	return tablas;
+        }
+        
+        throw new TablaPosicionesException("No hay tablas para el campeonato "+idCampeonato+" con fase "+fase);
+
+
+	}
 
 }

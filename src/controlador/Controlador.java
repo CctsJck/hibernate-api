@@ -239,7 +239,9 @@ public class Controlador {
 	
 	public void activarCampeonato(int idCampeonato) throws CampeonatoException {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
-		this.crearPartidosNuevos(idCampeonato);
+		if (aux.getTipo().equals("Puntos")) {
+			this.crearPartidosNuevos(idCampeonato);
+		}
 		aux.setEstado("activo");
 		aux.actualizar();
 			
@@ -689,6 +691,36 @@ public class Controlador {
 	public List<JugadorVO> getJugadoresDisponiblesTorneo(int idClub, int idCampeonato) throws JugadorException{
 		return this.convertirJugadoresAJugadoresVO(JugadorDAO.getInstancia().getJugadoresDisponiblePartido(idCampeonato, idClub));
 	}
+	
+	public List<String> getFasesByIdCampeonato(int idCampeonato) throws CampeonatoException{
+		Campeonato camp = CampeonatoDAO.getInstancia().getCampeonatoById(idCampeonato);
+		return PartidoDAO.getInstancia().getFasesByIdCampeonato(idCampeonato);
+	}
+	
+	public List<TablaPosicionesVO> getTablaPosicionesByFaseAndIdCampeonato(int idCampeonato, String fase) throws TablaPosicionesException{
+		List<TablaPosiciones> tablas = TablaPosicionesDAO.getInstancia().getTablaPosicionesByIdCampeonatoAndFase(idCampeonato, fase);
+		List<TablaPosicionesVO> tablasVO = new ArrayList<TablaPosicionesVO>();
+		for (TablaPosiciones tabla : tablas) {
+			tablasVO.add(tabla.toVO());
+		}
+		return tablasVO;
+	}
+	
+	public void ingresaJugadorPartido(int idPartido, int idJugador, int ingreso) throws ClubException, PartidoException {
+		Partido partido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
+		Miembro miembro = MiembroDAO.getInstancia().getMiembro(idJugador);
+		miembro.setIngreso(ingreso);
+		miembro.update();
+	}
+	
+	public void egresaJugadorPartido(int idPartido, int idJugador, int egreso) throws ClubException, PartidoException {
+		Partido partido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
+		Miembro miembro = MiembroDAO.getInstancia().getMiembro(idJugador);
+		miembro.setEgreso(egreso);
+		miembro.update();
+	}
+	
+	
 	
 
 

@@ -30,9 +30,10 @@ public class MiembroDAO {
 	
 	public Miembro getMiembro(Integer idJugador) throws ClubException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		MiembroEntity aux = (MiembroEntity) session.createQuery("from MiembroEntity m where m.idJugador = "+idJugador).uniqueResult();
+		MiembroEntity aux = (MiembroEntity) session.createQuery("from MiembroEntity m where m.jugador = "+idJugador).uniqueResult();
+		Miembro miembro = this.toModelo(aux);
 		session.close();
-		return toModelo(aux);
+		return miembro;
 		
 	}
 	
@@ -45,6 +46,15 @@ public class MiembroDAO {
         session.getTransaction().commit();
         session.close();
     }
+	
+	public void update(Miembro miembro) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+        MiembroEntity miembroNuevo= toEntity(miembro);
+        session.beginTransaction();
+        session.merge(miembroNuevo);
+        session.getTransaction().commit();
+        session.close();
+	}
 	
 	public Long obtenerPartidosJugados(int idJugador,int idCampeonato) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -60,6 +70,8 @@ public class MiembroDAO {
 		
 		MiembroEntity auxM = new MiembroEntity(auxClub,auxPartido,auxJugador);
 		auxM.setIdLista(m.getIdLista());
+		auxM.setIngreso(m.getIngreso());
+		auxM.setEgreso(m.getEgreso());
 
 		
 		return auxM;
@@ -81,7 +93,6 @@ public class MiembroDAO {
 		Miembro miembroNuevo = new Miembro(ClubDAO.getInstancia().toModeloClub(m.getClub()),PartidoDAO.getInstancia().toModelo(m.getPartido()),JugadorDAO.getInstancia().toModelo(m.getJugador()));
 		miembroNuevo.setIdLista(m.getIdLista());
 		return miembroNuevo;
-		
 	}
 	
 }

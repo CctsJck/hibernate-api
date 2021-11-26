@@ -37,9 +37,7 @@ public class PartidoDAO {
 	
 	public Partido obtenerPartido(Integer idPartido) throws PartidoException, ClubException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
 		PartidoEntity aux = (PartidoEntity) session.createQuery("from PartidoEntity p where p.idPartido = "+idPartido).uniqueResult();
-		session.getTransaction().commit();
 		
 		if (aux != null) {
 			Partido partidoModelo =  toModelo(aux);
@@ -224,6 +222,15 @@ public class PartidoDAO {
                 partidosFecha.add(toModelo(partido));
             }
             return partidosFecha;
+        }
+        
+        public List<String> getFasesByIdCampeonato(int idCampeonato){
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            List<String> fases = session.createQuery("SELECT DISTINCT p.fase FROM PartidoEntity p WHERE p.campeonato = "+idCampeonato).list();
+            session.close();
+            return fases;
+
+        	
         }
         
 

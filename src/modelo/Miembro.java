@@ -66,6 +66,10 @@ public class Miembro {
 	public void grabar() {
 		MiembroDAO.getInstancia().grabar(this);
 	}
+	
+	public void update() {
+		MiembroDAO.getInstancia().update(this);
+	}
 
 	public Integer getIdLista() {
 		return idLista;
