@@ -183,11 +183,15 @@ public class Campeonato implements Comparable<Campeonato>{
 		this.estado = estado;
 	}
 	
-	public void crearPartidos(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido,String fase) {
-		if (this.getEstado().compareTo("inactivo") == 0) {
+	public void crearPartidos(int nroFecha, int nroZona, Club clubLocal, Club clubVisitante,Date fechaPartido,String fase) throws CampeonatoException {
+		//if (this.getEstado().compareTo("inactivo") == 0) {
+		if (!this.getFechaInicio().after(fechaPartido) && !this.getFechaFin().before(fechaPartido)) {
 			Partido partido = new Partido(nroFecha, nroZona, clubLocal, clubVisitante,fechaPartido, this,fase);			
 			partido.grabar();
+		}else {
+			throw new CampeonatoException("La fecha del partido no esta dentro de las fechas del campeonato");
 		}
+		//}
 		
 		
 	}
@@ -238,7 +242,7 @@ public class Campeonato implements Comparable<Campeonato>{
 		return datos;
     }
 	
-	public void crearPartidosGrupos() throws ClubException {
+	public void crearPartidosGrupos() throws ClubException, CampeonatoException {
 		Date fecha = this.getFechaInicio();
 		Date fechaFin = this.getFechaFin();
 		Calendar calendar = Calendar.getInstance();

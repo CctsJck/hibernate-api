@@ -222,12 +222,15 @@ public class Controlador {
 	}
 
 	public void crearCampeonato(String descripcion,Date fechaInicio,Date fechaFin, String tipo,int categoria) {
+		System.out.println("FechaInicio:"+fechaInicio);
+		System.out.println("FechaFin:"+fechaFin);
+		System.out.println("-------");
 		Campeonato campeonato = new Campeonato(descripcion,fechaInicio,fechaFin,tipo,categoria);
 		campeonato.setEliminado("noEliminado");
 		campeonato.grabar();
 	}
 	
-	public void crearPartido(int nroFecha,int nroZona,int categoria,Integer clubLocal,Integer clubVisitante,Date fechaPartido,Integer idCampeonato,String fase) throws CampeonatoException, ClubException {
+	public void crearPartido(int nroFecha,int nroZona,Integer clubLocal,Integer clubVisitante,Date fechaPartido,Integer idCampeonato,String fase) throws CampeonatoException, ClubException {
 		Campeonato aux = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
 		Club local = ClubDAO.getInstancia().obtenerClubPorID(clubLocal);
 		Club visitante = ClubDAO.getInstancia().obtenerClubPorID(clubVisitante);
