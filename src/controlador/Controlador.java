@@ -626,8 +626,8 @@ public class Controlador {
 		JugadoresTorneoDAO.getInstancia().update(auxJugadorTorneo);
 	}
 	
-	public List<JugadoresTorneoVO> getJugadoresHabilitados(int idCampeonato){
-		List<JugadoresTorneo> jugadoresHabilitados = JugadoresTorneoDAO.getInstancia().obtenerJugadoresHabilitados(idCampeonato);
+	public List<JugadoresTorneoVO> getJugadoresHabilitadosClub(int idCampeonato, int idClub){
+		List<JugadoresTorneo> jugadoresHabilitados = JugadoresTorneoDAO.getInstancia().obtenerJugadoresHabilitados(idCampeonato,idClub);
 		return this.convertirJugadoresTorneoAJugadoresTorneoVO(jugadoresHabilitados);
 		
 		

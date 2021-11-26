@@ -76,10 +76,10 @@ public class JugadoresTorneoDAO {
 		
 	}
 
-	public List<JugadoresTorneo> obtenerJugadoresHabilitados(int idCampeonato) {
+	public List<JugadoresTorneo> obtenerJugadoresHabilitados(int idCampeonato,int idClub) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<JugadoresTorneo> jugadoresHabilitados =  new ArrayList<>();
-		List<JugadoresTorneoEntity> auxJugadoresHabilitados = session.createQuery("FROM JugadoresTorneoEntity m WHERE m.campeonato = "+idCampeonato).list();
+		List<JugadoresTorneoEntity> auxJugadoresHabilitados = session.createQuery("SELECT m FROM JugadoresTorneoEntity m INNER JOIN m.jugador j WHERE m.campeonato = "+idCampeonato+" AND j.club ="+idClub).list();
 		session.close();
 		if(auxJugadoresHabilitados != null) {
 			for (JugadoresTorneoEntity jugadores : auxJugadoresHabilitados) {
