@@ -720,6 +720,16 @@ public class Controlador {
 		miembro.update();
 	}
 	
+	public List<MiembroVO> getIngresosEgresosPartido(int idPartido) throws ClubException, PartidoException{
+		Partido partido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
+		List<MiembroVO> miembrosVO = new ArrayList<MiembroVO>();
+		List<Miembro> miembros = MiembroDAO.getInstancia().getIngresosEgresosPartido(idPartido);
+		for (Miembro miembro : miembros) {
+			miembrosVO.add(miembro.toVO());
+		}
+		return miembrosVO;
+	}
+	
 	
 	
 

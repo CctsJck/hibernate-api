@@ -92,7 +92,19 @@ public class MiembroDAO {
 	Miembro toModelo(MiembroEntity m) throws ClubException {
 		Miembro miembroNuevo = new Miembro(ClubDAO.getInstancia().toModeloClub(m.getClub()),PartidoDAO.getInstancia().toModelo(m.getPartido()),JugadorDAO.getInstancia().toModelo(m.getJugador()));
 		miembroNuevo.setIdLista(m.getIdLista());
+		miembroNuevo.setIngreso(m.getIngreso());
+		miembroNuevo.setEgreso(m.getEgreso());
 		return miembroNuevo;
+	}
+	
+	public List<Miembro> getIngresosEgresosPartido(int idPartido){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Miembro> miembros = new ArrayList<>();
+		List<MiembroEntity> miembroEntity = session.createQuery("FROM MiembroEntity m WHERE (m.ingreso IS NOT NULL OR m.egreso IS NOT NULL) AND m.partido="+idPartido).list();
+		for(MiembroEntity miembro : miembroEntity) {
+			miembros.add(this.toModelo(miembro));
+		}
+		return miembros;
 	}
 	
 }
