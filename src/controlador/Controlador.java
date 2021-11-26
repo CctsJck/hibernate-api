@@ -620,9 +620,9 @@ public class Controlador {
 		auxCampeonato.agregarJugadorTorneo(auxJugador);
 	}
 	
-	public void deshabilitarJugadorTorneo (int idJugadorTorneo) {
-		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorById(idJugadorTorneo);
-		auxJugadorTorneo.setEstado(false);
+	public void cambiarEstadoJugadorTorneo (int idJugadorTorneo,boolean estado) {
+		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorById(idJugadorTorneo); 
+		auxJugadorTorneo.setEstado(estado);
 		JugadoresTorneoDAO.getInstancia().update(auxJugadorTorneo);
 	}
 	
