@@ -45,9 +45,9 @@ public class Jugador {
 		SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
 		int auxCategoria = Integer.parseInt(getYearFormat.format(this.fechaNacimiento));
         if(Integer.compare(auxCategoria, 2000) == 1) {
-        	System.out.println("Entre bien");
+        	
         	this.categoria = auxCategoria - 2000;
-        	System.out.println(this.categoria);
+        	
         	
         }else {
         	this.categoria = auxCategoria - 1900;

@@ -24,7 +24,7 @@ public class Test {
 		SimpleDateFormat fecha = new SimpleDateFormat("dd-mm-yyyy");
 		 
 		//fijarse cuando ejecutamos el test si el campeonato es por Puntos o por Zona
-		Controlador.getInstancia().crearCampeonato("Copa Libertadores", fecha.parse("20-08-2000"), fecha.parse("20-08-2000"), "Puntos",2001);
+		Controlador.getInstancia().crearCampeonato("Copa Libertadores", fecha.parse("20-08-2002"), fecha.parse("20-08-2000"), "Puntos",2001);
 		
 		
 		Controlador.getInstancia().crearClub("Boca Juniors", "Brandsen");
@@ -38,7 +38,7 @@ public class Test {
 
 		
 		Controlador.getInstancia().agregarJugador("DNI", 39968123, "Aguston", "Rossi", 1, fecha.parse("20-08-2001"),fecha.parse("20-08-2001"));
-		Controlador.getInstancia().agregarJugador("DNI", 33968122, "Carlos", "Izquierdos", 1, fecha.parse("20-08-2001"),fecha.parse("20-08-2001"));
+		Controlador.getInstancia().agregarJugador("DNI", 33968122, "Carlos", "Izquierdos", 1, fecha.parse("20-08-2001"),fecha.parse("20-08-1999"));
 		Controlador.getInstancia().agregarJugador("DNI", 32968121, "Marcos", "Rojo", 1, fecha.parse("20-08-2001"),fecha.parse("20-08-2001"));
 		Controlador.getInstancia().agregarJugador("DNI", 33968123, "Frank", "Fabra", 1, fecha.parse("20-08-2001"),fecha.parse("20-08-2001"));
 		Controlador.getInstancia().agregarJugador("DNI", 36968128, "Agustin", "Sandez", 1, fecha.parse("20-08-2001"),fecha.parse("20-08-2001"));
@@ -67,8 +67,31 @@ public class Test {
 		
 		Controlador.getInstancia().activarCampeonato(1);
 		
-		Controlador.getInstancia().agregarJugadorPartido(1, 1, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(1, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(2, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(3, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(4, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(5, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(6, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(7, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(8, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(9, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(10, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(11, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(12, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(13, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(14, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(15, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(16, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(17, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(18, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(19, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(20, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(21, 1);
+		Controlador.getInstancia().agregarJugadorCampeonato(22, 1);
 		
+		
+		Controlador.getInstancia().agregarJugadorPartido(1, 1, 1);
 		Controlador.getInstancia().agregarJugadorPartido(1, 2, 1);
 		Controlador.getInstancia().agregarJugadorPartido(1, 3, 1);
 		Controlador.getInstancia().agregarJugadorPartido(1, 4, 1);
@@ -92,6 +115,8 @@ public class Test {
 		Controlador.getInstancia().agregarJugadorPartido(1, 21, 2);
 		Controlador.getInstancia().agregarJugadorPartido(1, 22, 2);
 		
+		
+		
 		Controlador.getInstancia().agregarGolJugador(12, 1, 90, "a favor");
 		Controlador.getInstancia().agregarGolJugador(22, 1, 31, "a favor");
 		
@@ -100,6 +125,7 @@ public class Test {
 		Controlador.getInstancia().validarPartido(1, 1);
 		Controlador.getInstancia().validarPartido(2, 1);
 		Controlador.getInstancia().validarPartido(1, 4);
+		
 		//Controlador.getInstancia().getEstaditicaJugadoresCampeonato(1);
 		
 		

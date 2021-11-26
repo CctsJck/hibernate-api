@@ -1,5 +1,6 @@
 package modelo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -60,8 +61,17 @@ public class Campeonato implements Comparable<Campeonato>{
 		this.faltas = new ArrayList<Falta>();
 		this.partidos = new ArrayList<Partido>();
 		this.tipo = tipo;
-		this.categoria = categoria;
-		
+		int auxCategoria = categoria;
+		if (categoria > 100) {
+			if(Integer.compare(auxCategoria, 2000) == 1 || Integer.compare(auxCategoria,2000) == 0) {
+	        	this.categoria = auxCategoria - 2000;
+	        }else {
+	        	this.categoria = auxCategoria - 1900;
+	        	}
+		}else {
+			this.categoria = categoria;
+		}
+        
 	}
 
 
@@ -354,6 +364,8 @@ public class Campeonato implements Comparable<Campeonato>{
 		JugadoresTorneo jugadorTorneo = new JugadoresTorneo (auxJugador,this,true);
 		JugadoresTorneoDAO.getInstancia().save(jugadorTorneo);
 	}
+	
+	
 
 	
 	
