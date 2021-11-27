@@ -661,10 +661,17 @@ public class Controlador {
 	}
 	
 	public void cambiarEstadoJugadorTorneo (int idJugadorTorneo,boolean estado) {
-		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorById(idJugadorTorneo); 
+		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorByIdTorneo(idJugadorTorneo); 
 		auxJugadorTorneo.setEstado(estado);
 		JugadoresTorneoDAO.getInstancia().update(auxJugadorTorneo);
 	}
+	
+	public void cambiarEstadoJugadorTorneoByIdJugador (int idJugador,boolean estado) {
+		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorById(idJugador); 
+		auxJugadorTorneo.setEstado(estado);
+		JugadoresTorneoDAO.getInstancia().update(auxJugadorTorneo);
+	}
+	
 	
 	public List<JugadoresTorneoVO> getJugadoresHabilitadosClub(int idCampeonato, int idClub){
 		List<JugadoresTorneo> jugadoresHabilitados = JugadoresTorneoDAO.getInstancia().obtenerJugadoresHabilitados(idCampeonato,idClub);

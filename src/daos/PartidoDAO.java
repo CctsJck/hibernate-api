@@ -13,6 +13,7 @@ import Entity.FaltaEntity;
 import Entity.JugadorEntity;
 import Entity.MiembroEntity;
 import Entity.PartidoEntity;
+import controlador.Controlador;
 import exceptions.ClubException;
 import exceptions.PartidoException;
 import hibernate.HibernateUtil;
@@ -142,21 +143,13 @@ public class PartidoDAO {
 			String tarjeta = "amarilla";
 			Long cantidadAmarillas = (Long) session.createQuery("SELECT count(*) FROM FaltaEntity f, PartidoEntity p WHERE p.idPartido = f.partido AND f.campeonato = "+idCampeonato+" AND f.jugador = "+idJugador+" AND f.tipo = 'amarilla'").uniqueResult();
 			Integer fechaUltimaAmarilla = (Integer) session.createQuery("SELECT p.nroFecha FROM FaltaEntity f, PartidoEntity p WHERE p.idPartido = f.partido AND f.campeonato = "+idCampeonato+" AND f.jugador = "+idJugador+" AND f.tipo = 'amarilla' ORDER BY nroFecha DESC").setMaxResults(1).uniqueResult();
-			
 			Integer fechaUltimaRoja = (Integer) session.createQuery("SELECT p.nroFecha FROM FaltaEntity f, PartidoEntity p WHERE p.idPartido = f.partido AND f.campeonato = "+idCampeonato+" AND f.jugador = "+idJugador+" AND f.tipo = 'roja' ORDER BY nroFecha DESC").setMaxResults(1).uniqueResult();
-			
-			if (cantidadAmarillas == null || cantidadAmarillas == 0) {
+			if ((cantidadAmarillas == null || cantidadAmarillas == 0 || cantidadAmarillas % 2 != 0) && (fechaUltimaRoja == null || fechaUltimaRoja == 0 || (this.obtenerUltimaFechaCampeonato(idCampeonato) - fechaUltimaRoja)>1)) {
 				return true;
-			} else if (fechaUltimaRoja == null || fechaUltimaRoja == 0) {
-				return true;
-			
-			}
-			else if (cantidadAmarillas % 2 != 0 && fechaUltimaAmarilla < this.obtenerUltimaFechaCampeonato(idCampeonato) && fechaUltimaRoja < this.obtenerUltimaFechaCampeonato(idCampeonato)) {
-				return true;
-			}
+			} 
+			Controlador.getInstancia().cambiarEstadoJugadorTorneoByIdJugador(idJugador, false);
 			return false;
-			
-			
+
 		}
 		
 		public Integer obtenerUltimaFechaCampeonato(int idCampeonato) {
