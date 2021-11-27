@@ -676,8 +676,6 @@ public class Controlador {
 	public List<JugadoresTorneoVO> getJugadoresHabilitadosClub(int idCampeonato, int idClub){
 		List<JugadoresTorneo> jugadoresHabilitados = JugadoresTorneoDAO.getInstancia().obtenerJugadoresHabilitados(idCampeonato,idClub);
 		return this.convertirJugadoresTorneoAJugadoresTorneoVO(jugadoresHabilitados);
-		
-		
 	}
 	
 	public List<JugadoresTorneoVO> convertirJugadoresTorneoAJugadoresTorneoVO(List<JugadoresTorneo> jugadoresHabilitados){
@@ -715,7 +713,7 @@ public class Controlador {
 	
 	public void ingresaJugadorPartido(int idPartido, int idJugador, int ingreso) throws ClubException, PartidoException {
 		Partido partido = PartidoDAO.getInstancia().obtenerPartido(idPartido);
-		Miembro miembro = MiembroDAO.getInstancia().getMiembro(idJugador);
+		Miembro miembro = MiembroDAO.getInstancia().getMiembroByIdPartidoAndJugador(idJugador, idPartido);
 		miembro.setIngreso(ingreso);
 		miembro.update();
 	}
@@ -875,6 +873,11 @@ public class Controlador {
 		
 		
 		return tabla;
+	}
+	
+	public List<JugadorVO> getJugadoresPartido(int idPartido) throws JugadorException{
+		List<Jugador> jugadores = JugadorDAO.getInstancia().getJugadoresPartido(idPartido);
+		return this.convertirJugadoresAJugadoresVO(jugadores);
 	}
 	
 	

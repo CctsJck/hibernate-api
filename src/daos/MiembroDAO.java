@@ -37,6 +37,14 @@ public class MiembroDAO {
 		
 	}
 	
+	public Miembro getMiembroByIdPartidoAndJugador(int idJugador, int idPartido) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		MiembroEntity aux = (MiembroEntity) session.createQuery("from MiembroEntity m where m.jugador = "+idJugador+" AND m.partido="+idPartido).uniqueResult();
+		Miembro miembro = this.toModelo(aux);
+		session.close();
+		return miembro;
+	}
+	
 	
 	public void grabar(Miembro miembroNuevo) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
