@@ -43,7 +43,7 @@ public class TablaPosicionesDAO {
 	public List<TablaPosiciones> obtenerTablaCampeonato(Integer idCampeonato) throws TablaPosicionesException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		List<TablaPosiciones> tablas = new ArrayList<TablaPosiciones>();
-		List<TablaPosicionesEntity> aux = (List<TablaPosicionesEntity>) session.createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" ORDER BY t.promedio").list();
+		List<TablaPosicionesEntity> aux = (List<TablaPosicionesEntity>) session.createQuery("from TablaPosicionesEntity t where t.campeonato ="+idCampeonato+" ORDER BY t.puntos").list();
 		
 		
 		if (aux != null) {
