@@ -226,5 +226,29 @@ public class PartidoDAO {
         	
         }
         
+        public List<Partido> obtenerPartidosPorFase(int idCampeonato){
+        	Session session = HibernateUtil.getSessionFactory().openSession();
+        	List<Partido> partidosGrupos = new ArrayList<Partido>();
+        	@SuppressWarnings("unchecked")
+        	List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity WHERE idCampeonato = "+ idCampeonato + "and fase = '"+ "grupos" + "'").list();    	
+        	for(PartidoEntity partido : auxPartidos) {
+                partidosGrupos.add(toModelo(partido));
+                System.out.println(partido.getIdPartido());
+            }
+        	return partidosGrupos;
+        }
+        
+        public List<Partido> obtenerPartidosPorFaseYZona(int idCampeonato,int nroZona){
+        	Session session = HibernateUtil.getSessionFactory().openSession();
+        	List<Partido> partidosZonaYFase = new ArrayList<Partido>();
+        	@SuppressWarnings("unchecked")
+        	List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity WHERE idCampeonato = "+ idCampeonato +"and NroZona = "+ nroZona+ "and fase = '"+ "grupos" + "'").list();    	
+        	for(PartidoEntity partido : auxPartidos) {
+                partidosZonaYFase.add(toModelo(partido));
+                System.out.println(partido.getIdPartido());
+            }
+        	return partidosZonaYFase;
+        }
+        
 
 }

@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-
-
+import java.util.Set;
 
 import daos.CampeonatoDAO;
 import daos.ClubDAO;
@@ -735,6 +735,146 @@ public class Controlador {
 			miembrosVO.add(miembro.toVO());
 		}
 		return miembrosVO;
+	}
+	
+	public TablaPosicionesVO[][] crearTablasGrupos(int idCampeonato) throws CampeonatoException {
+		Campeonato auxCampeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
+		List<Partido> auxPartidos = PartidoDAO.getInstancia().obtenerPartidosPorFase(idCampeonato);
+		Set<Integer> zonas = new HashSet<>();
+		Set<Integer> idClubesZona = new HashSet<>();
+		for(Partido p: auxPartidos) {
+			if (!zonas.contains(p.getNroZona())) {
+				zonas.add(p.getNroZona());
+			}
+		}
+		List<Integer> auxZonas = new ArrayList<>(zonas);
+		int cantidadGrupos = auxZonas.size();
+		System.out.println("La cantidad de Zonas es: "+ cantidadGrupos);
+		int cantEquiposZona;
+		List<Partido> auxPartidosZona = PartidoDAO.getInstancia().obtenerPartidosPorFaseYZona(idCampeonato,auxZonas.get(0));
+		for (Partido par: auxPartidosZona) {
+			if(!idClubesZona.contains(par.getClubLocal().getIdClub())){
+				idClubesZona.add(par.getClubLocal().getIdClub());
+			}
+		}
+		List<Club> clubesZona = new ArrayList<>();
+		List<Integer> idClubes = new ArrayList<>(idClubesZona);
+		for (Integer i: idClubes) {
+			clubesZona.add(ClubDAO.getInstancia().obtenerClubPorID(i));
+		}
+		cantEquiposZona = idClubes.size();
+		System.out.println("La cantidad de Equipos por zona es: "+ cantEquiposZona);
+		TablaPosiciones tabla[][]= new TablaPosiciones[cantidadGrupos][cantEquiposZona];
+		TablaPosicionesVO tablaVO[][] =  new TablaPosicionesVO[cantidadGrupos][cantEquiposZona];
+		for (Integer nroZona: auxZonas) {
+			System.out.println("El numero de Zona es"+nroZona);
+			 auxPartidosZona = PartidoDAO.getInstancia().obtenerPartidosPorFaseYZona(idCampeonato,nroZona);
+			for (Partido par: auxPartidosZona) {
+				if(!idClubesZona.contains(par.getClubLocal().getIdClub())){
+					idClubesZona.add(par.getClubLocal().getIdClub());
+				}
+			}
+			
+			clubesZona = new ArrayList<>();
+			idClubes = new ArrayList<>(idClubesZona);
+			for (Integer i: idClubes) {
+				clubesZona.add(ClubDAO.getInstancia().obtenerClubPorID(i));
+			}
+			idClubesZona = new HashSet<>();
+			for (int x=0;x<cantEquiposZona;x++) {
+				TablaPosiciones t = new TablaPosiciones(clubesZona.get(x),auxCampeonato);
+				tabla[nroZona-1][x] = t;
+				System.out.println("Se creo la tabla de posiciones del Club:"+t.getClub().getNombre());
+			}
+			
+			for (Partido p: auxPartidosZona) {
+				System.out.println("El ID del partido es:"+p.getIdPartido());
+				System.out.println("La cantidad de equipos por zona:"+cantEquiposZona);
+				for (int z=0;z<cantEquiposZona;z++) {
+					System.out.println(tabla[nroZona-1][z].getClub().getIdClub());
+					System.out.println(p.getClubLocal().getIdClub());
+					if (Integer.compare(tabla[nroZona-1][z].getClub().getIdClub(), p.getClubLocal().getIdClub()) == 0) {
+						System.out.println("Entre al if del empate del local");
+						tabla[nroZona-1][z] = modificarTablaGrupos(tabla[nroZona-1][z],p,p.getClubLocal());
+					}
+					if (Integer.compare(tabla[nroZona-1][z].getClub().getIdClub(), p.getClubVisitante().getIdClub()) == 0) {
+						System.out.println("Entre al if del empate del visitante");
+						tabla[nroZona-1][z] = modificarTablaGrupos(tabla[nroZona-1][z],p,p.getClubVisitante());
+					}
+
+				}
+			}
+		
+		}
+		 
+		for (int c = 1;c<cantidadGrupos+1;c++) {
+			System.out.println("ZONA NUMERO:"+c);
+			for (int k =0;k<cantEquiposZona;k++) {
+				tablaVO[c-1][k] = tabla[c-1][k].toVO();
+				System.out.println("Club:"+tablaVO[c-1][k].getIdClub() + "Puntos: " +  tablaVO[c-1][k].getPuntos() );
+				System.out.println("Cantidad de partidos empatados"+tablaVO[c-1][k].getCantidadempatados());
+				System.out.println("Cantidad de partidos jugados"+tablaVO[c-1][k].getCantidadJugados());
+			}
+		}
+		return tablaVO;
+	}
+	
+	private TablaPosiciones modificarTablaGrupos(TablaPosiciones tabla,Partido partido,Club club) throws ClubException {
+		tabla.setCantidadJugados(tabla.getCantidadJugados() + 1);
+		if (Integer.compare(partido.getGolesLocal(), partido.getGolesVisitante())  == 0 ) {
+			//Empataron el partido
+			System.out.println("Entre al if de empatados del local");
+			tabla.setCantidadempatados(tabla.getCantidadempatados() + 1);
+			tabla.setPuntos(tabla.getPuntos() + 1);
+		} else if (Integer.compare(club.getIdClub(), partido.getClubLocal().getIdClub()) == 0) {
+			//El id que me pasan es el del club local
+			if (Integer.compare(partido.getGolesLocal() , partido.getGolesVisitante()) == 1) {
+				//El partido lo gano el equipo local
+				tabla.setCantidadganados(tabla.getCantidadganados() + 1);
+				
+				//Actualizo los puntos
+				tabla.setPuntos(tabla.getPuntos() + 3);
+			} else if (Integer.compare(partido.getGolesLocal() , partido.getGolesVisitante()) == -1 ) {
+				//El partido lo perdio el local
+				tabla.setCantidadperdidos(tabla.getCantidadperdidos() + 1);
+			}
+			//Goles a favor del club local
+			tabla.setGolesFavor(tabla.getGolesFavor() + partido.getGolesLocal());
+			
+			//Goles en contra del club local
+			tabla.setGolesContra(tabla.getGolesContra() + partido.getGolesVisitante());
+			 
+			//Actualizo la diferencia
+			tabla.setDiferenciaGoles(tabla.getGolesFavor() - tabla.getGolesContra());
+
+				
+		}  else if (Integer.compare(club.getIdClub(), partido.getClubVisitante().getIdClub()) == 0)  {
+			//El id que me pasan es el del club visitante
+			System.out.println("Entre al if de empatados del visitante");
+			if (Integer.compare(partido.getGolesVisitante(), partido.getGolesLocal()) == 1 ) {
+				//Gano el visitante
+				tabla.setCantidadganados(tabla.getCantidadganados() + 1);
+				tabla.setPuntos(tabla.getPuntos() + 3);
+			} else if (Integer.compare(partido.getGolesVisitante(), partido.getGolesLocal()) == -1 ) {
+				//Perdio el visitante
+				tabla.setCantidadperdidos(tabla.getCantidadperdidos() + 1);
+			}
+			
+			//Goles a favor del club visitante
+			tabla.setGolesFavor(tabla.getGolesFavor() + partido.getGolesVisitante());
+			
+			//Goles en contra del club visitante
+			tabla.setGolesContra(tabla.getGolesContra() + partido.getGolesLocal());
+			
+			//Actualizo la diferencia
+			tabla.setDiferenciaGoles(tabla.getGolesFavor() - tabla.getGolesContra());
+		}
+		
+		//Actualizo el promedio
+		tabla.setPromedio((float) tabla.getPuntos() / (float) tabla.getCantidadJugados()); 
+		
+		
+		return tabla;
 	}
 	
 	
