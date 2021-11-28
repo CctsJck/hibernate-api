@@ -108,7 +108,6 @@ public class TablaPosicionesDAO {
 				tabla.setCantidadJugados(tabla.getCantidadJugados() + 1);
 				if (Integer.compare(partido.getGolesLocal(), partido.getGolesVisitante())  == 0 ) {
 					//Empataron el partido
-					System.out.println("Empataron");
 					tabla.setCantidadempatados(tabla.getCantidadempatados() + 1);
 					tabla.setPuntos(tabla.getPuntos() + 1);
 				} else if (Integer.compare(idClub, partido.getClubLocal().getIdClub()) == 0) {

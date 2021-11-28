@@ -21,7 +21,6 @@ public class Partido {
 	private Integer idPartido;
 	private int nroFecha;
 	private int nroZona;
-	//private int categoria;
 	private Club clubLocal;
 	private Club clubVisitante;
 	private Integer golesLocal;
@@ -208,9 +207,7 @@ public class Partido {
 			
 			if (tipo.compareTo("a favor") == 0) {
 				//El gol fue del local a favor
-				System.out.println("A favor");
 				this.setGolesLocal(this.getGolesLocal() + 1);
-				System.out.println("Gol");
 			} else if(tipo.compareTo("en contra") == 0) {
 				//El gol fue del local pero en contra
 				this.setGolesVisitante(this.getGolesVisitante() + 1);
@@ -233,7 +230,6 @@ public class Partido {
 		
 		if (Integer.compare(this.getClubLocal().getIdClub(), auxClub.getIdClub()) == 0) {
 			this.setConvalidaLocal(true,"actualizarTabla");
-			System.out.println("Local");
 		} else {
 			this.setConvalidaVisitante(true,"actualizarTabla");
 

@@ -83,7 +83,6 @@ public class JugadoresTorneoDAO {
 		session.close();
 		if(auxJugadoresHabilitados != null) {
 			for (JugadoresTorneoEntity jugadores : auxJugadoresHabilitados) {
-				System.out.println("SOY EL JUGADOR CON EL ID: "+this.toModelo(jugadores).getIdJugadorTorneo());
 				jugadoresHabilitados.add(this.toModelo(jugadores));
 			}
 		}

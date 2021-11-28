@@ -78,7 +78,6 @@ private static GolDAO instancia;
 		Jugador auxJugador = new Jugador(gol.getJugador().getTipoDocumento(),gol.getJugador().getNumeroDocumento(),gol.getJugador().getNombre(),gol.getJugador().getApellido(),auxClub,gol.getJugador().getFechaNacimiento(),gol.getJugador().getIdUsuario(),gol.getJugador().getFichaje());
 		auxJugador.setIdJugador(gol.getJugador().getIdJugador());
 		Partido auxPartido = PartidoDAO.getInstancia().toModelo(gol.getPartido());
-		System.out.println(auxJugador.getIdJugador());
 		Gol golModelo = new Gol(auxJugador,auxPartido,gol.getMinuto(),gol.getTipo());
 		golModelo.setIdGol(gol.getIdGol());
 		return golModelo;

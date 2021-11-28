@@ -272,19 +272,13 @@ public class Campeonato implements Comparable<Campeonato>{
 		long diffInMilis = miliSecondForDate2 - miliSecondForDate1;
 		int diffInDays = (int) (diffInMilis / (24 * 60 * 60 * 1000));
 		int incremento = ((diffInDays) / (jornadas.length + jornadas2.length));
-		
 		//Fechas de los partidos de vuelta
 		Date fechaPartidoVuelta = this.getFechaInicio();
 		calendar2.setTime(fechaPartidoVuelta);
-		System.out.println(jornadas2.length * incremento);
 		calendar2.add(Calendar.DAY_OF_YEAR, (jornadas2.length * incremento));
 		fechaPartidoVuelta = calendar2.getTime();
-		 
-		System.out.println(fechaPartidoVuelta);
-		
 		int cont = 0;
 		int cont2 = N-2;
-		
 		//Relleno la matriz con los partidos
 		for(int i=0;i<N-1;i++){
 			for(int j=0;j<N/2;j++){
@@ -299,8 +293,7 @@ public class Campeonato implements Comparable<Campeonato>{
 					matriz2[i][j] = equipos.get(cont2);
 					cont2--;
 					if(cont2==-1) cont2 = N-2;
-				}
-									
+				}				
 				//Elaboro la matriz final de enfrentamientos por jornada (primera vuelta)
 				if(j==0){
 					if(i%2==0) {

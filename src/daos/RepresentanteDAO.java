@@ -28,9 +28,6 @@ public class RepresentanteDAO {
 	public Responsable obtenerRepresentanteporID(int idRepresentante) throws ResponsableException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		RepresentanteEntity aux = (RepresentanteEntity) session.createQuery("from RepresentanteEntity e where e.legajo="+idRepresentante).uniqueResult();
-		//session.close();
-
-		System.out.println(aux.getNombre());
 		if(aux != null) {
 			Responsable resp = toModelo(aux);
 			session.close();

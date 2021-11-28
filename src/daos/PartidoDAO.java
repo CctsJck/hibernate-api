@@ -234,7 +234,6 @@ public class PartidoDAO {
         	List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity WHERE idCampeonato = "+ idCampeonato + "and fase = '"+ "grupos" + "'").list();    	
         	for(PartidoEntity partido : auxPartidos) {
                 partidosGrupos.add(toModelo(partido));
-                System.out.println(partido.getIdPartido());
             }
         	return partidosGrupos;
         }
@@ -246,7 +245,6 @@ public class PartidoDAO {
         	List<PartidoEntity> auxPartidos = session.createQuery("FROM PartidoEntity WHERE idCampeonato = "+ idCampeonato +"and NroZona = "+ nroZona+ "and fase = '"+ "grupos" + "'").list();    	
         	for(PartidoEntity partido : auxPartidos) {
                 partidosZonaYFase.add(toModelo(partido));
-                System.out.println(partido.getIdPartido());
             }
         	return partidosZonaYFase;
         }
