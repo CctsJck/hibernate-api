@@ -234,6 +234,21 @@ public class JugadorDAO {
 		throw new JugadorException("No hay jugadores en el partido"+idPartido);
 		
 	}
+
+	public List<Jugador> getJugadorAgregarAPartido(int idCampeonato, int idPartido, int idClub) throws JugadorException{
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<JugadorEntity> jugadoresEntity = session.createQuery("SELECT j FROM JugadoresTorneoEntity jt INNER JOIN jt.jugador j WHERE jt.jugador NOT IN (SELECT m.jugador FROM MiembroEntity m WHERE m.club ="+idClub+" AND m.partido ="+idPartido+") AND jt.campeonato = "+idCampeonato+" AND j.club ="+idClub+")").list();
+        if (jugadoresEntity != null) {
+            List<Jugador> jugadores = new ArrayList<Jugador>();
+            for (JugadorEntity jug : jugadoresEntity) {
+                jugadores.add(this.toModelo(jug));
+            }
+        session.close();
+        return jugadores;
+        }
+        throw new JugadorException("No existen mas jugadores disponibles para este partido");
+
+    }
 	
 	
 	

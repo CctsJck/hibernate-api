@@ -812,6 +812,9 @@ public class Controlador {
 		jugador.delete();
 	}
 	
+	public List<JugadorVO> getJugadorAgregarAPartido(int idCampeonato, int idPartido, int idClub) throws JugadorException{
+        return this.convertirJugadoresAJugadoresVO(JugadorDAO.getInstancia().getJugadorAgregarAPartido(idCampeonato, idPartido, idClub));
+    }
 	
 	
 
