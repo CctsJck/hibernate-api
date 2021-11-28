@@ -666,8 +666,8 @@ public class Controlador {
 		JugadoresTorneoDAO.getInstancia().update(auxJugadorTorneo);
 	}
 	
-	public void cambiarEstadoJugadorTorneoByIdJugador (int idJugador,boolean estado) {
-		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorById(idJugador); 
+	public void cambiarEstadoJugadorTorneoByIdJugador (int idJugador,boolean estado,int idCampeonato) {
+		JugadoresTorneo auxJugadorTorneo = JugadoresTorneoDAO.getInstancia().getJugadorById(idJugador, idCampeonato); 
 		auxJugadorTorneo.setEstado(estado);
 		JugadoresTorneoDAO.getInstancia().update(auxJugadorTorneo);
 	}

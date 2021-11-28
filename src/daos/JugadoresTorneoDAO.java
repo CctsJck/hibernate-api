@@ -101,9 +101,9 @@ public class JugadoresTorneoDAO {
 		
 	}
 
-	public JugadoresTorneo getJugadorById(int idJugador) {
+	public JugadoresTorneo getJugadorById(int idJugador,int idCampeonato) {
 		Session session = HibernateUtil.getSessionFactory().openSession(); 
-		JugadoresTorneoEntity auxJugadorTorneo = (JugadoresTorneoEntity) session.createQuery("from JugadoresTorneoEntity m where m.jugador = "+idJugador).uniqueResult();
+		JugadoresTorneoEntity auxJugadorTorneo = (JugadoresTorneoEntity) session.createQuery("from JugadoresTorneoEntity m where m.jugador = "+idJugador+" AND m.campeonato = "+idCampeonato).uniqueResult();
 		JugadoresTorneo jugador = this.toModelo(auxJugadorTorneo);
 		session.close();
 		return jugador;
