@@ -2,9 +2,13 @@ package modelo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
@@ -30,6 +34,7 @@ import vo.ClubVO;
 import vo.FaltaVO;
 import vo.JugadorVO;
 import vo.PartidoVO;
+import vo.TablaPosicionesVO;
 
 public class Campeonato implements Comparable<Campeonato>{
 	
@@ -393,6 +398,76 @@ public class Campeonato implements Comparable<Campeonato>{
 		
 	}
 	
+	public TablaPosicionesVO[][] crearTablaGrupos(){
+		List<Partido> auxPartidos = PartidoDAO.getInstancia().obtenerPartidosPorFase(idCampeonato);
+		Set<Integer> zonas = new HashSet<>();
+		Set<Integer> idClubesZona = new HashSet<>();
+		for(Partido p: auxPartidos) {
+			if (!zonas.contains(p.getNroZona())) {
+				zonas.add(p.getNroZona());
+			}
+		}
+		List<Integer> auxZonas = new ArrayList<>(zonas);
+		int cantidadGrupos = auxZonas.size();
+		int cantEquiposZona;
+		List<Partido> auxPartidosZona = PartidoDAO.getInstancia().obtenerPartidosPorFaseYZona(idCampeonato,auxZonas.get(0));
+		for (Partido par: auxPartidosZona) {
+			if(!idClubesZona.contains(par.getClubLocal().getIdClub())){
+				idClubesZona.add(par.getClubLocal().getIdClub());
+			}
+		}
+		List<Club> clubesZona = new ArrayList<>();
+		List<Integer> idClubes = new ArrayList<>(idClubesZona);
+		for (Integer i: idClubes) {
+			clubesZona.add(ClubDAO.getInstancia().obtenerClubPorID(i));
+		}
+		cantEquiposZona = idClubes.size();
+		TablaPosiciones tabla[][]= new TablaPosiciones[cantidadGrupos][cantEquiposZona];
+		TablaPosicionesVO tablaVO[][] =  new TablaPosicionesVO[cantidadGrupos][cantEquiposZona];
+		for (Integer nroZona: auxZonas) {
+			 auxPartidosZona = PartidoDAO.getInstancia().obtenerPartidosPorFaseYZona(idCampeonato,nroZona);
+			for (Partido par: auxPartidosZona) {
+				if(!idClubesZona.contains(par.getClubLocal().getIdClub())){
+					idClubesZona.add(par.getClubLocal().getIdClub());
+				}
+			}
+			
+			clubesZona = new ArrayList<>();
+			idClubes = new ArrayList<>(idClubesZona);
+			for (Integer i: idClubes) {
+				clubesZona.add(ClubDAO.getInstancia().obtenerClubPorID(i));
+			}
+			idClubesZona = new HashSet<>();
+			for (int x=0;x<cantEquiposZona;x++) {
+				TablaPosiciones t = new TablaPosiciones(clubesZona.get(x),this);
+				tabla[nroZona-1][x] = t;
+			}
+			
+			for (Partido p: auxPartidosZona) {
+				
+				for (int z=0;z<cantEquiposZona;z++) {
+					if (Integer.compare(tabla[nroZona-1][z].getClub().getIdClub(), p.getClubLocal().getIdClub()) == 0) {
+						tabla[nroZona-1][z] = modificarTablaGrupos(tabla[nroZona-1][z],p,p.getClubLocal());
+					}
+					if (Integer.compare(tabla[nroZona-1][z].getClub().getIdClub(), p.getClubVisitante().getIdClub()) == 0) {
+						tabla[nroZona-1][z] = modificarTablaGrupos(tabla[nroZona-1][z],p,p.getClubVisitante());
+					}
+				}
+			}
+		
+		}
+		for (int c = 1;c<cantidadGrupos+1;c++) {
+			for (int k =0;k<cantEquiposZona;k++) {
+				tablaVO[c-1][k] = tabla[c-1][k].toVO();
+			}
+		}
+		TablaPosicionesVO aux;
+        for (int c =1;c<cantidadGrupos+1;c++) {
+            Arrays.sort(tablaVO[c-1],Comparator.comparingInt(TablaPosicionesVO::getPuntos).reversed());
+        }
+        return tablaVO;
+	}
+	
 	private boolean verificacionFechaFichaje(Date fechaInicio,Date fechaJugador) throws CampeonatoException {
 		boolean resultado = false;
 		if (fechaInicio.compareTo(fechaJugador) < 0) {
@@ -401,6 +476,62 @@ public class Campeonato implements Comparable<Campeonato>{
 		}
 		
 		return resultado;
+	}
+	
+	private TablaPosiciones modificarTablaGrupos(TablaPosiciones tabla,Partido partido,Club club) throws ClubException {
+		tabla.setCantidadJugados(tabla.getCantidadJugados() + 1);
+		if (Integer.compare(partido.getGolesLocal(), partido.getGolesVisitante())  == 0 ) {
+			//Empataron el partido
+			tabla.setCantidadempatados(tabla.getCantidadempatados() + 1);
+			tabla.setPuntos(tabla.getPuntos() + 1);
+		} else if (Integer.compare(club.getIdClub(), partido.getClubLocal().getIdClub()) == 0) {
+			//El id que me pasan es el del club local
+			if (Integer.compare(partido.getGolesLocal() , partido.getGolesVisitante()) == 1) {
+				//El partido lo gano el equipo local
+				tabla.setCantidadganados(tabla.getCantidadganados() + 1);
+				
+				//Actualizo los puntos
+				tabla.setPuntos(tabla.getPuntos() + 3);
+			} else if (Integer.compare(partido.getGolesLocal() , partido.getGolesVisitante()) == -1 ) {
+				//El partido lo perdio el local
+				tabla.setCantidadperdidos(tabla.getCantidadperdidos() + 1);
+			}
+			//Goles a favor del club local
+			tabla.setGolesFavor(tabla.getGolesFavor() + partido.getGolesLocal());
+			
+			//Goles en contra del club local
+			tabla.setGolesContra(tabla.getGolesContra() + partido.getGolesVisitante());
+			 
+			//Actualizo la diferencia
+			tabla.setDiferenciaGoles(tabla.getGolesFavor() - tabla.getGolesContra());
+
+				
+		}  else if (Integer.compare(club.getIdClub(), partido.getClubVisitante().getIdClub()) == 0)  {
+			//El id que me pasan es el del club visitante
+			if (Integer.compare(partido.getGolesVisitante(), partido.getGolesLocal()) == 1 ) {
+				//Gano el visitante
+				tabla.setCantidadganados(tabla.getCantidadganados() + 1);
+				tabla.setPuntos(tabla.getPuntos() + 3);
+			} else if (Integer.compare(partido.getGolesVisitante(), partido.getGolesLocal()) == -1 ) {
+				//Perdio el visitante
+				tabla.setCantidadperdidos(tabla.getCantidadperdidos() + 1);
+			}
+			
+			//Goles a favor del club visitante
+			tabla.setGolesFavor(tabla.getGolesFavor() + partido.getGolesVisitante());
+			
+			//Goles en contra del club visitante
+			tabla.setGolesContra(tabla.getGolesContra() + partido.getGolesLocal());
+			
+			//Actualizo la diferencia
+			tabla.setDiferenciaGoles(tabla.getGolesFavor() - tabla.getGolesContra());
+		}
+		
+		//Actualizo el promedio
+		tabla.setPromedio((float) tabla.getPuntos() / (float) tabla.getCantidadJugados()); 
+		
+		
+		return tabla;
 	}
 	
 
