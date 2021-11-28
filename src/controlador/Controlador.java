@@ -269,17 +269,7 @@ public class Controlador {
         }
     }
 	
-	private boolean verificacionFechaFichaje(Date fechaInicio,Date fechaJugador) throws CampeonatoException {
-		boolean resultado = false;
-		if (fechaInicio.compareTo(fechaJugador) < 0) {
-			
-			resultado = true;
-		}else {
 	
-		}
-		
-		return resultado;
-	}
 	
 	private boolean juegaPartido(Partido partido,Jugador jugador) {
         Calendar cal1 = Calendar.getInstance();
@@ -630,34 +620,7 @@ public class Controlador {
 	public void agregarJugadorCampeonato(int idJugador,int idCampeonato) throws CampeonatoException, JugadorException {
 		Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
 		Campeonato auxCampeonato = CampeonatoDAO.getInstancia().obtenerCampeonatoPorID(idCampeonato);
-		Integer categoriaTorneo = auxCampeonato.getCategoria();
-		Integer categoriaJugador = auxJugador.getCategoria();
-				if (categoriaTorneo >  21) {
-					categoriaTorneo = categoriaTorneo + 1900;
-					System.out.println("Entraste al primer if del torneo");
-				}else {
-					categoriaTorneo = categoriaTorneo + 2000;
-				}
-				if (categoriaJugador > 21) {
-					categoriaJugador = categoriaJugador + 1900;
-					System.out.println("Entraste al primer if del jugador");
-				}else {
-					categoriaJugador = categoriaJugador + 2000;
-					System.out.println("Entraste al segundo del jugador");
-				}
-				if (Integer.compare(categoriaTorneo, categoriaJugador) == -1 || Integer.compare(categoriaTorneo, categoriaJugador) == 0) {
-					System.out.println("Entre al anteultimo if");
-					if (verificacionFechaFichaje(auxCampeonato.getFechaInicio(), auxJugador.getFichaje())!= true) {
-						System.out.println("Entre al ultimo if");
-						JugadoresTorneo aux = new JugadoresTorneo(auxJugador,auxCampeonato,true);
-	                    JugadoresTorneoDAO.getInstancia().save(aux);
-					}else {
-						throw new JugadorException("El jugador fue fichado una vez comenzado el torneo");
-					}
-	
-				}else {
-					throw new JugadorException("El jugador no esta habilitado para jugar en un torneo de esta categoria");
-				}
+		auxCampeonato.agregarJugadorCampeonato(auxJugador);
 	}
 	
 	public void cambiarEstadoJugadorTorneo (int idJugadorTorneo,boolean estado) {
@@ -709,6 +672,10 @@ public class Controlador {
 			tablasVO.add(tabla.toVO());
 		}
 		return tablasVO;
+	}
+	
+	public List<JugadorVO> getJugadoresAgregarATorneo(int idCampeonato, int idClub) throws JugadorException{
+		return this.convertirJugadoresAJugadoresVO(JugadorDAO.getInstancia().getJugadoresAgregarATorneo(idCampeonato, idClub));
 	}
 	
 	public void ingresaJugadorPartido(int idPartido, int idJugador, int ingreso) throws ClubException, PartidoException {

@@ -370,6 +370,46 @@ public class Campeonato implements Comparable<Campeonato>{
 	}
 	
 	
+	public void agregarJugadorCampeonato(Jugador auxJugador) throws CampeonatoException, JugadorException {
+		Integer categoriaTorneo = this.getCategoria();
+		Integer categoriaJugador = auxJugador.getCategoria();
+				if (categoriaTorneo >  21) {
+					categoriaTorneo = categoriaTorneo + 1900;
+					
+				}else {
+					categoriaTorneo = categoriaTorneo + 2000;
+				}
+				if (categoriaJugador > 21) {
+					categoriaJugador = categoriaJugador + 1900;
+					
+				}else {
+					categoriaJugador = categoriaJugador + 2000;
+					
+				}
+				if (Integer.compare(categoriaTorneo, categoriaJugador) == -1 || Integer.compare(categoriaTorneo, categoriaJugador) == 0) {
+					if (verificacionFechaFichaje(this.getFechaInicio(), auxJugador.getFichaje())!= true) {
+						JugadoresTorneo aux = new JugadoresTorneo(auxJugador,this,true);
+	                    JugadoresTorneoDAO.getInstancia().save(aux);
+					}else {
+						throw new JugadorException("El jugador fue fichado una vez comenzado el torneo");
+					}
+	
+				}else {
+					throw new JugadorException("El jugador no esta habilitado para jugar en un torneo de esta categoria");
+				}
+		
+	}
+	
+	private boolean verificacionFechaFichaje(Date fechaInicio,Date fechaJugador) throws CampeonatoException {
+		boolean resultado = false;
+		if (fechaInicio.compareTo(fechaJugador) < 0) {
+			
+			resultado = true;
+		}
+		
+		return resultado;
+	}
+	
 
 	
 	
