@@ -178,10 +178,10 @@ public class Test {
 
 		
 		//CREACION DE PARTIDOS (EN CASO DE QUE EL TORNEO SEA POR PUNTOS NO DEBO CREAR LOS PARTIDOS)
-		Controlador.getInstancia().crearPartido(1, 1, 1, 2, fecha.parse("8-21-2021"), 1,"Semi-Finales");
-		Controlador.getInstancia().crearPartido(2, 1, 2, 1, fecha.parse("8-22-2021"), 1,"Semi-Finales");
-		Controlador.getInstancia().crearPartido(1, 2, 3, 4, fecha.parse("8-23-2021"), 1,"Semi-Finales");
-		Controlador.getInstancia().crearPartido(2, 2, 4, 3, fecha.parse("8-24-2021"), 1,"Semi-Finales");
+		Controlador.getInstancia().crearPartido(1, 1, 1, 2, fecha.parse("8-21-2021"), 1,"grupos");
+		Controlador.getInstancia().crearPartido(2, 1, 2, 1, fecha.parse("8-22-2021"), 1,"grupos");
+		Controlador.getInstancia().crearPartido(1, 2, 3, 4, fecha.parse("8-23-2021"), 1,"grupos");
+		Controlador.getInstancia().crearPartido(2, 2, 4, 3, fecha.parse("8-24-2021"), 1,"grupos");
 		Controlador.getInstancia().crearPartido(2, 2, 2, 3, fecha.parse("8-25-2021"), 1,"Finales");
 		Controlador.getInstancia().crearPartido(2, 2, 3, 2, fecha.parse("8-26-2021"), 1,"Finales");
 		
@@ -564,13 +564,6 @@ public class Test {
 		//Controlador.getInstancia().eliminarCampeonato(1);
 		//Controlador.getInstancia().eliminarJugador(1);
 		//Controlador.getInstancia().eliminarRepresentante(1);*/
-		
-		
-		
-		
-	
-		
-		
 
 	}
 
