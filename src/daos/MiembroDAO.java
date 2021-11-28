@@ -93,6 +93,7 @@ public class MiembroDAO {
 		for(MiembroEntity e : aux) {
 			miembros.add(toModelo(e));
 		}
+		session.close();
 		return miembros;	
 	}
 	
@@ -112,7 +113,18 @@ public class MiembroDAO {
 		for(MiembroEntity miembro : miembroEntity) {
 			miembros.add(this.toModelo(miembro));
 		}
+		session.close();
 		return miembros;
 	}
-	
+
+	public void eliminarMiembro(Miembro miembro) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.getTransaction().begin();
+		session.delete(this.toEntity(miembro));
+		session.getTransaction().commit();
+		session.close();
+	}
+
+
+
 }

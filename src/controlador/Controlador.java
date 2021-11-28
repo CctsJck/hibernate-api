@@ -807,6 +807,11 @@ public class Controlador {
 		return this.convertirJugadoresAJugadoresVO(jugadores);
 	}
 	
+	public void eliminarMiembro(int idPartido,int idJugador) {
+		Miembro jugador = MiembroDAO.getInstancia().getMiembroByIdPartidoAndJugador(idJugador, idPartido);
+		jugador.delete();
+	}
+	
 	
 	
 

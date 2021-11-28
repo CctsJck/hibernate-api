@@ -83,4 +83,8 @@ public class Miembro {
 		return new MiembroVO(this.idLista,this.ingreso,this.egreso,this.jugador.getIdJugador(),this.partido.getIdPartido());
 	}
 	
+	public void delete() {
+		MiembroDAO.getInstancia().eliminarMiembro(this);
+	}
+	
 }
