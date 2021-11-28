@@ -7,9 +7,13 @@ import java.util.List;
 import controlador.Controlador;
 import daos.CampeonatoDAO;
 import daos.ClubDAO;
+import daos.JugadorDAO;
+import daos.JugadoresTorneoDAO;
 import daos.PartidoDAO;
 import daos.TablaPosicionesDAO;
 import exceptions.ClubException;
+import exceptions.JugadorException;
+import exceptions.PartidoException;
 import vo.PartidoVO;
 
 public class Partido {
@@ -240,7 +244,27 @@ public class Partido {
 		
 		this.actualizar();
 	}
-	
-	
-	
+
+
+
+
+	public void agregarJugadorPartido(int idJugador, Club club) throws PartidoException, JugadorException {
+		if(JugadoresTorneoDAO.getInstancia().existeJugador(idJugador, this.getCampeonato().getIdCampeonato())) {
+        	Jugador jug = JugadorDAO.getInstancia().obtenerJugador(idJugador);
+            if(jug.juegaPartido(this) != true && PartidoDAO.getInstancia().obtenerCantidadJugadoresPartidoEquipo(this.getIdPartido(), club.getIdClub())<17 && PartidoDAO.getInstancia().validoParaJugar(idJugador,this.getCampeonato().getIdCampeonato()) == true) {
+            	Miembro miem = new Miembro(club,this,jug);
+                miem.grabar();
+            }else {
+            	if (jug.juegaPartido(this) == true) {
+            		throw new PartidoException("El jugador ya se encuentra inscripto a un partido en ese día");
+            	}else if (PartidoDAO.getInstancia().obtenerCantidadJugadoresPartidoEquipo(this.getIdPartido(),club.getIdClub()) >= 17) {
+            		throw new JugadorException("El jugador fue registrado una vez iniciado el torneo");
+            	}else {
+            		throw new JugadorException("El jugador no se encuentra habilitado para jugar el partido");
+            	}
+            }
+        }else {
+        	throw new JugadorException("El jugador no esta inscripto en este torneo");
+        }
+	}
 }

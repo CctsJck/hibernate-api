@@ -174,8 +174,7 @@ public class Controlador {
 		Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
 		Club auxClub = ClubDAO.getInstancia().obtenerClubPorID(auxJugador.getClub().getIdClub());
 		auxClub.darBajaJugador(auxJugador);
-		
-		
+	
 	}
 	
 	public void crearRepresentante(String tipoDocumento,int DNI,String nombre,int idClub) throws ClubException, UsuarioException, ResponsableException{
@@ -214,17 +213,13 @@ public class Controlador {
 	}
 	
 	public void modificarJugador(int idJugador,String tipoDocumento,int numeroDocumento,String nombre,String apellido,int idClub,Date fechaNac) throws JugadorException, ClubException {
-		Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);
-		
+		Jugador auxJugador = JugadorDAO.getInstancia().obtenerJugador(idJugador);	
 		auxJugador.modificar(idJugador, tipoDocumento, numeroDocumento, nombre,apellido, idClub,fechaNac);
 			
 		
 	}
 
 	public void crearCampeonato(String descripcion,Date fechaInicio,Date fechaFin, String tipo,int categoria) {
-		System.out.println("FechaInicio:"+fechaInicio);
-		System.out.println("FechaFin:"+fechaFin);
-		System.out.println("-------");
 		Campeonato campeonato = new Campeonato(descripcion,fechaInicio,fechaFin,tipo,categoria);
 		campeonato.setEliminado("noEliminado");
 		campeonato.grabar();
@@ -250,46 +245,13 @@ public class Controlador {
 	public void agregarJugadorPartido(int idPartido, int idJugador,int idClub) throws ClubException, PartidoException, JugadorException, CampeonatoException {
         Club club = ClubDAO.getInstancia().obtenerClubPorID(idClub);
         Partido par = PartidoDAO.getInstancia().obtenerPartido(idPartido);
-        if(JugadoresTorneoDAO.getInstancia().existeJugador(idJugador, par.getCampeonato().getIdCampeonato())) {
-        	Jugador jug = JugadorDAO.getInstancia().obtenerJugador(idJugador);
-            if(juegaPartido(par,jug) != true && PartidoDAO.getInstancia().obtenerCantidadJugadoresPartidoEquipo(par.getIdPartido(), club.getIdClub())<17 && PartidoDAO.getInstancia().validoParaJugar(idJugador,par.getCampeonato().getIdCampeonato()) == true) {
-            	Miembro miem = new Miembro(club,par,jug);
-                miem.grabar();
-            }else {
-            	if (juegaPartido(par,jug) == true) {
-            		throw new PartidoException("El jugador ya se encuentra inscripto a un partido en ese día");
-            	}else if (PartidoDAO.getInstancia().obtenerCantidadJugadoresPartidoEquipo(par.getIdPartido(),club.getIdClub()) >= 17) {
-            		throw new JugadorException("El jugador fue registrado una vez iniciado el torneo");
-            	}else {
-            		throw new JugadorException("El jugador no se encuentra habilitado para jugar el partido");
-            	}
-            }
-        }else {
-        	throw new JugadorException("El jugador no esta inscripto en este torneo");
-        }
+        par.agregarJugadorPartido(idJugador,club);
     }
 	
 	
 	
 	private boolean juegaPartido(Partido partido,Jugador jugador) {
-        Calendar cal1 = Calendar.getInstance();
-        Calendar cal2 = Calendar.getInstance();
-        boolean resultado = false;
-        cal1.setTime(partido.getFechaPartido());
-        List<Partido> partidosFecha = PartidoDAO.getInstancia().obtenerPartidosPorFecha(jugador.getClub().getIdClub());
-        for (Partido p : partidosFecha) {
-            cal2.setTime(p.getFechaPartido());
-            if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
-            		List<Miembro> jugadoresPartido = MiembroDAO.getInstancia().obtenerJugadoresPartido(p.getIdPartido());
-            		for(Miembro m: jugadoresPartido) {
-            			int x = m.getJugador().getIdJugador();
-            			if (Integer.compare(jugador.getIdJugador(), x) == 0) {
-            				resultado = true;
-            			}
-            		}
-            }
-        }
-        return resultado;
+        return jugador.juegaPartido(partido);
     }
 	
 	
@@ -641,8 +603,7 @@ public class Controlador {
 		return this.convertirJugadoresTorneoAJugadoresTorneoVO(jugadoresHabilitados);
 	}
 	
-	public List<JugadoresTorneoVO> convertirJugadoresTorneoAJugadoresTorneoVO(List<JugadoresTorneo> jugadoresHabilitados){
-		
+	public List<JugadoresTorneoVO> convertirJugadoresTorneoAJugadoresTorneoVO(List<JugadoresTorneo> jugadoresHabilitados){	
 		List<JugadoresTorneoVO> jugadoresHabilitadosVO = new ArrayList<JugadoresTorneoVO>();
 		for (JugadoresTorneo jugador : jugadoresHabilitados) {
 			jugadoresHabilitadosVO.add(jugador.toVO());
@@ -714,7 +675,6 @@ public class Controlador {
 		}
 		List<Integer> auxZonas = new ArrayList<>(zonas);
 		int cantidadGrupos = auxZonas.size();
-		System.out.println("La cantidad de Zonas es: "+ cantidadGrupos);
 		int cantEquiposZona;
 		List<Partido> auxPartidosZona = PartidoDAO.getInstancia().obtenerPartidosPorFaseYZona(idCampeonato,auxZonas.get(0));
 		for (Partido par: auxPartidosZona) {

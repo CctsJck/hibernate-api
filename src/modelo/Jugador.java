@@ -2,6 +2,7 @@ package modelo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import daos.FaltaDAO;
 import daos.GolDAO;
 import daos.JugadorDAO;
 import daos.MiembroDAO;
+import daos.PartidoDAO;
 import exceptions.ClubException;
 import vo.JugadorVO;
 
@@ -198,6 +200,28 @@ public class Jugador {
 	
 	public void setCampeonatosHabilitados(List<JugadoresTorneo> campeonatosHabilitados) {
 		this.campeonatosHabilitados = campeonatosHabilitados;
+	}
+
+
+	public boolean juegaPartido(Partido partido) {
+		Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        boolean resultado = false;
+        cal1.setTime(partido.getFechaPartido());
+        List<Partido> partidosFecha = PartidoDAO.getInstancia().obtenerPartidosPorFecha(this.getClub().getIdClub());
+        for (Partido p : partidosFecha) {
+            cal2.setTime(p.getFechaPartido());
+            if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
+            		List<Miembro> jugadoresPartido = MiembroDAO.getInstancia().obtenerJugadoresPartido(p.getIdPartido());
+            		for(Miembro m: jugadoresPartido) {
+            			int x = m.getJugador().getIdJugador();
+            			if (Integer.compare(this.getIdJugador(), x) == 0) {
+            				resultado = true;
+            			}
+            		}
+            }
+        }
+        return resultado;
 	}
 
 	
